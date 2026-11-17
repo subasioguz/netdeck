@@ -259,7 +259,7 @@
 "Netdeck couldn't reach %@. Check that the device is on, the address is right and this Mac is on the same network." = "Netdeck %@ adresine ulaşamadı. Cihazın açık, adresin doğru ve bu Mac'in aynı ağda olduğundan emin ol.";
 "Unreachable" = "Ulaşılamıyor";
 "SSH: the host key changed" = "SSH: anahtar değişmiş";
-"%@ presented a different key than last time. That happens after a reinstall, but it can also mean someone is in between. Netdeck won't connect until the old key is removed from its known hosts file." = "%@ bu sefer farklı bir anahtar gösterdi. Bu yeniden kurulumdan sonra olur ama araya birinin girdiği anlamına da gelebilir. Eski anahtar bilinen anahtarlar dosyasından silinene kadar Netdeck bağlanmaz.";
+"%@ presented a different key than last time. That happens after a reinstall, but it can also mean someone is in between. Trust the new key only if you know why it changed." = "%@ bu sefer farklı bir anahtar gösterdi. Bu yeniden kurulumdan sonra olur ama araya birinin girdiği anlamına da gelebilir. Yeni anahtara yalnızca neden değiştiğini biliyorsanız güvenin.";
 "Host key changed" = "Anahtar değişmiş";
 "The connection dropped while reading" = "Bağlantı okuma sırasında koptu";
 "The device stopped answering in the middle of the read. Nothing was changed on it. Check the cable or the network and try again." = "Cihaz okumanın ortasında yanıt vermeyi bıraktı. Üzerinde hiçbir şey değişmedi. Kabloyu ya da ağı kontrol edip tekrar dene.";
@@ -809,3 +809,13 @@
 "The server turns off at once and back on, like pulling the power cord and plugging it in again. Unsaved data is lost." = "Sunucu, güç kablosu çekilip yeniden takılmış gibi hemen kapanıp yeniden açılır. Kaydedilmemiş veriler kaybolur.";
 "The server accepted the power command. Its power state can take a minute to change; read again to see it." = "Sunucu güç komutunu kabul etti. Güç durumunun değişmesi bir dakika kadar sürebilir; görmek için yeniden okuyun.";
 "Netdeck reads this device over its API and never changes its settings. Power commands go out only after you confirm them." = "Netdeck bu cihazı API üzerinden okur ve ayarlarını hiçbir zaman değiştirmez. Güç komutları yalnızca siz onayladıktan sonra gönderilir.";
+
+/* Embedded SSH client, sandbox */
+"Trust the new host key" = "Yeni anahtara güven";
+"Use the system ssh command (outside the Mac App Store)" = "Sistemin ssh komutunu kullan (Mac App Store dışında)";
+"Netdeck has its own SSH client. Turn this on for devices it can't talk to, such as older ones that only offer RSA host keys or older ciphers. Applies to the next connection." = "Netdeck'in kendi SSH istemcisi var. Bunu, onunla konuşamayan cihazlar için açın; örneğin yalnızca RSA anahtarı ya da eski şifreleme yöntemleri sunan eski cihazlar. Bir sonraki bağlantıda geçerli olur.";
+"The SSH connection was closed by the device." = "SSH bağlantısı cihaz tarafından kapatıldı.";
+"Connection timed out during the SSH handshake with %@." = "%@ ile SSH el sıkışması sırasında bağlantı zaman aşımına uğradı.";
+"The device refused the SSH shell: %@" = "Cihaz SSH kabuğunu reddetti: %@";
+"The device refused to start an SSH shell." = "Cihaz bir SSH kabuğu başlatmayı reddetti.";
+"The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Cihazın SSH algoritmaları yerleşik SSH istemcisi tarafından desteklenmiyor: %@";

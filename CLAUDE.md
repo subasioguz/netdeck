@@ -13,7 +13,9 @@ Juniper Junos (EX series, ELS).
 
 ## Layout
 - `Sources/NetdeckCore`: UI-independent core
-  - `Transport/`: serial console (termios) and SSH (`/usr/bin/ssh -tt` + one-shot `SSH_ASKPASS`)
+  - `Transport/`: serial console (termios, IOKit port discovery) and SSH: `NIOSSHTransport` (embedded
+    swift-nio-ssh, password auth, host keys pinned in `ssh_known_hosts.json`) by default; `SSHTransport`
+    (`/usr/bin/ssh -tt` + one-shot `SSH_ASKPASS`) when `netdeck.useSystemSSH` is on, never in the sandbox
   - `Drivers/`: `DeviceDriver` protocol, `DriverFactory`, `ChangeTraits` (how each platform applies changes)
   - `CLI/CLISession`: text CLI session for every platform except Junos; prompts and quirks come from a `CLIDialect`
   - `Cisco/`, `MikroTik/`, `EdgeOS/`: dialect, parsers, planner and driver per platform
@@ -35,7 +37,7 @@ Juniper Junos (EX series, ELS).
 
 ## Commands
 - Tests: `swift test` (run alone, not in parallel with other heavy jobs)
-- App bundle: `scripts/make-app.sh --open` → `build/Netdeck.app`
+- App bundle: `scripts/make-app.sh --open` → `build/Netdeck.app` (`--sandbox`: signed with `Resources/Netdeck.entitlements`)
 - Field test: `NETDECK_PASSWORD=... .build/debug/netdeck-probe --serial /dev/cu.usbserial-XXXX --user root snapshot`
   (`--ssh HOST`, `--api URL`, `--platform junos|cisco|mikrotik|edgeos|idrac|synology|truenas`; `preview "cmd; cmd"`
   shows the device's diff where it has a candidate config and never applies anything)

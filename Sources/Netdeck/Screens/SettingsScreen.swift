@@ -140,9 +140,12 @@ private struct GeneralSettings: View {
         @Bindable var model = model
         VStack(alignment: .leading, spacing: 18) {
             SettingsRow(label: t("Language")) {
-                Segmented(options: [(L10n.Language.system, t("System"), "globe"), (.en, L10n.Language.en.nativeName, nil),
-                                    (.tr, L10n.Language.tr.nativeName, nil)],
-                          selection: $model.language)
+                Picker("", selection: $model.language) {
+                    ForEach(L10n.Language.allCases) { lang in
+                        Text(lang == .system ? t("System") : lang.nativeName).tag(lang)
+                    }
+                }
+                .labelsHidden().pickerStyle(.menu).frame(width: 240, alignment: .leading)
                 SettingsHelp(text: t("System follows your macOS language, currently %@. If that language isn't available, Netdeck uses English. Switch output (commands, diffs, logs) is never translated.",
                                      Self.macOSLanguageName))
                 SettingsHelp(text: t("The menu bar updates the next time Netdeck opens."))
@@ -290,6 +293,7 @@ private extension View {
 private struct DevicesSettings: View {
     @Environment(AppModel.self) private var model
     @State private var removing: DeviceProfile?
+    @AppStorage(DeviceProfile.useSystemSSHKey) private var useSystemSSH = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
@@ -305,6 +309,13 @@ private struct DevicesSettings: View {
                     }
                 }
                 SettingsHelp(text: t("Device details stay on this Mac. Passwords are kept in the macOS Keychain."))
+            }
+            // The system ssh can't run inside the App Sandbox, so the choice only exists outside the Mac App Store.
+            if !AppPaths.isSandboxed {
+                SettingsRow(label: t("SSH")) {
+                    SettingsToggle(isOn: $useSystemSSH, label: t("Use the system ssh command (outside the Mac App Store)"))
+                    SettingsHelp(text: t("Netdeck has its own SSH client. Turn this on for devices it can't talk to, such as older ones that only offer RSA host keys or older ciphers. Applies to the next connection."))
+                }
             }
         }
         .alert(removing.map { t("Remove %@?", $0.name) } ?? "", isPresented: Binding(get: { removing != nil }, set: { if !$0 { removing = nil } }),
@@ -399,7 +410,8 @@ private struct BackupSettings: View {
 
     private var displayPath: String {
         guard let url = model.backupsFolder else { return "~/Library/Application Support/Netdeck/backups" }
-        let home = FileManager.default.homeDirectoryForCurrentUser.path
+        // The real home folder: inside the App Sandbox the home directory APIs return the app's container.
+        let home = getpwuid(getuid()).map { String(cString: $0.pointee.pw_dir) } ?? FileManager.default.homeDirectoryForCurrentUser.path
         return url.path.hasPrefix(home) ? "~" + url.path.dropFirst(home.count) : url.path
     }
 

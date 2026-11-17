@@ -1,5 +1,7 @@
 import Darwin
 import Foundation
+import IOKit
+import IOKit.serial
 
 /// Raw 8N1 serial console (USB-serial adapters show up as /dev/cu.*).
 public final class SerialTransport: Transport, @unchecked Sendable {
@@ -19,14 +21,49 @@ public final class SerialTransport: Transport, @unchecked Sendable {
 
     /// Lists candidate serial devices (USB adapters first).
     public static func availablePorts() -> [String] {
-        let names = (try? FileManager.default.contentsOfDirectory(atPath: "/dev")) ?? []
-        return names
-            .filter { $0.hasPrefix("cu.") && !$0.contains("Bluetooth") && !$0.contains("debug-console") }
-            .map { "/dev/" + $0 }
+        allPorts()
+            .filter { !$0.contains("Bluetooth") && !$0.contains("debug-console") }
             .sorted { a, b in
                 let au = a.contains("usb"), bu = b.contains("usb")
                 return au != bu ? au : a < b
             }
+    }
+
+    /// USB serial adapters visible right now (nothing is opened).
+    public static func usbAdapterPorts() -> [String] {
+        usbAdapters(in: allPorts())
+    }
+
+    /// The USB-serial adapters among callout paths: FTDI/Prolific ("usbserial"), CDC-ACM ("usbmodem"),
+    /// Silicon Labs CP210x ("SLAB_USBtoUART") and WCH CH34x ("wchusbserial").
+    public static func usbAdapters(in paths: [String]) -> [String] {
+        let prefixes = ["cu.usbserial", "cu.usbmodem", "cu.SLAB", "cu.wchusbserial"]
+        return paths.filter { p in prefixes.contains { (p as NSString).lastPathComponent.hasPrefix($0) } }.sorted()
+    }
+
+    /// Callout devices (/dev/cu.*) from the IOKit registry, which the App Sandbox allows, plus a /dev
+    /// listing where that is readable.
+    static func allPorts() -> [String] {
+        let fromDev = ((try? FileManager.default.contentsOfDirectory(atPath: "/dev")) ?? [])
+            .filter { $0.hasPrefix("cu.") }.map { "/dev/" + $0 }
+        return Array(Set((ioKitPorts() ?? []) + fromDev))
+    }
+
+    /// `kIOCalloutDeviceKey` of every `IOSerialBSDClient`. Nil when the registry can't be queried.
+    static func ioKitPorts() -> [String]? {
+        guard let matching = IOServiceMatching(kIOSerialBSDServiceValue) else { return nil }
+        var iterator: io_iterator_t = 0
+        guard IOServiceGetMatchingServices(kIOMainPortDefault, matching, &iterator) == KERN_SUCCESS else { return nil }
+        defer { IOObjectRelease(iterator) }
+        var paths: [String] = []
+        while true {
+            let service = IOIteratorNext(iterator)
+            guard service != 0 else { break }
+            defer { IOObjectRelease(service) }
+            let value = IORegistryEntryCreateCFProperty(service, kIOCalloutDeviceKey as CFString, kCFAllocatorDefault, 0)
+            if let path = value?.takeRetainedValue() as? String { paths.append(path) }
+        }
+        return paths
     }
 
     public func open(

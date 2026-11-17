@@ -80,7 +80,10 @@ Netdeck is built so that a mistake costs you minutes, never a site visit.
 
 - macOS 15 or later
 - Xcode 16 or later (Swift 6 toolchain) to build from source
-- A USB serial console cable, or SSH access to the device's management interface
+- A USB serial console cable, or SSH access to the device's management interface (password login).
+  The built-in SSH client speaks modern algorithms (Ed25519/ECDSA host keys, AES-GCM); for older devices
+  that only offer RSA host keys or older ciphers, turn on Settings → Devices → "Use the system ssh
+  command" (not available in the Mac App Store build)
 
 ## Build and run
 
@@ -89,6 +92,7 @@ git clone <this repository>
 cd netdeck
 swift test                     # run the test suite
 scripts/make-app.sh --open     # build build/Netdeck.app and open it
+scripts/make-app.sh --sandbox  # same, signed with Resources/Netdeck.entitlements (App Sandbox)
 ```
 
 ### Field tool
@@ -113,7 +117,8 @@ NETDECK_PASSWORD=... .build/debug/netdeck-probe --ssh 192.0.2.10 --user admin \
 ```
 Sources/
   NetdeckCore/            UI-independent core (fully unit-tested)
-    Transport/            Serial console (termios) and SSH (system ssh with a forced TTY)
+    Transport/            Serial console (termios, ports found through IOKit) and SSH (embedded SwiftNIO SSH
+                          client; the system ssh is optional outside the Mac App Store)
     CLI/                  Text CLI session shared by the non-Junos drivers (prompts come from a dialect)
     Drivers/              DeviceDriver protocol, driver factory, per-platform change traits
     Junos/                CLI session, output parsers, config model, change planner, driver
@@ -138,7 +143,8 @@ every change is visible as the exact commands the device received.
 
 - Device passwords are stored in the macOS Keychain, never on disk.
 - Netdeck only connects to the devices you add. There is no telemetry and no account.
-- Backups and device settings stay in `~/Library/Application Support/Netdeck`.
+- Backups, device settings and trusted SSH host keys stay in `~/Library/Application Support/Netdeck`
+  (inside the app's container, `~/Library/Containers/tech.odbs.netdeck/Data/...`, for the sandboxed build).
 
 ## Localization
 

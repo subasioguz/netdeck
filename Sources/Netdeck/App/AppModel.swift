@@ -320,12 +320,8 @@ final class AppModel {
 
     // MARK: Serial cables (one session per /dev/cu.*)
 
-    /// USB serial adapters visible right now (directory listing only; nothing is opened).
-    var detectedSerialPorts: [String] {
-        let names = (try? FileManager.default.contentsOfDirectory(atPath: "/dev")) ?? []
-        return names.filter { $0.hasPrefix("cu.usbserial") || $0.hasPrefix("cu.usbmodem") || $0.hasPrefix("cu.SLAB") }
-            .map { "/dev/" + $0 }.sorted()
-    }
+    /// USB serial adapters visible right now (IOKit registry, /dev as a fallback; nothing is opened).
+    var detectedSerialPorts: [String] { SerialTransport.usbAdapterPorts() }
 
     /// Adapters to show: detected ones plus the ones devices are configured for.
     var serialCables: [String] {

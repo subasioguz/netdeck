@@ -16,6 +16,9 @@ struct RootView: View {
         .background(TrialClock())
         .ignoresSafeArea()
         .id(model.localeVersion)
+        // Arabic and Hebrew text still runs right to left inside labels; the layout (faceplates,
+        // callouts, tables) stays left to right like the hardware it draws.
+        .environment(\.layoutDirection, .leftToRight)
         .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { model.windowHeight = $0 }
         .sheet(item: $model.sheet) { sheet in
             switch sheet {

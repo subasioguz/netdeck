@@ -48,7 +48,9 @@ func parseOptions() -> Options {
     o.user = take("--user") ?? "root"
     o.platform = take("--platform").flatMap { platformNames[$0.lowercased()] }
     o.keepSession = args.contains("--keep-session")
-    args.removeAll { $0 == "--keep-session" }
+    // SSH through /usr/bin/ssh instead of the embedded client (to compare the two on a device).
+    UserDefaults.standard.register(defaults: [DeviceProfile.useSystemSSHKey: args.contains("--system-ssh")])
+    args.removeAll { $0 == "--keep-session" || $0 == "--system-ssh" }
     o.rest = args
     return o
 }
@@ -68,7 +70,7 @@ if let path = opts.serial {
 } else {
     FileHandle.standardError.write(Data("""
     usage: netdeck-probe (--serial PATH [--baud N] | --ssh HOST [--port N] | --api URL) [--user U]
-                         [--platform junos|mikrotik|cisco|edgeos|idrac|redfish|synology|truenas] [--keep-session]
+                         [--platform junos|mikrotik|cisco|edgeos|idrac|redfish|synology|truenas] [--keep-session] [--system-ssh]
                          [snapshot | session | preview "cmd; cmd" | compare N]
     password: NETDECK_PASSWORD environment variable
 

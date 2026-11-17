@@ -5,6 +5,8 @@ import Foundation
 public enum L10n {
     public enum Language: String, CaseIterable, Sendable, Codable, Identifiable {
         case system, en, tr
+        // Mac App Store localizations, by code.
+        case ar, ca, cs, da, de, el, es, fi, fr, he, hi, hr, hu, indonesian = "id", it, ja, ko, ms, nb, nl, pl, ptBR = "pt-BR", ptPT = "pt-PT", ro, ru, sk, sv, th, uk, vi, zhHans = "zh-Hans", zhHant = "zh-Hant"
         public var id: String { rawValue }
 
         /// Name shown in the language picker, written in that language.
@@ -13,6 +15,9 @@ public enum L10n {
             case .system: return t("System")
             case .en: return "English"
             case .tr: return "T\u{00FC}rk\u{00E7}e"
+            default:
+                let l = Locale(identifier: rawValue)
+                return (l.localizedString(forIdentifier: rawValue) ?? rawValue).capitalized(with: l)
             }
         }
     }
@@ -25,8 +30,7 @@ public enum L10n {
         case .system:
             let available = Bundle.module.localizations.filter { $0 != "Base" }
             code = Bundle.preferredLocalizations(from: available, forPreferences: Locale.preferredLanguages).first ?? "en"
-        case .en: code = "en"
-        case .tr: code = "tr"
+        default: code = language.rawValue
         }
         if let path = Bundle.module.path(forResource: code, ofType: "lproj"), let b = Bundle(path: path) { return b }
         return .module
@@ -38,6 +42,7 @@ public enum L10n {
         case .system: return .current
         case .en: return Locale(identifier: "en_US")
         case .tr: return Locale(identifier: "tr_TR")
+        default: return Locale(identifier: language.rawValue)
         }
     }
 

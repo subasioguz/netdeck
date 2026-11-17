@@ -52,12 +52,24 @@ public struct DeviceProfile: Codable, Sendable, Identifiable, Equatable, Hashabl
         return nil
     }
 
+    /// `UserDefaults` key: true makes SSH go through `/usr/bin/ssh` (`SSHTransport`) instead of the
+    /// embedded client. Ignored inside the App Sandbox, where the system ssh can't run.
+    public static let useSystemSSHKey = "netdeck.useSystemSSH"
+
+    /// Whether SSH connections use the system ssh command (see `useSystemSSHKey`).
+    public static func usesSystemSSH(defaults: UserDefaults = .standard) -> Bool {
+        !AppPaths.isSandboxed && defaults.bool(forKey: useSystemSSHKey)
+    }
+
     /// The byte stream to the device. `username` overrides the login name sent to SSH (RouterOS
     /// takes terminal options in it: "admin+ct").
-    public func makeTransport(password: String?, username: String? = nil) -> Transport? {
+    public func makeTransport(password: String?, username: String? = nil, systemSSH: Bool = DeviceProfile.usesSystemSSH()) -> Transport? {
         switch connection {
         case let .serial(path, baud): return SerialTransport(path: path, baud: baud)
-        case let .ssh(host, port): return SSHTransport(host: host, port: port, username: username ?? self.username, password: password)
+        case let .ssh(host, port):
+            let user = username ?? self.username
+            if systemSSH { return SSHTransport(host: host, port: port, username: user, password: password) }
+            return NIOSSHTransport(host: host, port: port, username: user, password: password)
         case .api: return nil
         }
     }

@@ -97,6 +97,22 @@ public final class SSHTransport: Transport, @unchecked Sendable {
         stdinPipe = nil
     }
 
+    /// Removes the host's lines from the known hosts file this transport uses, like `ssh-keygen -R`
+    /// (entries are stored unhashed: "host type key" on port 22, "[host]:port type key" otherwise).
+    public static func forgetHostKey(host: String, port: Int, directory: URL? = nil) {
+        guard let dir = try? directory ?? AppPaths.supportDirectory() else { return }
+        let url = dir.appendingPathComponent("known_hosts")
+        guard let text = try? String(contentsOf: url, encoding: .utf8) else { return }
+        let name = port == 22 ? host : "[\(host)]:\(port)"
+        let lines = text.components(separatedBy: "\n")
+        let kept = lines.filter { line in
+            guard let hosts = line.split(separator: " ").first else { return true }
+            return !hosts.split(separator: ",").contains { $0.lowercased() == name.lowercased() }
+        }
+        guard kept.count != lines.count else { return }
+        try? kept.joined(separator: "\n").write(to: url, atomically: true, encoding: .utf8)
+    }
+
     private static func askpassHelper(in dir: URL) throws -> URL {
         let url = dir.appendingPathComponent("askpass.sh")
         let script = "#!/bin/sh\nprintf '%s\\n' \"$NETDECK_SSH_PASSWORD\"\n"

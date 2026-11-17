@@ -588,7 +588,7 @@ struct FailureCopy {
                       tag: t("Unreachable"), raw: Self.lastLine(detail))
         case let .hostKeyChanged(detail):
             self.init(symbol: "lock.open.trianglebadge.exclamationmark", tone: .danger, title: t("SSH: the host key changed"),
-                      text: t("%@ presented a different key than last time. That happens after a reinstall, but it can also mean someone is in between. Netdeck won't connect until the old key is removed from its known hosts file.", target),
+                      text: t("%@ presented a different key than last time. That happens after a reinstall, but it can also mean someone is in between. Trust the new key only if you know why it changed.", target),
                       tag: t("Host key changed"), raw: Self.lastLine(detail))
         case let .apiUnreachable(detail):
             self.init(symbol: "network.slash", tone: .neutral, title: t("HTTPS: the address can't be reached"),
@@ -805,6 +805,17 @@ private struct ErrorCard: View {
                 }
                 Spacer()
                 tryAgain
+            case .hostKeyChanged:
+                Spacer()
+                Button(t("Trust the new host key")) {
+                    if case let .ssh(host, port) = session.profile.connection {
+                        SSHKnownHosts.forget(host: host, port: port)
+                        SSHTransport.forgetHostKey(host: host, port: port)
+                    }
+                    model.connect(device.id)
+                }
+                .buttonStyle(PrimaryButtonStyle())
+                .disabled(session.isBusy)
             case .certificateChanged:
                 Spacer()
                 Button(t("Trust the new certificate")) {

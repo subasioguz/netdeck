@@ -98,3 +98,41 @@ These notes list what could not be confirmed; check them against real hardware w
 - **EdgeRouter 12**: width_mm.
 - **EdgeRouter Lite 3-Port**: width_mm. EdgeOS HW model string.
 - **EdgeRouter Infinity**: SFP+ pair numbering (top = odd assumed; drawing too small to read). width_mm nominal.
+
+## Older models (draft)
+
+32 older second-hand models were added from memory of the hardware guides, without checking a drawing.
+Their row order (Juniper 0 top-left, Cisco 1 top-left, MikroTik 1 bottom-left) and uplink positions follow each vendor's convention; confirm them on real hardware:
+
+- EX2200-24T
+- EX2200-48T
+- EX2200-C-12T
+- EX3300-24T
+- EX3300-48T
+- EX3200-24T
+- EX3200-48T
+- EX4200-24T
+- EX4200-48T
+- EX4200-24F
+- WS-C2960-24TT-L
+- WS-C2960-48TT-L
+- WS-C2960G-24TC-L
+- WS-C2960G-48TC-L
+- WS-C2960S-24TS-L
+- WS-C2960S-48TS-L
+- WS-C3560-24PS
+- WS-C3560-48PS
+- WS-C3560G-24TS
+- WS-C3560G-48TS
+- WS-C3560X-24T
+- WS-C3560X-48T
+- WS-C3750-24PS
+- WS-C3750-48PS
+- WS-C3750G-24TS
+- WS-C3750G-48TS
+- WS-C3750X-24T
+- WS-C3750X-48T
+- CRS125-24G-1S
+- CRS226-24G-2S+
+- CRS106-1C-5S
+- ERPoe-5
