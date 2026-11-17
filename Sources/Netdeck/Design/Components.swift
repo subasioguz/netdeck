@@ -303,7 +303,8 @@ struct ValueRow: View {
     var mono = false
     var body: some View {
         HStack(spacing: 12) {
-            Text(label).font(Typo.body).foregroundStyle(Theme.text3)
+            // Long labels (German compounds) shrink a little instead of wrapping mid-word.
+            Text(label).font(Typo.body).foregroundStyle(Theme.text3).lineLimit(1).minimumScaleFactor(0.75)
             Spacer(minLength: 8)
             Text(value).font(mono ? Typo.mono : .system(size: 13, weight: .medium)).foregroundStyle(Theme.text1)
                 .lineLimit(1).truncationMode(.middle).textSelection(.enabled)

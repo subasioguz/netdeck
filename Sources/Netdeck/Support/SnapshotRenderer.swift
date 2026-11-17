@@ -12,7 +12,9 @@ enum SnapshotRenderer {
         let dir = URL(fileURLWithPath: args[i + 1], isDirectory: true)
         let dark = args.contains("dark")
         RenderMode.active = true
-        L10n.language = args.contains("tr") ? .tr : .en
+        // `tr`, or `--lang <code>` for any shipped language (de, ja, ar...).
+        let langCode = args.firstIndex(of: "--lang").flatMap { $0 + 1 < args.count ? args[$0 + 1] : nil }
+        L10n.language = langCode.flatMap(L10n.Language.init(rawValue:)) ?? (args.contains("tr") ? .tr : .en)
         try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
         // `--only a,b` renders just the named views (prefix match), for quick iteration.
         let only = args.firstIndex(of: "--only").flatMap { $0 + 1 < args.count ? args[$0 + 1].split(separator: ",").map(String.init) : nil }
