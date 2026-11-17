@@ -1,0 +1,4 @@
+show lldp neighbors 
+
+{master:0}
+root@sw-01> 

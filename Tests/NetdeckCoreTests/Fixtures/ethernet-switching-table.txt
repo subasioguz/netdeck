@@ -1,0 +1,26 @@
+show ethernet-switching table 
+
+MAC flags (S - static MAC, D - dynamic MAC, L - locally learned, P - Persistent static, C - Control MAC
+           SE - statistics enabled, NM - non configured MAC, R - remote PE MAC, O - ovsdb MAC)
+
+
+Ethernet switching table : 13 entries, 13 learned
+Routing instance : default-switch
+    Vlan                MAC                 MAC         Age    Logical                NH        RTR 
+    name                address             flags              interface              Index     ID
+    cust-01             00:90:a9:00:00:01   D             -   ge-0/0/0.0             0         0       
+    cust-01             24:9e:7d:00:00:02   D             -   ge-0/0/0.0             0         0       
+    cust-01             2a:0c:e5:00:00:03   D             -   ge-0/0/0.0             0         0       
+    cust-01             38:a5:c9:00:00:04   D             -   ge-0/0/0.0             0         0       
+    cust-01             38:a5:c9:00:00:05   D             -   ge-0/0/0.0             0         0       
+    cust-01             38:a5:c9:00:00:06   D             -   ge-0/0/0.0             0         0       
+    cust-01             62:27:b7:00:00:07   D             -   ge-0/0/0.0             0         0       
+    cust-01             64:4b:f0:00:00:08   D             -   ge-0/0/0.0             0         0       
+    cust-01             94:e3:ee:00:00:09   D             -   ge-0/0/0.0             0         0       
+    cust-01             9e:a5:62:00:00:0a   D             -   ge-0/0/0.0             0         0       
+    cust-01             b0:7b:25:00:00:0b   D             -   ge-0/0/1.0             0         0       
+    cust-01             b0:7b:25:00:00:0c   D             -   ge-0/0/2.0             0         0       
+    cust-01             be:38:14:00:00:0d   D             -   ge-0/0/0.0             0         0       
+
+{master:0}
+root@sw-01> 

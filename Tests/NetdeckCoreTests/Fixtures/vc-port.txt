@@ -1,0 +1,13 @@
+show virtual-chassis vc-port 
+fpc0:
+--------------------------------------------------------------------------
+Interface   Type              Trunk  Status       Speed        Neighbor
+or                             ID                 (mbps)       ID  Interface
+PIC / Port
+1/3         Configured               Absent  
+1/2         Configured               Absent  
+1/1         Configured               Absent  
+1/0         Configured               Absent  
+
+{master:0}
+root@sw-01> 

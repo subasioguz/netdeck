@@ -1,0 +1,22 @@
+show system commit 
+0   2026-10-30 05:37:08 EET by root via cli
+    confirm ge-0/0/2
+1   2026-10-30 05:35:53 EET by root via cli commit confirmed, rollback in 5mins
+    open ge-0/0/2 for proxmox
+2   2026-09-02 21:14:34 EEST by netops via cli
+3   2026-09-02 21:14:25 EEST by netops via cli commit confirmed, rollback in 5mins
+4   2026-09-02 21:10:02 EEST by netops via cli
+5   2026-09-02 21:09:52 EEST by netops via cli commit confirmed, rollback in 5mins
+6   2026-09-02 20:03:11 EEST by netops via cli
+7   2026-09-02 20:02:59 EEST by netops via cli commit confirmed, rollback in 5mins
+8   2026-09-02 19:46:37 EEST by netops via cli
+9   2026-09-02 19:46:23 EEST by netops via cli commit confirmed, rollback in 5mins
+10  2026-09-02 17:48:18 EEST by root via cli
+11  2026-08-31 02:04:36 EEST by root via junoscript
+    Modified via JWeb EZsetup
+12  2026-08-31 02:00:09 EEST by root via button
+13  2026-08-31 01:59:12 EEST by root via button
+rescue  2026-09-02 21:15:23 EEST by netops via cli
+
+{master:0}
+root@sw-01> 

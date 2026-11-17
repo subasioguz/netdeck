@@ -1,0 +1,21 @@
+show version 
+fpc0:
+--------------------------------------------------------------------------
+Hostname: sw-01
+Model: ex4300-48t
+Junos: 21.2R3.8
+JUNOS EX  Software Suite [21.2R3.8]
+JUNOS FIPS mode utilities [21.2R3.8]
+JUNOS Crypto Software Suite [21.2R3.8]
+JUNOS Online Documentation [21.2R3.8]
+JUNOS Phone-Home Software Suite [21.2R3.8]
+JUNOS jsd [powerpc-21.2R3.8-jet-1]
+JUNOS SDN Software Suite [21.2R3.8]
+JUNOS EX 4300 Software Suite [21.2R3.8]
+JUNOS Web Management Platform Package [21.2R3.8]
+JUNOS py-base-powerpc [21.2R3.8]
+JUNOS py-extensions-powerpc [21.2R3.8]
+REST API Software Suite [21.2R3.8]
+
+{master:0}
+root@sw-01> 

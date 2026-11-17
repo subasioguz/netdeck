@@ -1,0 +1,19 @@
+show system rollback compare 2 0 
+[edit interfaces interface-range UNUSED]
+     member-range ge-0/0/46 { ... }
++    member-range ge-0/0/3 to ge-0/0/23;
+-    member-range ge-0/0/2 to ge-0/0/23;
+[edit interfaces ge-0/0/2]
++   description R640-PVE-01;
+[edit interfaces ge-0/0/2 unit 0 family ethernet-switching]
++      interface-mode access;
++      vlan {
++          members cust-01;
++      }
+[edit protocols rstp]
++    interface ge-0/0/2 {
++        edge;
++    }
+
+{master:0}
+root@sw-01> 

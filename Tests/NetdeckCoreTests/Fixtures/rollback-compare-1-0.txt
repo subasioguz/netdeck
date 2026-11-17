@@ -1,0 +1,4 @@
+show system rollback compare 1 0 
+
+{master:0}
+root@sw-01> 

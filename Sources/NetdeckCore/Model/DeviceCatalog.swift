@@ -1,0 +1,311 @@
+import Foundation
+
+/// What a device is, independent of brand.
+public enum DeviceKind: String, Codable, Sendable, CaseIterable, Identifiable {
+    case switchDevice = "switch", router, firewall, storage, server, wireless, other
+    public var id: String { rawValue }
+
+    public var title: String {
+        switch self {
+        case .switchDevice: return t("Switch")
+        case .router: return t("Router")
+        case .firewall: return t("Firewall")
+        case .storage: return t("Storage")
+        case .server: return t("Server")
+        case .wireless: return t("Wireless")
+        case .other: return t("Other")
+        }
+    }
+
+    /// SF Symbol used in the sidebar, overview and add-device sheet.
+    public var symbol: String {
+        switch self {
+        case .switchDevice: return "rectangle.connected.to.line.below"
+        case .router: return "wifi.router"
+        case .firewall: return "shield.lefthalf.filled"
+        case .storage: return "externaldrive.connected.to.line.below"
+        case .server: return "server.rack"
+        case .wireless: return "wifi"
+        case .other: return "shippingbox"
+        }
+    }
+
+    /// One-line hint under the type name in the add-device type picker.
+    public var hint: String {
+        switch self {
+        case .switchDevice: return t("Ports and VLANs")
+        case .router: return t("Gateway")
+        case .firewall: return t("Security gateway")
+        case .storage: return t("NAS")
+        case .server: return t("iDRAC / IPMI")
+        case .wireless: return t("Access point")
+        case .other: return t("Anything else")
+        }
+    }
+
+    /// How this type can be reached (DESIGN.md §3.10 matrix). A method the matrix allows but
+    /// Netdeck can't speak yet (`ConnectionType.isImplemented`) reads as coming soon.
+    public func availability(of connection: ConnectionType) -> ConnectionAvailability {
+        let planned: ConnectionAvailability
+        switch (self, connection) {
+        case (.switchDevice, .api), (.router, .api), (.firewall, .api): planned = .comingSoon
+        case (.switchDevice, _), (.router, _), (.firewall, _): planned = .available
+        case (.storage, .serial), (.wireless, .serial): planned = .notAvailable
+        case (.storage, _), (.wireless, _): planned = .available
+        case (.server, .api): planned = .available
+        case (.server, _): planned = .notAvailable
+        case (.other, .api): planned = .notAvailable
+        case (.other, _): planned = .available
+        }
+        return planned == .available && !connection.isImplemented ? .comingSoon : planned
+    }
+}
+
+public enum ConnectionAvailability: Sendable, Equatable {
+    case available, comingSoon, notAvailable
+}
+
+/// Software platform a driver talks to. Brand + OS, not a specific model.
+public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
+    case juniperJunos = "juniper-junos"
+    case mikrotikRouterOS = "mikrotik-routeros"
+    case ciscoIOS = "cisco-ios"
+    case ubiquitiEdgeOS = "ubiquiti-edgeos"
+    case dellIDRAC = "dell-idrac"
+    case synologyDSM = "synology-dsm"
+    case truenas = "truenas"
+    case unknown
+
+    public var id: String { rawValue }
+
+    public enum Support: String, Sendable { case full, basic, planned }
+
+    public var vendor: String {
+        switch self {
+        case .juniperJunos: return "Juniper"
+        case .mikrotikRouterOS: return "MikroTik"
+        case .ciscoIOS: return "Cisco"
+        case .ubiquitiEdgeOS: return "Ubiquiti"
+        case .dellIDRAC: return "Dell"
+        case .synologyDSM: return "Synology"
+        case .truenas: return "TrueNAS"
+        case .unknown: return t("Unknown")
+        }
+    }
+
+    public var osName: String {
+        switch self {
+        case .juniperJunos: return "Junos"
+        case .mikrotikRouterOS: return "RouterOS"
+        case .ciscoIOS: return "IOS"
+        case .ubiquitiEdgeOS: return "EdgeOS"
+        case .dellIDRAC: return "iDRAC"
+        case .synologyDSM: return "DSM"
+        case .truenas: return "TrueNAS"
+        case .unknown: return "—"
+        }
+    }
+
+    public var displayName: String { self == .unknown ? t("Unknown") : "\(vendor) \(osName)" }
+
+    /// Only Junos is fully supported in v1; everything else is recognised and listed as coming soon.
+    /// `unknown` ("Other" in the brand picker) gets the basic info card.
+    public var support: Support {
+        switch self {
+        case .juniperJunos: return .full
+        case .unknown: return .basic
+        default: return .planned
+        }
+    }
+
+    /// Second line of a brand tile in the manual picker.
+    public var products: String {
+        switch self {
+        case .juniperJunos: return "Junos"
+        case .mikrotikRouterOS: return "RouterOS"
+        case .ciscoIOS: return "IOS / IOS-XE"
+        case .ubiquitiEdgeOS: return "UniFi / EdgeOS"
+        case .dellIDRAC: return "iDRAC"
+        case .synologyDSM: return "DSM"
+        case .truenas: return "TrueNAS"
+        case .unknown: return t("Basic info only")
+        }
+    }
+
+    /// Product families with their own support level (Juniper: only EX is fully supported).
+    public var families: [PlatformFamily] {
+        switch self {
+        case .juniperJunos:
+            return [PlatformFamily(id: "ex", name: "EX", kind: .switchDevice, support: .full),
+                    PlatformFamily(id: "srx", name: "SRX", kind: .firewall, support: .basic),
+                    PlatformFamily(id: "mx", name: "MX", kind: .router, support: .basic),
+                    PlatformFamily(id: "qfx", name: "QFX", kind: .switchDevice, support: .basic, dataCenter: true)]
+        default: return []
+        }
+    }
+
+    /// The family a model name belongs to ("EX4300-48T" → EX), when the platform has families.
+    public func family(forModel model: String) -> PlatformFamily? {
+        let m = model.lowercased()
+        return families.filter { m.hasPrefix($0.id) }.max { $0.id.count < $1.id.count }
+    }
+
+    /// Brand name in the manual picker ("Other" for `unknown`).
+    public var brand: String { self == .unknown ? t("Other") : vendor }
+
+    /// Netdeck can read and keep this platform's configuration (drives History & backups for basic devices).
+    public var exportsConfig: Bool { self == .juniperJunos }
+
+    /// Device kinds this platform is commonly used for (drives the manual brand list per type).
+    public var kinds: [DeviceKind] {
+        switch self {
+        case .juniperJunos: return [.switchDevice, .router, .firewall]
+        case .mikrotikRouterOS: return [.router, .switchDevice, .wireless]
+        case .ciscoIOS: return [.switchDevice, .router]
+        case .ubiquitiEdgeOS: return [.router, .switchDevice, .wireless]
+        case .dellIDRAC: return [.server]
+        case .synologyDSM, .truenas: return [.storage]
+        case .unknown: return DeviceKind.allCases
+        }
+    }
+
+    public var connections: [ConnectionType] {
+        switch self {
+        case .dellIDRAC: return [.api]
+        case .synologyDSM, .truenas: return [.ssh, .api]
+        default: return [.serial, .ssh]
+        }
+    }
+}
+
+public enum ConnectionType: String, Codable, Sendable, CaseIterable {
+    case serial, ssh, api
+
+    /// Netdeck has a transport for it (serial console and SSH today; no HTTPS API client yet).
+    public var isImplemented: Bool { self != .api }
+}
+
+/// A product line of a platform, e.g. Juniper EX. Drives the family row of the manual picker.
+public struct PlatformFamily: Sendable, Hashable, Identifiable {
+    public var id: String
+    /// Series name as printed on the hardware ("EX").
+    public var name: String
+    public var kind: DeviceKind
+    public var support: Platform.Support
+    /// QFX: shown as "Data center switch" rather than plain "Switch".
+    public var dataCenter = false
+
+    public init(id: String, name: String, kind: DeviceKind, support: Platform.Support, dataCenter: Bool = false) {
+        self.id = id
+        self.name = name
+        self.kind = kind
+        self.support = support
+        self.dataCenter = dataCenter
+    }
+
+    /// "Switch", "Firewall", "Data center switch"...
+    public var role: String { dataCenter ? t("Data center switch") : kind.title }
+}
+
+/// What the app learned about a device on connect.
+public struct Detection: Codable, Sendable, Equatable, Hashable {
+    public var platform: Platform
+    public var model: String?
+    public var osVersion: String?
+    public var hostname: String?
+    public var kind: DeviceKind?
+    /// As printed by the device (e.g. "12d4h3m"), when it showed one.
+    public var uptime: String?
+    public var serial: String?
+
+    public init(platform: Platform, model: String? = nil, osVersion: String? = nil, hostname: String? = nil, kind: DeviceKind? = nil,
+                uptime: String? = nil, serial: String? = nil) {
+        self.platform = platform
+        self.model = model
+        self.osVersion = osVersion
+        self.hostname = hostname
+        self.kind = kind
+        self.uptime = uptime
+        self.serial = serial
+    }
+
+    /// Support for what was found: the platform's level, narrowed by the model's family when known
+    /// (a Juniper SRX gets basic support even though Junos itself is supported).
+    public var support: Platform.Support {
+        if let model, let family = platform.family(forModel: model) { return family.support }
+        return platform.support
+    }
+
+    /// "Juniper EX4300-48T · Junos 21.2R3.8"
+    public var summary: String {
+        var parts = [platform.vendor + (model.map { " " + $0 } ?? "")]
+        if let osVersion { parts.append("\(platform.osName) \(osVersion)") }
+        return parts.joined(separator: " · ")
+    }
+}
+
+/// Recognises a device from whatever text it sent (login banner, prompt, version output).
+public enum DeviceDetector {
+    public static func detect(_ text: String) -> Detection? {
+        let s = text
+        if s.contains("JUNOS") || s.contains("Junos:") || s.range(of: #"@[\w.\-]+:RE:\d+%"#, options: .regularExpression) != nil {
+            return junos(fromVersion: s) ?? Detection(platform: .juniperJunos)
+        }
+        if s.contains("MikroTik") || s.range(of: #"\[[\w.\-]+@[^\]]+\]\s*>"#, options: .regularExpression) != nil {
+            var d = Detection(platform: .mikrotikRouterOS, kind: .router)
+            if let r = s.range(of: #"RouterOS (\d+\.\d+(\.\d+)?)"#, options: .regularExpression) {
+                d.osVersion = String(s[r].dropFirst("RouterOS ".count))
+            } else if let r = s.range(of: #"MikroTik (\d+\.\d+(\.\d+)?)"#, options: .regularExpression) {
+                d.osVersion = String(s[r].dropFirst("MikroTik ".count))
+            }
+            if let r = s.range(of: #"board-name: (\S+)"#, options: .regularExpression) {
+                d.model = String(s[r].dropFirst("board-name: ".count))
+            }
+            if let r = s.range(of: #"uptime: (\S+)"#, options: .regularExpression) {
+                d.uptime = String(s[r].dropFirst("uptime: ".count))
+            }
+            if let r = s.range(of: #"serial-number: (\S+)"#, options: .regularExpression) {
+                d.serial = String(s[r].dropFirst("serial-number: ".count))
+            }
+            return d
+        }
+        if s.contains("Cisco IOS") || s.contains("IOS-XE") || s.contains("Cisco Systems") {
+            var d = Detection(platform: .ciscoIOS)
+            if let r = s.range(of: #"Version ([\w.()]+)"#, options: .regularExpression) {
+                d.osVersion = String(s[r].dropFirst("Version ".count))
+            }
+            return d
+        }
+        if s.contains("EdgeOS") || s.contains("EdgeRouter") {
+            return Detection(platform: .ubiquitiEdgeOS, kind: .router)
+        }
+        if s.contains("Integrated Dell Remote Access Controller") || s.contains("iDRAC") {
+            return Detection(platform: .dellIDRAC, kind: .server)
+        }
+        if s.contains("Synology") || s.contains("DiskStation") {
+            return Detection(platform: .synologyDSM, kind: .storage)
+        }
+        if s.contains("TrueNAS") || s.contains("FreeNAS") {
+            return Detection(platform: .truenas, kind: .storage)
+        }
+        return nil
+    }
+
+    /// Parses Junos `show version`: "Model: ex4300-48t", "Junos: 21.2R3.8", "Hostname: sw-01".
+    public static func junos(fromVersion text: String) -> Detection? {
+        let v = OutputParsers.version(text)
+        guard v.model != nil || v.junos != nil else { return nil }
+        let model = v.model?.uppercased()
+        return Detection(platform: .juniperJunos, model: model, osVersion: v.junos, hostname: v.hostname,
+                         kind: model.map(junosKind) ?? nil)
+    }
+
+    /// EX/QFX → switch, SRX → firewall, MX/PTX/ACX → router.
+    public static func junosKind(_ model: String) -> DeviceKind? {
+        let m = model.lowercased()
+        if m.hasPrefix("ex") || m.hasPrefix("qfx") { return .switchDevice }
+        if m.hasPrefix("srx") || m.hasPrefix("vsrx") { return .firewall }
+        if m.hasPrefix("mx") || m.hasPrefix("ptx") || m.hasPrefix("acx") { return .router }
+        return nil
+    }
+}

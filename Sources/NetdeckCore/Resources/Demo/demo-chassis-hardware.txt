@@ -1,0 +1,18 @@
+show chassis hardware 
+Hardware inventory:
+Item             Version  Part number  Serial number     Description
+Chassis                                PE0000000001      EX4300-48T
+Routing Engine 0 REV 46   650-044931   PE0000000001      EX4300-48T
+FPC 0            REV 46   650-044931   PE0000000001      EX4300-48T
+  CPU                     BUILTIN      BUILTIN           FPC CPU
+  PIC 0          REV 46   BUILTIN      BUILTIN           48x 10/100/1000 Base-T
+  PIC 1          REV 46   BUILTIN      BUILTIN           4x 40GE QSFP+
+  PIC 2          REV 02   611-063980   MY0000000002      4x 1G/10G SFP/SFP+
+    Xcvr 0                NON-JNPR     S000000000003     SFP28-25G-BASE-CU-1M
+    Xcvr 1                NON-JNPR     S000000000004     SFP28-25G-BASE-CU-1M
+Power Supply 0   REV 05   740-046873   3G000000005       JPSU-350-AC-AFO-A
+Fan Tray 0                                               Fan Module, Airflow Out (AFO)
+Fan Tray 1                                               Fan Module, Airflow Out (AFO)
+
+{master:0}
+root@sw-01> 
