@@ -52,10 +52,12 @@ public struct DeviceProfile: Codable, Sendable, Identifiable, Equatable, Hashabl
         return nil
     }
 
-    public func makeTransport(password: String?) -> Transport? {
+    /// The byte stream to the device. `username` overrides the login name sent to SSH (RouterOS
+    /// takes terminal options in it: "admin+ct").
+    public func makeTransport(password: String?, username: String? = nil) -> Transport? {
         switch connection {
         case let .serial(path, baud): return SerialTransport(path: path, baud: baud)
-        case let .ssh(host, port): return SSHTransport(host: host, port: port, username: username, password: password)
+        case let .ssh(host, port): return SSHTransport(host: host, port: port, username: username ?? self.username, password: password)
         case .api: return nil
         }
     }

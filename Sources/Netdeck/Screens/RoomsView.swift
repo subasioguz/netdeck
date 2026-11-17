@@ -19,15 +19,15 @@ struct RoomsStage: View {
         GeometryReader { geo in
             let W = geo.size.width
             let panelW = W - 40
-            let s = PanelScale(width: panelW)
             let ports = PanelBuilder.ports(snapshot: snapshot, session: session, colors: colors)
-            let panelH = panelW * FrontGeometry.height(hasCables: false) / (FrontGeometry.maxX - FrontGeometry.minX)
+            let s = PanelScale(width: panelW, ports: ports)
+            let panelH = panelW / FrontGeometry.aspect(ports, hasCables: false)
             let roomsY = top + panelH + gapBelow
-            let rooms = layout(width: W, scale: s)
+            let rooms = layout(width: W, scale: s, ports: ports)
             let cards = cardFrames(rooms, y: roomsY)
             ZStack(alignment: .topLeading) {
                 StageBackground()
-                FrontPanelView(model: snapshot.model, vendor: "Juniper", hostname: session.profile.name, ports: ports,
+                FrontPanelView(model: snapshot.model, vendor: snapshot.platform.vendor, hostname: session.profile.name, ports: ports,
                                selected: Set([selected].compactMap { $0 }), showsCables: false,
                                onTap: { p in selected = p.slotKey; editing = p.slotKey })
                     .frame(width: panelW, height: panelH).offset(x: 20, y: top)
@@ -72,10 +72,10 @@ struct RoomsStage: View {
         return snapshot.config.vlans.compactMap { v in byVLAN[v.name].map { (v, $0) } }
     }
 
-    private func layout(width W: CGFloat, scale s: PanelScale) -> [Room] {
+    private func layout(width W: CGFloat, scale s: PanelScale, ports panel: [PanelPort]) -> [Room] {
         var rooms = roomPorts().map { Room(vlan: $0.0, ports: $0.1) }
         func anchorX(_ p: SwitchPort) -> CGFloat {
-            let r = p.kind == .copper ? FrontGeometry.copperRect(p.number) : FrontGeometry.cageRect(InterfaceName.portNumber(p.name) ?? 0)
+            let r = panel.first { $0.slotKey == p.slotKey }?.frame ?? .zero
             return 20 + s.x(r.midX)
         }
         let avail = W - 28 - CGFloat(max(0, rooms.count - 1)) * 12

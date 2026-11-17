@@ -1,0 +1,60 @@
+show version
+Cisco IOS Software, C2960X Software (C2960X-UNIVERSALK9-M), Version 15.2(7)E8, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2023 by Cisco Systems, Inc.
+Compiled Thu 23-Mar-23 08:12 by mcpre
+
+ROM: Bootstrap program is C2960X boot loader
+BOOTLDR: C2960X Boot Loader (C2960X-HBOOT-M) Version 15.2(7r)E, RELEASE SOFTWARE (fc1)
+
+SW-FLOOR-02 uptime is 1 year, 22 weeks, 6 days, 9 hours, 38 minutes
+System returned to ROM by power-on
+System image file is "flash:c2960x-universalk9-mz.152-7.E8.bin"
+Last reload reason: power-on
+
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+
+License Level: lanbase
+License Type: Permanent Right-To-Use
+Next reload license Level: lanbase
+
+cisco WS-C2960X-24TS-L (APM86XXX) processor (revision B0) with 524288K bytes of memory.
+Processor board ID TEST0000201
+Last reset from power-on
+1 Virtual Ethernet interface
+1 FastEthernet interface
+28 Gigabit Ethernet interfaces
+The password-recovery mechanism is enabled.
+
+512K bytes of flash-simulated non-volatile configuration memory.
+Base ethernet MAC Address       : 48:A9:8A:00:02:00
+Motherboard assembly number     : 73-00000-00
+Power supply part number        : 341-0000-00
+Motherboard serial number       : TEST0000205
+Power supply serial number      : TEST0000206
+Model revision number           : B0
+Motherboard revision number     : A0
+Model number                    : WS-C2960X-24TS-L
+Daughterboard assembly number   : 73-00000-00
+Daughterboard serial number     : TEST0000207
+System serial number            : TEST0000201
+Top Assembly Part Number        : 68-0000-00
+Top Assembly Revision Number    : B0
+Version ID                      : V05
+CLEI Code Number                : TEST000000
+Hardware Board Revision Number  : 0x01
+
+
+Switch Ports Model                     SW Version            SW Image
+------ ----- -----                     ----------            ----------
+*    1 28    WS-C2960X-24TS-L          15.2(7)E8             C2960X-UNIVERSALK9-M
+
+
+Configuration register is 0xF
+
+SW-FLOOR-02#

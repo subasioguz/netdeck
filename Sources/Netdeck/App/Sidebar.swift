@@ -170,7 +170,7 @@ struct DeviceRow: View {
         }()
         let session = model.session(for: device.id)
         VStack(spacing: 4) {
-            Button { model.selection = .device(device.id, selectedSection ?? (model.isBasic(device.id) ? .overview : .ports)) } label: {
+            Button { model.selection = .device(device.id, selectedSection ?? (model.isBasic(device.id) || model.isAppliance(device.id) ? .overview : .ports)) } label: {
                 HStack(spacing: 9) {
                     TypeTile(kind: device.kind, size: 30, dark: selectedSection != nil)
                     VStack(alignment: .leading, spacing: 1) {
@@ -210,6 +210,9 @@ struct DeviceRow: View {
     }
 
     private func sections(_ s: DeviceSession) -> [(DeviceSection, String?)] {
+        if s.appliance != nil || model.isAppliance(device.id) {
+            return [(.overview, nil)]
+        }
         if model.isBasic(device.id) {
             // §3.11: only the overview, plus history when Netdeck can keep this platform's config.
             let exports = (s.detection ?? device.detected)?.platform.exportsConfig == true
@@ -221,6 +224,10 @@ struct DeviceRow: View {
         let copper = snap.ports.filter { $0.kind == .copper }.count
         let sfp = snap.ports.count - copper
         let devicesSeen = Set(snap.macTable.map(\.mac)).count
+        guard snap.hasSwitching else {
+            // Routers (Juniper MX, EdgeRouter without a switch): ports and history only.
+            return [(.ports, "\(copper) + \(sfp)"), (.history, nil)]
+        }
         return [(.ports, "\(copper) + \(sfp)"), (.vlans, String(VLANRooms(snapshot: snap, edits: s.vlanEdits).rows.filter { !$0.deleted }.count)),
                 (.connected, String(devicesSeen)), (.history, nil)]
     }

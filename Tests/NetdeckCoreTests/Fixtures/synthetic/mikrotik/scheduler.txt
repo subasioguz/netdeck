@@ -1,0 +1,1 @@
+ 0   name=netdeck-revert start-date=2026-11-17 start-time=10:26:39 interval=0s on-event=/system script run netdeck-undo owner=admin policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon run-count=0 next-run=2026-11-17 10:26:39 comment="Netdeck: ether3"

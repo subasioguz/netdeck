@@ -35,34 +35,74 @@ import Testing
         #expect(DeviceDetector.detect("hello") == nil)
     }
 
-    @Test func onlyJunosIsFullySupported() {
-        #expect(Platform.juniperJunos.support == .full)
-        #expect(Platform.allCases.filter { $0.support == .full } == [.juniperJunos])
-        #expect(Platform.dellIDRAC.connections == [.api])
-    }
-
-    @Test func onlyJuniperEXIsFullySupported() {
-        #expect(Platform.juniperJunos.families.map(\.id) == ["ex", "srx", "mx", "qfx"])
-        #expect(Platform.juniperJunos.families.filter { $0.support == .full }.map(\.id) == ["ex"])
+    @Test func everyListedBrandIsSupported() {
+        #expect(Platform.allCases.filter { $0.support != .full } == [.unknown])
         #expect(Platform.unknown.support == .basic)
-        #expect(Detection(platform: .juniperJunos, model: "EX4300-48T").support == .full)
-        #expect(Detection(platform: .juniperJunos, model: "SRX345").support == .basic)
-        #expect(Detection(platform: .juniperJunos, model: "QFX5120-48Y").support == .basic)
-        #expect(Detection(platform: .juniperJunos, model: "MX204").support == .basic)
-        #expect(Detection(platform: .juniperJunos).support == .full)
-        #expect(Detection(platform: .mikrotikRouterOS, model: "RB5009UG+S+").support == .planned)
+        #expect(Platform.dellIDRAC.connections == [.api])
+        #expect(Platform.juniperJunos.families.map(\.id) == ["ex", "srx", "mx", "qfx"])
+        #expect(Platform.juniperJunos.families.allSatisfy { $0.support == .full })
+        #expect(Detection(platform: .juniperJunos, model: "SRX345").support == .full)
+        #expect(Detection(platform: .mikrotikRouterOS, model: "RB5009UG+S+").support == .full)
     }
 
     @Test func connectionMatrixPerType() {
         #expect(DeviceKind.switchDevice.availability(of: .serial) == .available)
         #expect(DeviceKind.switchDevice.availability(of: .ssh) == .available)
-        #expect(DeviceKind.router.availability(of: .api) == .comingSoon)
+        #expect(DeviceKind.router.availability(of: .api) == .notAvailable)
         #expect(DeviceKind.storage.availability(of: .serial) == .notAvailable)
         #expect(DeviceKind.wireless.availability(of: .ssh) == .available)
         #expect(DeviceKind.server.availability(of: .ssh) == .notAvailable)
-        // The matrix allows the API for servers, but Netdeck has no HTTPS client yet.
-        #expect(DeviceKind.server.availability(of: .api) == .comingSoon)
+        #expect(DeviceKind.server.availability(of: .api) == .available)
         #expect(DeviceKind.other.availability(of: .api) == .notAvailable)
+    }
+
+    @Test func foreignPromptsHandOverFromTheJunosLogin() {
+        #expect(DeviceDetector.foreignPrompt("[admin@MikroTik] > ") == .mikrotikRouterOS)
+        #expect(DeviceDetector.foreignPrompt("[admin@rb5009] <SAFE> ") == .mikrotikRouterOS)
+        #expect(DeviceDetector.foreignPrompt("[admin@rb5009] /interface> ") == .mikrotikRouterOS)
+        #expect(DeviceDetector.foreignPrompt("MikroTik Login: ") == .mikrotikRouterOS)
+        #expect(DeviceDetector.foreignPrompt("Switch#") == .ciscoIOS)
+        #expect(DeviceDetector.foreignPrompt("core-sw1>") == .ciscoIOS)
+        #expect(DeviceDetector.foreignPrompt("Switch(config-if)#") == .ciscoIOS)
+        #expect(DeviceDetector.foreignPrompt("Username: ") == .ciscoIOS)
+        #expect(DeviceDetector.foreignPrompt("ubnt@edge:~$ ") == .unknown)
+        // Junos prompts are never foreign.
+        #expect(DeviceDetector.foreignPrompt("root@sw-01> ") == nil)
+        #expect(DeviceDetector.foreignPrompt("root@sw-01:RE:0%") == nil)
+        #expect(DeviceDetector.foreignPrompt("{master:0}") == nil)
+        #expect(DeviceDetector.foreignPrompt("Hostname: sw-01") == nil)
+        // A bare prompt is enough to pick the driver.
+        #expect(DeviceDetector.detect("\r\nSwitch>")?.platform == .ciscoIOS)
+        #expect(DeviceDetector.detect("User Access Verification\n\nUsername: ")?.platform == .ciscoIOS)
+        #expect(DeviceDetector.isLoginPrompt("MikroTik Login: "))
+        #expect(DeviceDetector.isLoginPrompt("Username:"))
+    }
+
+    @Test func junosModelTraits() {
+        let ex = JunosModel("ex4300-48t")
+        #expect(ex.rearPIC == 1)
+        #expect(!ex.isFrontPanel("et-0/1/0"))
+        #expect(ex.isFrontPanel("ge-0/0/12"))
+        #expect(!ex.isCage("ge-0/0/12", hasModule: false))
+        #expect(ex.isCage("xe-0/2/0", hasModule: false))
+        #expect(ex.isCage("ge-0/2/1", hasModule: false))
+
+        let qfx = JunosModel("QFX5100-48S-6Q")
+        #expect(qfx.rearPIC == nil)
+        #expect(qfx.isCage("xe-0/0/0", hasModule: false))
+        #expect(qfx.isCage("et-0/0/48", hasModule: false))
+        #expect(!JunosModel("QFX5100-48T-6Q").isCage("xe-0/0/3", hasModule: false))
+
+        let srx = JunosModel("SRX345")
+        #expect(!srx.isCage("ge-0/0/7", hasModule: false))
+        #expect(srx.isCage("ge-0/0/8", hasModule: false))
+        #expect(JunosModel("SRX300").isCage("ge-0/0/6", hasModule: false))
+
+        let mx = JunosModel("MX204")
+        #expect(mx.isRouter)
+        #expect(mx.isCage("xe-0/1/3", hasModule: false))
+        #expect(mx.isFrontPanel("et-0/0/0"))
+        #expect(!mx.isFrontPanel("et-0/0/0:1"))
     }
 }
 

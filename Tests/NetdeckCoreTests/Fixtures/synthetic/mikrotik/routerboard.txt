@@ -1,0 +1,9 @@
+       routerboard: yes
+        board-name: CRS326-24G-2S+
+             model: CRS326-24G-2S+
+          revision: r2
+     serial-number: TEST0000001
+     firmware-type: dx3230L
+  factory-firmware: 6.44.6
+  current-firmware: 7.16.2
+  upgrade-firmware: 7.16.2

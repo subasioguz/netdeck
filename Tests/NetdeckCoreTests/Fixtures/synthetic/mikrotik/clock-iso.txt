@@ -1,0 +1,6 @@
+                  time: 23:58:30
+                  date: 2026-12-31
+  time-zone-autodetect: yes
+        time-zone-name: Europe/Istanbul
+            gmt-offset: +03:00
+            dst-active: no

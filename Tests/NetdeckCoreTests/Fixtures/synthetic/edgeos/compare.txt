@@ -1,0 +1,5 @@
+compare
+[edit interfaces ethernet eth3]
++description Printer
+[edit]
+ubnt@er-x-lab# 

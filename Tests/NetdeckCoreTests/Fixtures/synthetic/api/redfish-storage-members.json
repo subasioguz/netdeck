@@ -1,0 +1,81 @@
+[
+  {
+    "@odata.id": "/redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1",
+    "@odata.type": "#Storage.v1_8_0.Storage",
+    "Description": "PERC H730P Mini",
+    "Drives": [
+      {
+        "@odata.id": "/redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1/Drives/Disk.Bay.0:Enclosure.Internal.0-1:RAID.Integrated.1-1"
+      },
+      {
+        "@odata.id": "/redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1/Drives/Disk.Bay.1:Enclosure.Internal.0-1:RAID.Integrated.1-1"
+      }
+    ],
+    "Drives@odata.count": 2,
+    "Id": "RAID.Integrated.1-1",
+    "Name": "PERC H730P Mini",
+    "Status": {
+      "Health": "OK",
+      "HealthRollup": "OK",
+      "State": "Enabled"
+    },
+    "StorageControllers": [
+      {
+        "@odata.id": "/redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1#/StorageControllers/0",
+        "FirmwareVersion": "25.5.9.0001",
+        "Model": "PERC H730P Mini",
+        "Name": "PERC H730P Mini",
+        "Status": {
+          "Health": "OK",
+          "HealthRollup": "OK",
+          "State": "Enabled"
+        }
+      }
+    ],
+    "Volumes": {
+      "@odata.id": "/redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1/Volumes"
+    }
+  },
+  {
+    "@odata.id": "/redfish/v1/Systems/System.Embedded.1/Storage/CPU.1",
+    "@odata.type": "#Storage.v1_8_0.Storage",
+    "Description": "CPU.1",
+    "Drives": [
+      {
+        "@odata.id": "/redfish/v1/Systems/System.Embedded.1/Storage/CPU.1/Drives/Disk.Bay.4:Enclosure.Internal.0-1"
+      }
+    ],
+    "Drives@odata.count": 1,
+    "Id": "CPU.1",
+    "Name": "CPU.1",
+    "Status": {
+      "Health": null,
+      "HealthRollup": "OK",
+      "State": "Enabled"
+    },
+    "StorageControllers": [],
+    "Volumes": {
+      "@odata.id": "/redfish/v1/Systems/System.Embedded.1/Storage/CPU.1/Volumes"
+    }
+  },
+  {
+    "@odata.id": "/redfish/v1/Systems/System.Embedded.1/Storage/AHCI.Embedded.1-1",
+    "@odata.type": "#Storage.v1_8_0.Storage",
+    "Description": "C620 Series Chipset SATA Controller",
+    "Drives": [],
+    "Drives@odata.count": 0,
+    "Id": "AHCI.Embedded.1-1",
+    "Name": "C620 Series Chipset SATA Controller",
+    "Status": {
+      "Health": null,
+      "HealthRollup": null,
+      "State": "Enabled"
+    },
+    "StorageControllers": [
+      {
+        "FirmwareVersion": "",
+        "Model": "C620 Series Chipset SATA Controller"
+      }
+    ]
+  }
+]

@@ -2,7 +2,7 @@ import Foundation
 import Observation
 
 /// One connected device as the UI sees it: state, staged edits and the safe apply flow
-/// (preview → commit confirmed → confirm / revert). All switch I/O goes through `JunosDriver`.
+/// (preview → timed apply → confirm / revert). All device I/O goes through a `DeviceDriver`.
 @MainActor
 @Observable
 public final class DeviceSession {
@@ -64,6 +64,10 @@ public final class DeviceSession {
     public private(set) var snapshot: SwitchSnapshot?
     public private(set) var portEdits: [String: PortEdit] = [:] { didSet { persistStaged() } }
     public private(set) var vlanEdits: [VLANEdit] = [] { didSet { persistStaged() } }
+    /// Staged rear QSFP+ role changes (EX4300). They run outside the safety timer.
+    public private(set) var rearEdits: [RearPortEdit] = [] { didSet { persistStaged() } }
+    /// What an HTTPS API device (server BMC, NAS) reported on the last read.
+    public private(set) var appliance: ApplianceSnapshot?
     public private(set) var preview: PreviewResult?
     public private(set) var pending: PendingCommit?
     public private(set) var backups: [BackupStore.Backup] = []
@@ -81,7 +85,9 @@ public final class DeviceSession {
     }
     public private(set) var trialEnd: TrialEnd?
 
-    private var driver: JunosDriver?
+    private var driver: (any DeviceDriver)?
+    /// Platform of the driver in use, so a parked serial session logs back in with the same driver.
+    private var driverPlatform: Platform?
     /// Serial consoles are physical ports anyone can walk up to, so Netdeck logs out after every
     /// operation and logs back in when it needs the switch again. `parked` = logged out on purpose.
     private var parked = false
@@ -120,16 +126,26 @@ public final class DeviceSession {
     // MARK: Derived
 
     public var plan: ChangePlan {
-        guard let config = snapshot?.config else { return ChangePlan(changes: []) }
+        guard let snapshot else { return ChangePlan(changes: []) }
         let ports = portEdits.values.sorted {
             InterfaceName.sortKey(SwitchSnapshot.slotKey($0.port)).lexicographicallyPrecedes(InterfaceName.sortKey(SwitchSnapshot.slotKey($1.port)))
         }
-        return ChangePlanner.plan(ports: ports, vlans: vlanEdits, config: config)
+        return Planner.plan(snapshot: snapshot, ports: ports, vlans: vlanEdits, rear: rearEdits)
     }
 
     public var pendingChangeCount: Int { plan.changes.count }
     /// Staged changes for badges: the planned count once the device has been read, else the stored edits.
-    public var stagedCount: Int { snapshot == nil ? portEdits.count + vlanEdits.count : pendingChangeCount }
+    public var stagedCount: Int { snapshot == nil ? portEdits.count + vlanEdits.count + rearEdits.count : pendingChangeCount }
+
+    /// How the device's platform handles changes (labels, history, timeout note).
+    public var changeTraits: ChangeTraits {
+        if let snapshot { return snapshot.changeTraits }
+        if appliance != nil { return .readOnly }
+        return (detection?.platform ?? profile.effectivePlatform ?? DriverFactory.fallbackPlatform(for: profile.connection.type)).changeTraits
+    }
+
+    /// The staged role for a rear QSFP+ port, if one is staged.
+    public func rearEdit(pic: Int, port: Int) -> RearPortEdit? { rearEdits.first { $0.pic == pic && $0.port == port } }
     public var isConnected: Bool { (driver != nil || parked) && phase != .disconnected }
     public var isBusy: Bool {
         if case .connecting = phase { return true }
@@ -144,19 +160,32 @@ public final class DeviceSession {
 
     // MARK: Connection
 
+    /// Platform to try first: the one the user picked, else the last one detected, else Junos.
+    private var preferredPlatform: Platform {
+        if let p = profile.platform, p != .unknown { return p }
+        if let p = profile.detected?.platform, p != .unknown, DriverFactory.supports(p, over: profile.connection.type) { return p }
+        return DriverFactory.fallbackPlatform(for: profile.connection.type)
+    }
+
     public func connect(password: String?) async {
         guard driver == nil, !parked else { await refresh(); return }
         lastError = nil
         phase = .connecting(step: t("Opening connection"), fraction: 0)
-        guard let transport = profile.makeTransport(password: password) else {
-            fail(CLIError.closed(t("This connection type is not supported yet.")))
+        await connect(platform: preferredPlatform, password: password, handoffs: 1)
+    }
+
+    /// Logs in with the platform's driver and reads. When the device turns out to be another platform
+    /// Netdeck has a driver for, logs out and starts again with that driver (`handoffs` times at most).
+    private func connect(platform: Platform, password: String?, handoffs: Int) async {
+        guard let d = DriverFactory.make(platform: platform, profile: profile, password: password) else {
+            fail(CLIError.closed(t("Netdeck can't connect to this device over %@.", profile.connection.type.title)))
             return
         }
-        let d = JunosDriver(transport: transport)
         do {
             phase = .connecting(step: t("Logging in"), fraction: 0.05)
             try await d.connect(username: profile.username, password: password)
             driver = d
+            driverPlatform = platform
             rememberedPassword = password
             try await load(reason: "on connect")
             phase = .ready
@@ -164,15 +193,30 @@ public final class DeviceSession {
         } catch let CLIError.unrecognizedPrompt(text) {
             await Self.logoutIgnoringCancellation(d)
             driver = nil
-            if let found = DeviceDetector.detect(text), found.platform != .juniperJunos {
-                remember(found)
-                phase = .unsupported(found)
-            } else {
+            driverPlatform = nil
+            guard let found = DeviceDetector.detect(text), found.platform != platform else {
                 fail(CLIError.unrecognizedPrompt(text))
+                return
             }
+            remember(found)
+            if handoffs > 0, !Task.isCancelled, DriverFactory.supports(found.platform, over: profile.connection.type) {
+                await connect(platform: found.platform, password: password, handoffs: handoffs - 1)
+            } else {
+                phase = .unsupported(found)
+            }
+        } catch DriverError.notSupported {
+            // The driver reached the device but it isn't one it can manage (e.g. not Cisco after all).
+            await Self.logoutIgnoringCancellation(d)
+            driver = nil
+            driverPlatform = nil
+            // A guess from the prompt alone (e.g. "Switch#" taken for IOS) didn't hold: an unknown device.
+            let unknown = Detection(platform: .unknown, kind: profile.kind)
+            remember(unknown)
+            phase = .unsupported(unknown)
         } catch {
             await Self.logoutIgnoringCancellation(d)
             driver = nil
+            driverPlatform = nil
             fail(error)
         }
     }
@@ -201,16 +245,23 @@ public final class DeviceSession {
 
     private func load(reason: String) async throws {
         guard let d = driver else { throw TransportError.notOpen }
-        let s = try await d.loadSnapshot { step in
+        let reading = try await d.read { step in
             Task { @MainActor in
                 self.phase = .connecting(step: step.title, fraction: 0.1 + 0.9 * Double(step.index) / Double(step.total))
             }
         }
+        let s: SwitchSnapshot
+        switch reading {
+        case let .appliance(a):
+            appliance = a
+            remember(a.detection)
+            return
+        case let .network(n):
+            s = n
+        }
         snapshot = s
-        remember(Detection(platform: .juniperJunos, model: s.hardware.model ?? s.version.model?.uppercased(),
-                           osVersion: s.version.junos, hostname: s.hostname,
-                           kind: (s.hardware.model ?? s.version.model).flatMap(DeviceDetector.junosKind),
-                           serial: s.hardware.serial))
+        remember(Detection(platform: s.platform, model: s.model, osVersion: s.osVersion, hostname: s.hostname,
+                           kind: s.kind, serial: s.hardware.serial))
         _ = try? backupStore.save(configText: s.configText, reason: reason)
         backups = (try? backupStore.list()) ?? []
         pruneNoOpEdits()
@@ -235,9 +286,10 @@ public final class DeviceSession {
     }
 
     private func relogin() async -> Bool {
-        guard let transport = profile.makeTransport(password: rememberedPassword) else { return false }
+        guard let d = DriverFactory.make(platform: driverPlatform ?? preferredPlatform, profile: profile, password: rememberedPassword) else {
+            return false
+        }
         phase = .working(t("Logging in"))
-        let d = JunosDriver(transport: transport)
         do {
             try await d.connect(username: profile.username, password: rememberedPassword)
             driver = d
@@ -260,7 +312,7 @@ public final class DeviceSession {
 
     /// Logout must finish even if the calling task was cancelled, or the console is left half-way
     /// through a login (e.g. at "Password:").
-    static func logoutIgnoringCancellation(_ d: JunosDriver) async {
+    static func logoutIgnoringCancellation(_ d: any DeviceDriver) async {
         await Task { await d.disconnect() }.value
     }
 
@@ -272,8 +324,9 @@ public final class DeviceSession {
         await withDevice { await self.runPreviewNow() }
     }
 
-    public func apply(confirmMinutes: Int = 5, note: String? = nil) async {
-        await withDevice { await self.applyNow(confirmMinutes: confirmMinutes, note: note) }
+    /// `acknowledgedUntimed` must be true when the plan has commands the timer can't undo (§3.8).
+    public func apply(confirmMinutes: Int = 5, note: String? = nil, acknowledgedUntimed: Bool = false) async {
+        await withDevice { await self.applyNow(confirmMinutes: confirmMinutes, note: note, acknowledgedUntimed: acknowledgedUntimed) }
     }
 
     public func confirm() async {
@@ -329,6 +382,20 @@ public final class DeviceSession {
         preview = nil
     }
 
+    /// Stages a rear QSFP+ role; staging the current role again removes the staged change.
+    public func stage(_ edit: RearPortEdit) {
+        rearEdits.removeAll { $0.pic == edit.pic && $0.port == edit.port }
+        if snapshot?.rearPorts.first(where: { $0.pic == edit.pic && $0.port == edit.port })?.role != edit.role {
+            rearEdits.append(edit)
+        }
+        preview = nil
+    }
+
+    public func unstageRear(pic: Int, port: Int) {
+        rearEdits.removeAll { $0.pic == pic && $0.port == port }
+        preview = nil
+    }
+
     public func unstageVLAN(at index: Int) {
         guard vlanEdits.indices.contains(index) else { return }
         vlanEdits.remove(at: index)
@@ -338,27 +405,31 @@ public final class DeviceSession {
     public func discardStaged() {
         portEdits = [:]
         vlanEdits = []
+        rearEdits = []
         preview = nil
     }
 
     private func pruneNoOpEdits() {
-        guard let config = snapshot?.config else { return }
-        for (port, e) in portEdits where ChangePlanner.plan(ports: [e], vlans: [], config: config).isEmpty {
+        guard let snapshot else { return }
+        for (port, e) in portEdits where Planner.plan(snapshot: snapshot, ports: [e], vlans: []).isEmpty {
             portEdits[port] = nil
         }
+        let rear = rearEdits.filter { e in snapshot.rearPorts.first { $0.pic == e.pic && $0.port == e.port }?.role != e.role }
+        if rear != rearEdits { rearEdits = rear }
     }
 
     /// Writes the staged edits to disk (or removes the file when nothing is staged).
     private func persistStaged() {
         guard let stagedStore else { return }
         let ports = portEdits.values.sorted { $0.port < $1.port }
-        try? stagedStore.save(StagedEdits(ports: ports, vlans: vlanEdits), deviceID: profile.id)
+        try? stagedStore.save(StagedEdits(ports: ports, vlans: vlanEdits, rear: rearEdits), deviceID: profile.id)
     }
 
     private func restoreStaged() {
         guard let saved = stagedStore?.load(deviceID: profile.id), !saved.isEmpty else { return }
         portEdits = Dictionary(saved.ports.map { ($0.port, $0) }, uniquingKeysWith: { _, last in last })
         vlanEdits = saved.vlans
+        rearEdits = saved.rear
     }
 
     // MARK: Apply flow
@@ -366,11 +437,15 @@ public final class DeviceSession {
     /// Asks the switch for its own diff and a `commit check` without committing anything.
     private func runPreviewNow() async {
         guard let d = driver else { return }
-        let cmds = plan.commands
-        guard !cmds.isEmpty else { return }
-        phase = .working(t("The switch is checking the changes"))
+        let p = plan
+        guard !p.commands.isEmpty else {
+            // Only untimed commands (rear port roles): nothing for the device to check in advance.
+            if !p.operationalCommands.isEmpty { preview = PreviewResult(diff: "", checkPassed: true, checkOutput: "") }
+            return
+        }
+        phase = .working(t("The device is checking the changes"))
         do {
-            preview = try await d.preview(cmds)
+            preview = try await d.preview(p)
             foreignCandidateDiff = nil
             phase = .ready
         } catch let DriverError.candidateDirty(diff) {
@@ -380,21 +455,27 @@ public final class DeviceSession {
     }
 
     /// Applies staged changes with a confirm timer. Nothing is final until `confirm()`.
-    private func applyNow(confirmMinutes: Int = 5, note: String? = nil) async {
+    private func applyNow(confirmMinutes: Int = 5, note: String? = nil, acknowledgedUntimed: Bool = false) async {
         guard let d = driver, let s = snapshot else { return }
         let p = plan
-        guard !p.isEmpty else { return }
+        guard !p.isEmpty, !p.hasUntimedPart || acknowledgedUntimed else { return }
         phase = .working(t("Applying changes"))
         trialEnd = nil
         let comment = Self.commitComment(for: p, note: note)
         do {
             _ = try? backupStore.save(configText: s.configText, reason: "before change")
-            let r = try await d.apply(p.commands, confirmMinutes: confirmMinutes, comment: String(comment))
-            pending = PendingCommit(comment: String(comment), appliedAt: r.appliedAt, deadline: r.deadline,
-                                    summary: p.changes.map { "\($0.subject): \($0.summary)" })
-            beforeTrial = (s, portEdits, vlanEdits)
+            if !p.commands.isEmpty {
+                let r = try await d.apply(p, confirmMinutes: confirmMinutes, comment: String(comment))
+                pending = PendingCommit(comment: String(comment), appliedAt: r.appliedAt, deadline: r.deadline,
+                                        summary: p.changes.filter { !$0.outsideTimer }.map { "\($0.subject): \($0.summary)" })
+                beforeTrial = (s, portEdits, vlanEdits)
+            }
+            if !p.operationalCommands.isEmpty {
+                phase = .working(t("Changing port roles"))
+                try await d.runOperational(p)
+            }
             discardStaged()
-            try await load(reason: "applied, awaiting confirmation")
+            try await load(reason: p.commands.isEmpty ? "port roles changed" : "applied, awaiting confirmation")
             phase = .ready
         } catch let DriverError.candidateDirty(diff) {
             foreignCandidateDiff = diff
@@ -453,7 +534,7 @@ public final class DeviceSession {
     /// Diff between an older commit and the active config, as printed by the switch.
     private func compareNow(rollback index: Int) async -> String {
         guard let d = driver else { return "" }
-        return (try? await d.compare(rollback: index)) ?? ""
+        return (try? await d.compare(rollback: index, to: 0)) ?? ""
     }
 
     /// Diff between two commits (`show system rollback compare older newer`); read-only.
@@ -588,6 +669,13 @@ public final class DeviceSession {
     public func setOfflineSnapshot(_ s: SwitchSnapshot?) {
         guard driver == nil else { return }
         snapshot = s
+    }
+
+    /// Offline sessions only (renders, previews): shows an appliance reading without a device.
+    public func setOfflineAppliance(_ a: ApplianceSnapshot?) {
+        guard driver == nil else { return }
+        appliance = a
+        if let a { detection = a.detection; detectedAt = .now; phase = .ready }
     }
 
     /// Offline sessions only (the sample switch, renders): ends a simulated trial. Confirming shows the

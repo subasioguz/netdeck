@@ -1,0 +1,62 @@
+[
+  {
+    "@odata.id": "/redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1/Drives/Disk.Bay.0:Enclosure.Internal.0-1:RAID.Integrated.1-1",
+    "@odata.type": "#Drive.v1_9_0.Drive",
+    "BlockSizeBytes": 512,
+    "CapableSpeedGbs": 6,
+    "CapacityBytes": 479559942144,
+    "Description": "Disk Disk.Bay.0:Enclosure.Internal.0-1:RAID.Integrated.1-1",
+    "Id": "Disk.Bay.0:Enclosure.Internal.0-1:RAID.Integrated.1-1",
+    "Manufacturer": "MZ7KH480HAHQ0D3",
+    "MediaType": "SSD",
+    "Model": "MZ7KH480HAHQ0D3",
+    "Name": "Physical Disk 0:1:0",
+    "Protocol": "SATA",
+    "SerialNumber": "TEST0000011",
+    "PredictedMediaLifeLeftPercent": 99,
+    "Status": {
+      "Health": "OK",
+      "State": "Enabled"
+    }
+  },
+  {
+    "@odata.id": "/redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1/Drives/Disk.Bay.1:Enclosure.Internal.0-1:RAID.Integrated.1-1",
+    "@odata.type": "#Drive.v1_9_0.Drive",
+    "BlockSizeBytes": 512,
+    "CapableSpeedGbs": 6,
+    "CapacityBytes": 479559942144,
+    "Description": "Disk Disk.Bay.1:Enclosure.Internal.0-1:RAID.Integrated.1-1",
+    "Id": "Disk.Bay.1:Enclosure.Internal.0-1:RAID.Integrated.1-1",
+    "Manufacturer": "MZ7KH480HAHQ0D3",
+    "MediaType": "SSD",
+    "Model": "MZ7KH480HAHQ0D3",
+    "Name": "Physical Disk 0:1:1",
+    "Protocol": "SATA",
+    "SerialNumber": "TEST0000012",
+    "PredictedMediaLifeLeftPercent": 99,
+    "Status": {
+      "Health": "Warning",
+      "State": "Enabled"
+    }
+  },
+  {
+    "@odata.id": "/redfish/v1/Systems/System.Embedded.1/Storage/CPU.1/Drives/Disk.Bay.4:Enclosure.Internal.0-1",
+    "@odata.type": "#Drive.v1_9_0.Drive",
+    "BlockSizeBytes": 512,
+    "CapableSpeedGbs": 6,
+    "CapacityBytes": 1600321314816,
+    "Description": "Disk Disk.Bay.4:Enclosure.Internal.0-1",
+    "Id": "Disk.Bay.4:Enclosure.Internal.0-1",
+    "Manufacturer": "Dell",
+    "MediaType": "SSD",
+    "Model": "Dell Ent NVMe P5600 MU U.2 1.6TB",
+    "Name": "PCIe SSD in Slot 4 in Bay 1",
+    "Protocol": "NVMe",
+    "SerialNumber": "TEST0000013",
+    "PredictedMediaLifeLeftPercent": 99,
+    "Status": {
+      "Health": "OK",
+      "State": "Enabled"
+    }
+  }
+]

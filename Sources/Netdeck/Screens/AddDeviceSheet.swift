@@ -364,7 +364,7 @@ struct AddDeviceSheet: View {
         VStack(spacing: 6) {
             option(.serial, t("Serial console"), t("USB serial cable to the console port. No network needed."))
             option(.ssh, t("SSH"), t("Over the network, through the management port."))
-            option(.api, t("API (HTTPS)"), t("Redfish or REST · iDRAC, IPMI, NAS"))
+            option(.api, t("API (HTTPS)"), t("Redfish or REST · iDRAC, Synology, TrueNAS"))
         }
     }
 
@@ -373,7 +373,6 @@ struct AddDeviceSheet: View {
         let note: String? = {
             switch availability {
             case .available: return nil
-            case .comingSoon: return t("Coming soon")
             case .notAvailable: return t("Not available for this type")
             }
         }()
@@ -557,8 +556,11 @@ struct AddDeviceSheet: View {
                     Text(t("%@ · %@ · recognized as a %@", vendorModel(found), osLine(found),
                            (found.kind ?? form.kind).title.lowercased(with: L10n.locale)))
                         .font(.system(size: 13.5, weight: .semibold)).foregroundStyle(Theme.text1)
-                    Text(t("Hostname %@ · serial %@ · full support: front panel, ports, VLANs, history",
-                           found.hostname ?? "—", found.serial ?? form.session?.snapshot?.hardware.serial ?? "—"))
+                    Text(found.platform.isAppliance
+                         ? t("Hostname %@ · serial %@ · health, storage and sensors, read only",
+                             found.hostname ?? "—", found.serial ?? "—")
+                         : t("Hostname %@ · serial %@ · full support: front panel, ports, VLANs, history",
+                             found.hostname ?? "—", found.serial ?? form.session?.snapshot?.hardware.serial ?? "—"))
                         .font(Typo.caption).foregroundStyle(Theme.text2)
                 }
                 .fixedSize(horizontal: false, vertical: true)
@@ -571,7 +573,7 @@ struct AddDeviceSheet: View {
                 TypeTile(kind: found.kind ?? form.kind, size: 40, dark: true)
                 VStack(alignment: .leading, spacing: 3) {
                     Text(t("%@ recognized", vendorModel(found))).font(.system(size: 13.5, weight: .semibold)).foregroundStyle(Theme.text1)
-                    Text(t("%@ · full support for this brand is coming soon · basic information will be shown", osLine(found)))
+                    Text(t("%@ · Netdeck shows basic information for this device", osLine(found)))
                         .font(Typo.caption).foregroundStyle(Theme.text2)
                     HStack(spacing: 8) {
                         miniTile(t("Model"), found.model ?? "—")
@@ -625,7 +627,7 @@ struct AddDeviceSheet: View {
     private func vendorModel(_ d: Detection) -> String { d.platform.vendor + (d.model.map { " " + $0 } ?? "") }
 
     /// "Junos 21.2R3.8", "RouterOS 7.16".
-    private func osLine(_ d: Detection) -> String { d.platform.osName + (d.osVersion.map { " " + $0 } ?? "") }
+    private func osLine(_ d: Detection) -> String { d.osLine ?? d.platform.osName }
 
     // MARK: Footer
 
@@ -785,18 +787,22 @@ private struct PickTile: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+        .disabled(support == .planned)
+        .opacity(support == .planned ? 0.5 : 1)
         .accessibilityAddTraits(selected ? .isSelected : [])
     }
 
+    @ViewBuilder
     private var pill: some View {
-        let (text, kind): (String, PillKind) = {
-            switch support {
-            case .full: return (t("Supported"), .good)
-            case .basic: return (t("Basic"), .outline)
-            case .planned: return (t("Coming soon"), .neutral)
-            }
-        }()
-        return Text(text).font(.system(size: 10.5, weight: .medium)).lineLimit(1)
+        switch support {
+        case .full: pillText(t("Supported"), .good)
+        case .basic: pillText(t("Basic"), .outline)
+        case .planned: EmptyView()   // not offered; the tile is disabled
+        }
+    }
+
+    private func pillText(_ text: String, _ kind: PillKind) -> some View {
+        Text(text).font(.system(size: 10.5, weight: .medium)).lineLimit(1)
             .foregroundStyle(kind == .good ? Theme.goodInk : Theme.text2)
             .padding(.horizontal, 6).frame(height: 18)
             .background(Capsule().fill(kind == .good ? Theme.goodSoft : (kind == .neutral ? Theme.surface3 : .clear)))

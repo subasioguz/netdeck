@@ -1,0 +1,58 @@
+show configuration commands
+set firewall all-ping enable
+set firewall broadcast-ping disable
+set firewall name WAN_IN default-action drop
+set firewall name WAN_IN description 'WAN to internal'
+set firewall name WAN_IN rule 10 action accept
+set firewall name WAN_IN rule 10 description 'Allow established/related'
+set firewall name WAN_IN rule 10 state established enable
+set firewall name WAN_IN rule 10 state related enable
+set interfaces ethernet eth0 address 203.0.113.10/24
+set interfaces ethernet eth0 address 2001:db8::10/64
+set interfaces ethernet eth0 description 'WAN uplink'
+set interfaces ethernet eth0 duplex auto
+set interfaces ethernet eth0 firewall in name WAN_IN
+set interfaces ethernet eth0 speed auto
+set interfaces ethernet eth1 description 'Office desk'
+set interfaces ethernet eth1 duplex auto
+set interfaces ethernet eth1 speed auto
+set interfaces ethernet eth2 description 'AP trunk'
+set interfaces ethernet eth2 duplex auto
+set interfaces ethernet eth2 speed auto
+set interfaces ethernet eth3 duplex auto
+set interfaces ethernet eth3 speed auto
+set interfaces ethernet eth4 description Spare
+set interfaces ethernet eth4 disable
+set interfaces ethernet eth4 duplex auto
+set interfaces ethernet eth4 poe output off
+set interfaces ethernet eth4 speed auto
+set interfaces loopback lo
+set interfaces switch switch0 address 192.0.2.1/24
+set interfaces switch switch0 description Local
+set interfaces switch switch0 mtu 1500
+set interfaces switch switch0 switch-port interface eth1 vlan pvid 10
+set interfaces switch switch0 switch-port interface eth2 vlan pvid 10
+set interfaces switch switch0 switch-port interface eth2 vlan vid 20
+set interfaces switch switch0 switch-port interface eth2 vlan vid 30
+set interfaces switch switch0 switch-port interface eth3
+set interfaces switch switch0 switch-port interface eth4
+set interfaces switch switch0 switch-port vlan-aware enable
+set interfaces switch switch0 vif 10 address 198.51.100.1/25
+set interfaces switch switch0 vif 10 description 'Staff LAN'
+set interfaces switch switch0 vif 20 address 198.51.100.129/25
+set interfaces switch switch0 vif 20 description Guest
+set protocols static route 0.0.0.0/0 next-hop 203.0.113.1
+set service dhcp-server disabled false
+set service dhcp-server shared-network-name STAFF authoritative enable
+set service dhcp-server shared-network-name STAFF subnet 198.51.100.0/25 default-router 198.51.100.1
+set service dhcp-server shared-network-name STAFF subnet 198.51.100.0/25 start 198.51.100.20 stop 198.51.100.120
+set service gui http-port 80
+set service gui https-port 443
+set service lldp interface all
+set service ssh port 22
+set system config-management commit-revisions 5
+set system host-name er-x-lab
+set system login user ubnt level admin
+set system ntp server 0.ubnt.pool.ntp.org
+set system time-zone UTC
+ubnt@er-x-lab:~$ 

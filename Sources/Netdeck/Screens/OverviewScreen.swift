@@ -33,8 +33,7 @@ struct OverviewScreen: View {
                     let locs = model.groupByLocation ? model.locations : [t("Devices")]
                     ForEach(Array(locs.enumerated()), id: \.element) { i, loc in
                         let devices = model.groupByLocation ? model.devices(in: loc) : model.devices
-                        LocationSection(name: loc, devices: devices, showsPlaceholders: i == 0,
-                                        neighbour: model.devices.first?.name ?? "")
+                        LocationSection(name: loc, devices: devices, neighbour: model.devices.first?.name ?? "")
                     }
                     SerialCablesCard()
                 }
@@ -48,7 +47,6 @@ struct LocationSection: View {
     @Environment(AppModel.self) private var model
     var name: String
     var devices: [DeviceProfile]
-    var showsPlaceholders: Bool
     var neighbour: String
 
     var body: some View {
@@ -81,18 +79,7 @@ struct LocationSection: View {
                     .strokeBorder(Theme.borderStrong, style: StrokeStyle(lineWidth: 1.5, dash: [5, 4])))
                 .deviceDrop { ids in ids.forEach { model.move($0, to: name) }; return true }
             } else {
-                HStack(alignment: .top, spacing: 12) {
-                    VStack(spacing: 12) { ForEach(devices) { DeviceCard(device: $0) } }
-                    if showsPlaceholders {
-                        VStack(spacing: 12) {
-                            ComingSoonCard(kind: .router, title: t("Router"),
-                                           text: t("Watch and manage your gateway and internet connection from here too."), button: t("Add router"))
-                            ComingSoonCard(kind: .storage, title: t("Storage (NAS)"), text: t("Disk health, shares and backups at a glance."),
-                                           button: t("Add storage"))
-                        }
-                        .frame(width: 236)
-                    }
-                }
+                VStack(spacing: 12) { ForEach(devices) { DeviceCard(device: $0) } }
             }
         }
     }
@@ -105,13 +92,14 @@ struct DeviceCard: View {
     var body: some View {
         let session = model.session(for: device.id)
         let snap = session?.snapshot
+        let appliance = session?.appliance
         let waiting = session?.pending != nil
         VStack(alignment: .leading, spacing: 14) {
             HStack(spacing: 12) {
                 TypeTile(kind: device.kind, size: 40, dark: true)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(device.name).font(.system(size: 16, weight: .semibold)).foregroundStyle(Theme.text1)
-                    Text([snap?.model, snap?.version.junos.map { "Junos \($0)" }].compactMap { $0 }.joined(separator: " · "))
+                    Text(cardSubtitle(snap: snap, appliance: appliance))
                         .font(Typo.caption).foregroundStyle(Theme.text3)
                 }
                 Spacer()
@@ -119,8 +107,12 @@ struct DeviceCard: View {
             }
             ZStack {
                 StageBackground(radius: 12)
-                if let snap, let session {
-                    FrontPanelView(model: snap.model, vendor: "Juniper", hostname: device.name,
+                if model.isAppliance(device.id) {
+                    RoundedRectangle(cornerRadius: 16, style: .continuous).fill(Theme.darkTile).frame(width: 64, height: 64)
+                        .overlay(Image(systemName: device.kind.symbol).font(.system(size: 26, weight: .medium)).foregroundStyle(Theme.onDarkTile))
+                        .opacity(appliance == nil ? 0.5 : 1)
+                } else if let snap, let session {
+                    FrontPanelView(model: snap.model, vendor: snap.platform.vendor, hostname: device.name,
                                    ports: PanelBuilder.ports(snapshot: snap, session: session, colors: model.colors(for: device.id)))
                         .padding(.horizontal, 24).padding(.vertical, 14)
                         .allowsHitTesting(false)
@@ -130,7 +122,14 @@ struct DeviceCard: View {
                 }
             }
             .frame(height: 150)
-            if let snap {
+            if let appliance {
+                HStack(spacing: 8) {
+                    metric(healthWord(appliance.worstHealth), t("health"), warn: appliance.worstHealth >= .warning)
+                    metric(appliance.power == .unknown ? "—" : (appliance.power == .on ? t("On") : t("Off")), t("power"))
+                    metric(String(appliance.disks.count), t("disks"))
+                    metric(String(appliance.alerts.count), t("alerts"), warn: !appliance.alerts.isEmpty)
+                }
+            } else if let snap {
                 let st = PortStats(snap)
                 HStack(spacing: 8) {
                     metric("\(st.enabled) / \(st.total)", t("enabled ports"))
@@ -141,11 +140,11 @@ struct DeviceCard: View {
                 }
             }
             HStack {
-                Text(t("Last read %@ · Last backup %@", snap.map { Format.relativeDay($0.takenAt) } ?? "—",
+                Text(t("Last read %@ · Last backup %@", (snap?.takenAt ?? appliance?.takenAt).map { Format.relativeDay($0) } ?? "—",
                        session?.backups.first.map { Format.relativeDay($0.date) } ?? "—"))
                     .font(Typo.caption).foregroundStyle(Theme.text3)
                 Spacer()
-                Button { model.selection = .device(device.id, .ports) } label: {
+                Button { model.selection = .device(device.id, model.isAppliance(device.id) || model.isBasic(device.id) ? .overview : .ports) } label: {
                     HStack(spacing: 4) { Text(t("Open")); Image(systemName: "arrow.right") }
                 }
                 .buttonStyle(SecondaryButtonStyle())
@@ -154,6 +153,20 @@ struct DeviceCard: View {
         .padding(18)
         .card()
         .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).strokeBorder(waiting ? Theme.warnLine : .clear, lineWidth: 1.5))
+    }
+
+    private func cardSubtitle(snap: SwitchSnapshot?, appliance: ApplianceSnapshot?) -> String {
+        if let appliance { return [appliance.model, appliance.osVersion].compactMap { $0 }.joined(separator: " · ") }
+        return [snap?.model, snap.flatMap { s in s.osVersion.map { "\(s.platform.osName) \($0)" } }].compactMap { $0 }.joined(separator: " · ")
+    }
+
+    private func healthWord(_ h: ApplianceSnapshot.Health) -> String {
+        switch h {
+        case .ok: return t("Healthy")
+        case .warning: return t("Warning")
+        case .critical: return t("Critical")
+        case .unknown: return t("Unknown")
+        }
     }
 
     private func metric(_ value: String, _ label: String, warn: Bool = false, accent: Bool = false) -> some View {
@@ -166,31 +179,6 @@ struct DeviceCard: View {
         .padding(.horizontal, 12).padding(.vertical, 9)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(RoundedRectangle(cornerRadius: 10, style: .continuous).fill(Theme.surface2))
-    }
-}
-
-/// Not-yet-supported kinds (§3.1). Hidden in App Store builds (§10.6).
-struct ComingSoonCard: View {
-    var kind: DeviceKind
-    var title: String
-    var text: String
-    var button: String
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                TypeTile(kind: kind, size: 36)
-                Spacer()
-                Pill(text: t("Coming soon"), kind: .neutral)
-            }
-            Text(title).font(Typo.cardTitle).foregroundStyle(Theme.text1)
-            Text(text).font(Typo.caption).foregroundStyle(Theme.text2).fixedSize(horizontal: false, vertical: true)
-            Spacer(minLength: 0)
-            Button { } label: { Label(button, systemImage: "plus") }.buttonStyle(SecondaryButtonStyle()).disabled(true)
-        }
-        .padding(16)
-        .frame(maxWidth: .infinity, minHeight: 186, alignment: .topLeading)
-        .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).strokeBorder(Theme.borderStrong, lineWidth: 1.5))
     }
 }
 

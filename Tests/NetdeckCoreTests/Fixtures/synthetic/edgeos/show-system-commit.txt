@@ -1,0 +1,6 @@
+show system commit
+0   2024-03-01 10:00:00 by ubnt via cli
+1   2024-02-28 16:42:10 by ubnt via cli
+    Guest VLAN
+2   2024-02-20 09:15:33 by root via init
+ubnt@er-x-lab:~$ 

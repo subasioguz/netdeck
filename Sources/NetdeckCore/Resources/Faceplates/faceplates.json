@@ -1,0 +1,4693 @@
+[
+ {
+  "model": "EX2300-24T",
+  "match": [
+   "EX2300-24T",
+   "EX2300-24P",
+   "EX2300-24T-DC"
+  ],
+  "vendor": "Juniper",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "rj45",
+    "names": "ge-0/0/0..23",
+    "rows": 2,
+    "order": "top-even",
+    "block": 12,
+    "position": "center",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23"
+    ]
+   },
+   {
+    "kind": "sfp+",
+    "names": "xe-0/1/0..3",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3"
+    ]
+   },
+   {
+    "kind": "console-usb",
+    "position": "right",
+    "label": "CON"
+   }
+  ]
+ },
+ {
+  "model": "EX2300-48T",
+  "match": [
+   "EX2300-48T",
+   "EX2300-48P"
+  ],
+  "vendor": "Juniper",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "rj45",
+    "names": "ge-0/0/0..47",
+    "rows": 2,
+    "order": "top-even",
+    "block": 12,
+    "position": "left",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30",
+     "31",
+     "32",
+     "33",
+     "34",
+     "35",
+     "36",
+     "37",
+     "38",
+     "39",
+     "40",
+     "41",
+     "42",
+     "43",
+     "44",
+     "45",
+     "46",
+     "47"
+    ]
+   },
+   {
+    "kind": "sfp+",
+    "names": "xe-0/1/0..3",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3"
+    ]
+   },
+   {
+    "kind": "console-usb",
+    "position": "right",
+    "label": "CON"
+   }
+  ]
+ },
+ {
+  "model": "EX2300-C-12P",
+  "match": [
+   "EX2300-C-12P",
+   "EX2300-C-12T"
+  ],
+  "vendor": "Juniper",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "rj45",
+    "names": "ge-0/0/0..11",
+    "rows": 2,
+    "order": "top-even",
+    "block": 0,
+    "position": "left",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11"
+    ]
+   },
+   {
+    "kind": "sfp+",
+    "names": "xe-0/1/0..1",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "center",
+    "labels": [
+     "0",
+     "1"
+    ]
+   },
+   {
+    "kind": "usb",
+    "position": "center",
+    "label": ""
+   },
+   {
+    "kind": "mgmt-rj45",
+    "position": "right",
+    "label": "MGMT"
+   },
+   {
+    "kind": "console-rj45",
+    "position": "right",
+    "label": "CON"
+   },
+   {
+    "kind": "console-usb",
+    "position": "right",
+    "label": "CON"
+   }
+  ]
+ },
+ {
+  "model": "EX3400-24T",
+  "match": [
+   "EX3400-24T",
+   "EX3400-24P",
+   "EX3400-24T-DC"
+  ],
+  "vendor": "Juniper",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "rj45",
+    "names": "ge-0/0/0..23",
+    "rows": 2,
+    "order": "top-even",
+    "block": 12,
+    "position": "center",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23"
+    ]
+   },
+   {
+    "kind": "sfp+",
+    "names": "xe-0/2/0..3",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3"
+    ]
+   },
+   {
+    "kind": "console-usb",
+    "position": "right",
+    "label": "CON"
+   }
+  ]
+ },
+ {
+  "model": "EX3400-48T",
+  "match": [
+   "EX3400-48T",
+   "EX3400-48P",
+   "EX3400-48T-AFI",
+   "EX3400-48T-DC"
+  ],
+  "vendor": "Juniper",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "rj45",
+    "names": "ge-0/0/0..47",
+    "rows": 2,
+    "order": "top-even",
+    "block": 12,
+    "position": "left",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30",
+     "31",
+     "32",
+     "33",
+     "34",
+     "35",
+     "36",
+     "37",
+     "38",
+     "39",
+     "40",
+     "41",
+     "42",
+     "43",
+     "44",
+     "45",
+     "46",
+     "47"
+    ]
+   },
+   {
+    "kind": "sfp+",
+    "names": "xe-0/2/0..3",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3"
+    ]
+   },
+   {
+    "kind": "console-usb",
+    "position": "right",
+    "label": "CON"
+   }
+  ]
+ },
+ {
+  "model": "EX4100-24T",
+  "match": [
+   "EX4100-24T",
+   "EX4100-24P"
+  ],
+  "vendor": "Juniper",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "rj45",
+    "names": "ge-0/0/0..23",
+    "rows": 2,
+    "order": "top-even",
+    "block": 16,
+    "position": "center",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23"
+    ],
+    "blockSizes": [
+     8,
+     16
+    ]
+   },
+   {
+    "kind": "sfp28",
+    "names": "et-0/1/0..3",
+    "rows": 2,
+    "order": "top-even",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3"
+    ]
+   },
+   {
+    "kind": "sfp+",
+    "names": "xe-0/2/0..3",
+    "rows": 2,
+    "order": "top-even",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3"
+    ]
+   },
+   {
+    "kind": "console-usb",
+    "position": "right",
+    "label": "CON"
+   }
+  ]
+ },
+ {
+  "model": "EX4100-48T",
+  "match": [
+   "EX4100-48T",
+   "EX4100-48P"
+  ],
+  "vendor": "Juniper",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "rj45",
+    "names": "ge-0/0/0..47",
+    "rows": 2,
+    "order": "top-even",
+    "block": 16,
+    "position": "left",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30",
+     "31",
+     "32",
+     "33",
+     "34",
+     "35",
+     "36",
+     "37",
+     "38",
+     "39",
+     "40",
+     "41",
+     "42",
+     "43",
+     "44",
+     "45",
+     "46",
+     "47"
+    ]
+   },
+   {
+    "kind": "sfp28",
+    "names": "et-0/1/0..3",
+    "rows": 2,
+    "order": "top-even",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3"
+    ]
+   },
+   {
+    "kind": "sfp+",
+    "names": "xe-0/2/0..3",
+    "rows": 2,
+    "order": "top-even",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3"
+    ]
+   },
+   {
+    "kind": "console-usb",
+    "position": "right",
+    "label": "CON"
+   }
+  ]
+ },
+ {
+  "model": "EX4100-F-12T",
+  "match": [
+   "EX4100-F-12T",
+   "EX4100-F-12P"
+  ],
+  "vendor": "Juniper",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "rj45",
+    "names": "ge-0/0/0..11",
+    "rows": 2,
+    "order": "top-even",
+    "block": 0,
+    "position": "center",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11"
+    ]
+   },
+   {
+    "kind": "sfp+",
+    "names": "xe-0/1/0..3",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "12",
+     "13",
+     "14",
+     "15"
+    ]
+   },
+   {
+    "kind": "console-usb",
+    "position": "right",
+    "label": "CON"
+   }
+  ]
+ },
+ {
+  "model": "EX4100-F-24T",
+  "match": [
+   "EX4100-F-24T",
+   "EX4100-F-24P"
+  ],
+  "vendor": "Juniper",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "rj45",
+    "names": "ge-0/0/0..23",
+    "rows": 2,
+    "order": "top-even",
+    "block": 16,
+    "position": "center",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23"
+    ],
+    "blockSizes": [
+     8,
+     16
+    ]
+   },
+   {
+    "kind": "sfp+",
+    "names": "xe-0/1/0..3",
+    "rows": 2,
+    "order": "top-even",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3"
+    ]
+   },
+   {
+    "kind": "sfp+",
+    "names": "xe-0/2/0..3",
+    "rows": 2,
+    "order": "top-even",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3"
+    ]
+   },
+   {
+    "kind": "console-usb",
+    "position": "right",
+    "label": "CON"
+   }
+  ]
+ },
+ {
+  "model": "EX4100-F-48T",
+  "match": [
+   "EX4100-F-48T",
+   "EX4100-F-48P"
+  ],
+  "vendor": "Juniper",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "rj45",
+    "names": "ge-0/0/0..47",
+    "rows": 2,
+    "order": "top-even",
+    "block": 16,
+    "position": "left",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30",
+     "31",
+     "32",
+     "33",
+     "34",
+     "35",
+     "36",
+     "37",
+     "38",
+     "39",
+     "40",
+     "41",
+     "42",
+     "43",
+     "44",
+     "45",
+     "46",
+     "47"
+    ]
+   },
+   {
+    "kind": "sfp+",
+    "names": "xe-0/1/0..3",
+    "rows": 2,
+    "order": "top-even",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3"
+    ]
+   },
+   {
+    "kind": "sfp+",
+    "names": "xe-0/2/0..3",
+    "rows": 2,
+    "order": "top-even",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3"
+    ]
+   },
+   {
+    "kind": "console-usb",
+    "position": "right",
+    "label": "CON"
+   }
+  ]
+ },
+ {
+  "model": "EX4300-32F",
+  "match": [
+   "EX4300-32F",
+   "EX4300-32F-DC"
+  ],
+  "vendor": "Juniper",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "module-slot",
+    "position": "left",
+    "label": "EX-UM-2QSFP"
+   },
+   {
+    "kind": "sfp",
+    "names": "ge-0/0/0..31",
+    "rows": 2,
+    "order": "top-even",
+    "block": 8,
+    "position": "center",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30",
+     "31"
+    ]
+   },
+   {
+    "kind": "console-usb",
+    "position": "right",
+    "label": ""
+   },
+   {
+    "kind": "sfp+",
+    "names": "xe-0/0/32..35",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "EX4300-48MP",
+  "match": [
+   "EX4300-48MP",
+   "EX4300-48MP-S"
+  ],
+  "vendor": "Juniper",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "rj45",
+    "names": "ge-0/0/0..23",
+    "rows": 2,
+    "order": "top-even",
+    "block": 12,
+    "position": "left",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23"
+    ]
+   },
+   {
+    "kind": "rj45",
+    "names": "mge-0/0/24..47",
+    "rows": 2,
+    "order": "top-even",
+    "block": 12,
+    "position": "center",
+    "labels": [
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30",
+     "31",
+     "32",
+     "33",
+     "34",
+     "35",
+     "36",
+     "37",
+     "38",
+     "39",
+     "40",
+     "41",
+     "42",
+     "43",
+     "44",
+     "45",
+     "46",
+     "47"
+    ]
+   },
+   {
+    "kind": "console-usb",
+    "position": "right",
+    "label": ""
+   },
+   {
+    "kind": "module-slot",
+    "position": "right",
+    "label": "EX-UM-4SFPP-MR"
+   }
+  ]
+ },
+ {
+  "model": "EX4400-24T",
+  "match": [
+   "EX4400-24T",
+   "EX4400-24P",
+   "EX4400-24T-AFI",
+   "EX4400-24T-DC"
+  ],
+  "vendor": "Juniper",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "rj45",
+    "names": "ge-0/0/0..23",
+    "rows": 2,
+    "order": "top-even",
+    "block": 12,
+    "position": "left",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23"
+    ]
+   },
+   {
+    "kind": "console-usb",
+    "position": "right",
+    "label": ""
+   },
+   {
+    "kind": "module-slot",
+    "position": "right",
+    "label": "EX4400-EM-4S"
+   }
+  ]
+ },
+ {
+  "model": "EX4400-48T",
+  "match": [
+   "EX4400-48T",
+   "EX4400-48P",
+   "EX4400-48T-AFI",
+   "EX4400-48T-DC"
+  ],
+  "vendor": "Juniper",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "rj45",
+    "names": "ge-0/0/0..47",
+    "rows": 2,
+    "order": "top-even",
+    "block": 12,
+    "position": "left",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30",
+     "31",
+     "32",
+     "33",
+     "34",
+     "35",
+     "36",
+     "37",
+     "38",
+     "39",
+     "40",
+     "41",
+     "42",
+     "43",
+     "44",
+     "45",
+     "46",
+     "47"
+    ]
+   },
+   {
+    "kind": "console-usb",
+    "position": "right",
+    "label": ""
+   },
+   {
+    "kind": "module-slot",
+    "position": "right",
+    "label": ""
+   }
+  ]
+ },
+ {
+  "model": "EX4650-48Y",
+  "match": [
+   "EX4650-48Y",
+   "QFX5120-48Y-8C"
+  ],
+  "vendor": "Juniper",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "sfp28",
+    "names": "et-0/0/0..47",
+    "rows": 2,
+    "order": "top-even",
+    "block": 16,
+    "position": "left",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30",
+     "31",
+     "32",
+     "33",
+     "34",
+     "35",
+     "36",
+     "37",
+     "38",
+     "39",
+     "40",
+     "41",
+     "42",
+     "43",
+     "44",
+     "45",
+     "46",
+     "47"
+    ]
+   },
+   {
+    "kind": "qsfp28",
+    "names": "et-0/0/48..55",
+    "rows": 2,
+    "order": "top-even",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "48",
+     "49",
+     "50",
+     "51",
+     "52",
+     "53",
+     "54",
+     "55"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "QFX5100-48S-6Q",
+  "match": [
+   "QFX5100-48S",
+   "QFX5100-48SH"
+  ],
+  "vendor": "Juniper",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "sfp+",
+    "names": "xe-0/0/0..47",
+    "rows": 2,
+    "order": "top-even",
+    "block": 12,
+    "position": "left",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30",
+     "31",
+     "32",
+     "33",
+     "34",
+     "35",
+     "36",
+     "37",
+     "38",
+     "39",
+     "40",
+     "41",
+     "42",
+     "43",
+     "44",
+     "45",
+     "46",
+     "47"
+    ]
+   },
+   {
+    "kind": "qsfp+",
+    "names": "et-0/0/48..53",
+    "rows": 2,
+    "order": "top-even",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "48",
+     "49",
+     "50",
+     "51",
+     "52",
+     "53"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "QFX5100-48T-6Q",
+  "match": [
+   "QFX5100-48T",
+   "QFX5100-48TH"
+  ],
+  "vendor": "Juniper",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "rj45",
+    "names": "xe-0/0/0..47",
+    "rows": 2,
+    "order": "top-even",
+    "block": 16,
+    "position": "left",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30",
+     "31",
+     "32",
+     "33",
+     "34",
+     "35",
+     "36",
+     "37",
+     "38",
+     "39",
+     "40",
+     "41",
+     "42",
+     "43",
+     "44",
+     "45",
+     "46",
+     "47"
+    ]
+   },
+   {
+    "kind": "qsfp+",
+    "names": "et-0/0/48..53",
+    "rows": 2,
+    "order": "top-even",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "48",
+     "49",
+     "50",
+     "51",
+     "52",
+     "53"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "QFX5110-48S-4C",
+  "match": [
+   "QFX5110-48S"
+  ],
+  "vendor": "Juniper",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "sfp+",
+    "names": "xe-0/0/0..47",
+    "rows": 2,
+    "order": "top-even",
+    "block": 12,
+    "position": "left",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30",
+     "31",
+     "32",
+     "33",
+     "34",
+     "35",
+     "36",
+     "37",
+     "38",
+     "39",
+     "40",
+     "41",
+     "42",
+     "43",
+     "44",
+     "45",
+     "46",
+     "47"
+    ]
+   },
+   {
+    "kind": "qsfp28",
+    "names": "et-0/0/48..51",
+    "rows": 2,
+    "order": "top-even",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "48",
+     "49",
+     "50",
+     "51"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "QFX5120-32C",
+  "match": [
+   "QFX5120-32C"
+  ],
+  "vendor": "Juniper",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "qsfp28",
+    "names": "et-0/0/0..31",
+    "rows": 2,
+    "order": "top-even",
+    "block": 8,
+    "position": "left",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30",
+     "31"
+    ]
+   },
+   {
+    "kind": "mgmt-rj45",
+    "position": "right",
+    "label": "MGMT"
+   },
+   {
+    "kind": "console-rj45",
+    "position": "right",
+    "label": "CON"
+   },
+   {
+    "kind": "sfp+",
+    "names": "xe-0/0/32..33",
+    "rows": 2,
+    "order": "top-even",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "32",
+     "33"
+    ]
+   },
+   {
+    "kind": "usb",
+    "position": "right",
+    "label": ""
+   }
+  ]
+ },
+ {
+  "model": "SRX300",
+  "match": [
+   "SRX300"
+  ],
+  "vendor": "Juniper",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "reset",
+    "position": "left",
+    "label": "RESET CONFIG"
+   },
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "console-rj45",
+    "position": "left",
+    "label": "CONSOLE"
+   },
+   {
+    "kind": "console-usb",
+    "position": "left",
+    "label": "CONSOLE"
+   },
+   {
+    "kind": "rj45",
+    "names": "ge-0/0/0..5",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "center",
+    "labels": [
+     "0/0",
+     "0/1",
+     "0/2",
+     "0/3",
+     "0/4",
+     "0/5"
+    ]
+   },
+   {
+    "kind": "sfp",
+    "names": "ge-0/0/6..7",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "0/6",
+     "0/7"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "SRX320",
+  "match": [
+   "SRX320",
+   "SRX320-POE"
+  ],
+  "vendor": "Juniper",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "reset",
+    "position": "left",
+    "label": "RESET CONFIG"
+   },
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "console-rj45",
+    "position": "left",
+    "label": "CONSOLE"
+   },
+   {
+    "kind": "console-usb",
+    "position": "left",
+    "label": "CONSOLE"
+   },
+   {
+    "kind": "rj45",
+    "names": "ge-0/0/0..5",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "center",
+    "labels": [
+     "0/0",
+     "0/1",
+     "0/2",
+     "0/3",
+     "0/4",
+     "0/5"
+    ]
+   },
+   {
+    "kind": "sfp",
+    "names": "ge-0/0/6..7",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "0/6",
+     "0/7"
+    ]
+   },
+   {
+    "kind": "module-slot",
+    "position": "center",
+    "label": ""
+   }
+  ]
+ },
+ {
+  "model": "SRX340",
+  "match": [
+   "SRX340",
+   "SRX345"
+  ],
+  "vendor": "Juniper",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "reset",
+    "position": "left",
+    "label": "RESET CONFIG"
+   },
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "console-rj45",
+    "position": "left",
+    "label": "CONSOLE"
+   },
+   {
+    "kind": "console-usb",
+    "position": "left",
+    "label": "CONSOLE"
+   },
+   {
+    "kind": "mgmt-rj45",
+    "position": "left",
+    "label": "MGMT"
+   },
+   {
+    "kind": "rj45",
+    "names": "ge-0/0/0..7",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "center",
+    "labels": [
+     "0/0",
+     "0/1",
+     "0/2",
+     "0/3",
+     "0/4",
+     "0/5",
+     "0/6",
+     "0/7"
+    ]
+   },
+   {
+    "kind": "sfp",
+    "names": "ge-0/0/8..15",
+    "rows": 1,
+    "order": "single-row",
+    "block": 4,
+    "position": "right",
+    "labels": [
+     "0/8",
+     "0/9",
+     "0/10",
+     "0/11",
+     "0/12",
+     "0/13",
+     "0/14",
+     "0/15"
+    ]
+   },
+   {
+    "kind": "module-slot",
+    "position": "center",
+    "label": ""
+   }
+  ]
+ },
+ {
+  "model": "SRX380",
+  "match": [
+   "SRX380"
+  ],
+  "vendor": "Juniper",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "reset",
+    "position": "left",
+    "label": "RESET CONFIG"
+   },
+   {
+    "kind": "console-rj45",
+    "position": "left",
+    "label": "CONSOLE"
+   },
+   {
+    "kind": "console-usb",
+    "position": "left",
+    "label": "CONSOLE"
+   },
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "mgmt-rj45",
+    "position": "left",
+    "label": "MGMT"
+   },
+   {
+    "kind": "rj45",
+    "names": "ge-0/0/0..15",
+    "rows": 1,
+    "order": "single-row",
+    "block": 8,
+    "position": "center",
+    "labels": [
+     "0/0",
+     "0/1",
+     "0/2",
+     "0/3",
+     "0/4",
+     "0/5",
+     "0/6",
+     "0/7",
+     "0/8",
+     "0/9",
+     "0/10",
+     "0/11",
+     "0/12",
+     "0/13",
+     "0/14",
+     "0/15"
+    ]
+   },
+   {
+    "kind": "sfp+",
+    "names": "xe-0/0/16..19",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "0/16",
+     "0/17",
+     "0/18",
+     "0/19"
+    ]
+   },
+   {
+    "kind": "module-slot",
+    "position": "center",
+    "label": ""
+   }
+  ]
+ },
+ {
+  "model": "SRX1500",
+  "match": [
+   "SRX1500"
+  ],
+  "vendor": "Juniper",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "rj45",
+    "names": "ge-0/0/0..11",
+    "rows": 2,
+    "order": "top-even",
+    "block": 0,
+    "position": "left",
+    "labels": [
+     "0/0",
+     "0/1",
+     "0/2",
+     "0/3",
+     "0/4",
+     "0/5",
+     "0/6",
+     "0/7",
+     "0/8",
+     "0/9",
+     "0/10",
+     "0/11"
+    ]
+   },
+   {
+    "kind": "sfp",
+    "names": "ge-0/0/12..15",
+    "rows": 2,
+    "order": "top-even",
+    "block": 0,
+    "position": "left",
+    "labels": [
+     "0/12",
+     "0/13",
+     "0/14",
+     "0/15"
+    ]
+   },
+   {
+    "kind": "sfp+",
+    "names": "xe-0/0/16..19",
+    "rows": 2,
+    "order": "top-even",
+    "block": 0,
+    "position": "center",
+    "labels": [
+     "0/16",
+     "0/17",
+     "0/18",
+     "0/19"
+    ]
+   },
+   {
+    "kind": "module-slot",
+    "position": "right",
+    "label": ""
+   },
+   {
+    "kind": "sfp-aux",
+    "position": "right",
+    "label": "HA CONTROL"
+   },
+   {
+    "kind": "usb",
+    "position": "right",
+    "label": ""
+   },
+   {
+    "kind": "console-rj45",
+    "position": "right",
+    "label": "CONSOLE"
+   },
+   {
+    "kind": "console-usb",
+    "position": "right",
+    "label": "CONSOLE"
+   },
+   {
+    "kind": "mgmt-rj45",
+    "position": "right",
+    "label": "MGMT"
+   },
+   {
+    "kind": "reset",
+    "position": "right",
+    "label": "RESET CONFIG"
+   }
+  ]
+ },
+ {
+  "model": "SRX1600",
+  "match": [
+   "SRX1600"
+  ],
+  "vendor": "Juniper",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "rj45",
+    "names": "ge-0/0/0..15",
+    "rows": 2,
+    "order": "top-even",
+    "block": 0,
+    "position": "center",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15"
+    ]
+   },
+   {
+    "kind": "sfp28",
+    "names": "et-0/1/0..1",
+    "rows": 2,
+    "order": "top-even",
+    "block": 0,
+    "position": "center",
+    "labels": [
+     "0",
+     "1"
+    ]
+   },
+   {
+    "kind": "sfp+",
+    "names": "xe-0/2/0..3",
+    "rows": 2,
+    "order": "top-even",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3"
+    ]
+   },
+   {
+    "kind": "sfp-aux",
+    "position": "right",
+    "label": "HA CTL 0..1"
+   },
+   {
+    "kind": "mgmt-rj45",
+    "position": "right",
+    "label": "MGMT"
+   },
+   {
+    "kind": "console-rj45",
+    "position": "right",
+    "label": "CON"
+   },
+   {
+    "kind": "usb",
+    "position": "right",
+    "label": ""
+   }
+  ]
+ },
+ {
+  "model": "MX204",
+  "match": [
+   "MX204"
+  ],
+  "vendor": "Juniper",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "sfp-aux",
+    "position": "left",
+    "label": "GM/PTP"
+   },
+   {
+    "kind": "qsfp28",
+    "names": "et-0/0/0..3",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "left",
+    "labels": [
+     "0/0",
+     "0/1",
+     "0/2",
+     "0/3"
+    ]
+   },
+   {
+    "kind": "sfp+",
+    "names": "xe-0/1/0..7",
+    "rows": 2,
+    "order": "top-even",
+    "block": 0,
+    "position": "center",
+    "labels": [
+     "1/0",
+     "1/1",
+     "1/2",
+     "1/3",
+     "1/4",
+     "1/5",
+     "1/6",
+     "1/7"
+    ]
+   },
+   {
+    "kind": "mgmt-rj45",
+    "position": "center",
+    "label": "MGMT"
+   },
+   {
+    "kind": "console-rj45",
+    "position": "right",
+    "label": "CON"
+   },
+   {
+    "kind": "usb",
+    "position": "right",
+    "label": ""
+   },
+   {
+    "kind": "reset",
+    "position": "right",
+    "label": "RESET"
+   }
+  ]
+ },
+ {
+  "model": "C9200L-24T-4G",
+  "match": [
+   "C9200L-24T-4G",
+   "C9200L-24P-4G",
+   "C9200L-24T-4X",
+   "C9200L-24P-4X",
+   "C9200L-24PXG"
+  ],
+  "vendor": "Cisco",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "console-usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "rj45",
+    "names": "GigabitEthernet1/0/1..24",
+    "rows": 2,
+    "order": "top-odd",
+    "block": 12,
+    "position": "left",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24"
+    ]
+   },
+   {
+    "kind": "sfp",
+    "names": "GigabitEthernet1/1/1..4",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "C9200L-48T-4X",
+  "match": [
+   "C9200L-48T-4X",
+   "C9200L-48P-4X",
+   "C9200L-48T-4G",
+   "C9200L-48P-4G",
+   "C9200L-48PL"
+  ],
+  "vendor": "Cisco",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "console-usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "rj45",
+    "names": "GigabitEthernet1/0/1..48",
+    "rows": 2,
+    "order": "top-odd",
+    "block": 12,
+    "position": "left",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30",
+     "31",
+     "32",
+     "33",
+     "34",
+     "35",
+     "36",
+     "37",
+     "38",
+     "39",
+     "40",
+     "41",
+     "42",
+     "43",
+     "44",
+     "45",
+     "46",
+     "47",
+     "48"
+    ]
+   },
+   {
+    "kind": "sfp+",
+    "names": "TenGigabitEthernet1/1/1..4",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "C9200-24T",
+  "match": [
+   "C9200-24T",
+   "C9200-24P",
+   "C9200-24PB"
+  ],
+  "vendor": "Cisco",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "console-usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "rj45",
+    "names": "GigabitEthernet1/0/1..24",
+    "rows": 2,
+    "order": "top-odd",
+    "block": 12,
+    "position": "left",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24"
+    ]
+   },
+   {
+    "kind": "module-slot",
+    "position": "right",
+    "label": "C9200-NM-4G"
+   }
+  ]
+ },
+ {
+  "model": "C9200-48T",
+  "match": [
+   "C9200-48T",
+   "C9200-48P",
+   "C9200-48PB",
+   "C9200-48PL"
+  ],
+  "vendor": "Cisco",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "console-usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "rj45",
+    "names": "GigabitEthernet1/0/1..48",
+    "rows": 2,
+    "order": "top-odd",
+    "block": 12,
+    "position": "left",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30",
+     "31",
+     "32",
+     "33",
+     "34",
+     "35",
+     "36",
+     "37",
+     "38",
+     "39",
+     "40",
+     "41",
+     "42",
+     "43",
+     "44",
+     "45",
+     "46",
+     "47",
+     "48"
+    ]
+   },
+   {
+    "kind": "module-slot",
+    "position": "right",
+    "label": "NM-4G"
+   }
+  ]
+ },
+ {
+  "model": "C9300-24T",
+  "match": [
+   "C9300-24T",
+   "C9300-24P",
+   "C9300-24U",
+   "C9300-24UX"
+  ],
+  "vendor": "Cisco",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "console-usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "rj45",
+    "names": "GigabitEthernet1/0/1..24",
+    "rows": 2,
+    "order": "top-odd",
+    "block": 12,
+    "position": "left",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24"
+    ]
+   },
+   {
+    "kind": "module-slot",
+    "position": "right",
+    "label": "C9300-NM-4G"
+   }
+  ]
+ },
+ {
+  "model": "C9300-48T",
+  "match": [
+   "C9300-48T",
+   "C9300-48P",
+   "C9300-48U"
+  ],
+  "vendor": "Cisco",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "console-usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "rj45",
+    "names": "GigabitEthernet1/0/1..48",
+    "rows": 2,
+    "order": "top-odd",
+    "block": 12,
+    "position": "left",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30",
+     "31",
+     "32",
+     "33",
+     "34",
+     "35",
+     "36",
+     "37",
+     "38",
+     "39",
+     "40",
+     "41",
+     "42",
+     "43",
+     "44",
+     "45",
+     "46",
+     "47",
+     "48"
+    ]
+   },
+   {
+    "kind": "module-slot",
+    "position": "right",
+    "label": "NM-4G"
+   }
+  ]
+ },
+ {
+  "model": "C9300L-24T-4G",
+  "match": [
+   "C9300L-24T-4G",
+   "C9300L-24P-4G",
+   "C9300L-24T-4X",
+   "C9300L-24P-4X"
+  ],
+  "vendor": "Cisco",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "console-usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "rj45",
+    "names": "GigabitEthernet1/0/1..24",
+    "rows": 2,
+    "order": "top-odd",
+    "block": 12,
+    "position": "left",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24"
+    ]
+   },
+   {
+    "kind": "sfp",
+    "names": "GigabitEthernet1/1/1..4",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "C9300L-48T-4X",
+  "match": [
+   "C9300L-48T-4X",
+   "C9300L-48P-4X",
+   "C9300L-48T-4G",
+   "C9300L-48P-4G",
+   "C9300L-48PF-4X"
+  ],
+  "vendor": "Cisco",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "console-usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "rj45",
+    "names": "GigabitEthernet1/0/1..48",
+    "rows": 2,
+    "order": "top-odd",
+    "block": 12,
+    "position": "left",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30",
+     "31",
+     "32",
+     "33",
+     "34",
+     "35",
+     "36",
+     "37",
+     "38",
+     "39",
+     "40",
+     "41",
+     "42",
+     "43",
+     "44",
+     "45",
+     "46",
+     "47",
+     "48"
+    ]
+   },
+   {
+    "kind": "sfp+",
+    "names": "TenGigabitEthernet1/1/1..4",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "WS-C2960X-24TS-L",
+  "match": [
+   "WS-C2960X-24TS-L",
+   "WS-C2960X-24PS-L",
+   "WS-C2960X-24PSQ-L",
+   "WS-C2960X-24TS-LL"
+  ],
+  "vendor": "Cisco",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "mgmt-rj45",
+    "position": "left",
+    "label": "FastEthernet0"
+   },
+   {
+    "kind": "console-rj45",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "console-usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "rj45",
+    "names": "GigabitEthernet1/0/1..24",
+    "rows": 2,
+    "order": "top-odd",
+    "block": 12,
+    "position": "center",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24"
+    ]
+   },
+   {
+    "kind": "sfp",
+    "names": "GigabitEthernet1/0/25..28",
+    "rows": 2,
+    "order": "top-odd",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "25",
+     "26",
+     "27",
+     "28"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "WS-C2960X-48TS-L",
+  "match": [
+   "WS-C2960X-48TS-L",
+   "WS-C2960X-48FPS-L",
+   "WS-C2960X-48LPS-L",
+   "WS-C2960X-48TS-LL",
+   "WS-C2960X-48TD-L"
+  ],
+  "vendor": "Cisco",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "mgmt-rj45",
+    "position": "left",
+    "label": "FastEthernet0"
+   },
+   {
+    "kind": "console-rj45",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "console-usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "rj45",
+    "names": "GigabitEthernet1/0/1..48",
+    "rows": 2,
+    "order": "top-odd",
+    "block": 12,
+    "position": "center",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30",
+     "31",
+     "32",
+     "33",
+     "34",
+     "35",
+     "36",
+     "37",
+     "38",
+     "39",
+     "40",
+     "41",
+     "42",
+     "43",
+     "44",
+     "45",
+     "46",
+     "47",
+     "48"
+    ]
+   },
+   {
+    "kind": "sfp",
+    "names": "GigabitEthernet1/0/49..52",
+    "rows": 2,
+    "order": "top-odd",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "49",
+     "50",
+     "51",
+     "52"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "WS-C2960L-8TS-LL",
+  "match": [
+   "WS-C2960L-8TS-LL",
+   "WS-C2960L-8PS-LL",
+   "WS-C2960L-16TS-LL",
+   "WS-C2960L-16PS-LL"
+  ],
+  "vendor": "Cisco",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "console-rj45",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "console-usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "rj45",
+    "names": "GigabitEthernet0/1..8",
+    "rows": 2,
+    "order": "top-odd",
+    "block": 0,
+    "position": "center",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8"
+    ]
+   },
+   {
+    "kind": "sfp",
+    "names": "GigabitEthernet0/9..10",
+    "rows": 2,
+    "order": "top-odd",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "9",
+     "10"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "WS-C2960L-24TS-LL",
+  "match": [
+   "WS-C2960L-24TS-LL",
+   "WS-C2960L-24PS-LL"
+  ],
+  "vendor": "Cisco",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "console-rj45",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "console-usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "rj45",
+    "names": "GigabitEthernet0/1..24",
+    "rows": 2,
+    "order": "top-odd",
+    "block": 12,
+    "position": "center",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24"
+    ]
+   },
+   {
+    "kind": "sfp",
+    "names": "GigabitEthernet0/25..28",
+    "rows": 2,
+    "order": "top-odd",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "25",
+     "26",
+     "27",
+     "28"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "WS-C2960L-48TS-LL",
+  "match": [
+   "WS-C2960L-48TS-LL",
+   "WS-C2960L-48PS-LL"
+  ],
+  "vendor": "Cisco",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "console-rj45",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "console-usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "rj45",
+    "names": "GigabitEthernet0/1..48",
+    "rows": 2,
+    "order": "top-odd",
+    "block": 12,
+    "position": "center",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30",
+     "31",
+     "32",
+     "33",
+     "34",
+     "35",
+     "36",
+     "37",
+     "38",
+     "39",
+     "40",
+     "41",
+     "42",
+     "43",
+     "44",
+     "45",
+     "46",
+     "47",
+     "48"
+    ]
+   },
+   {
+    "kind": "sfp",
+    "names": "GigabitEthernet0/49..52",
+    "rows": 2,
+    "order": "top-odd",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "49",
+     "50",
+     "51",
+     "52"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "WS-C3850-24T",
+  "match": [
+   "WS-C3850-24T",
+   "WS-C3850-24P",
+   "WS-C3850-24U"
+  ],
+  "vendor": "Cisco",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "console-usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "rj45",
+    "names": "GigabitEthernet1/0/1..24",
+    "rows": 2,
+    "order": "top-odd",
+    "block": 12,
+    "position": "left",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24"
+    ]
+   },
+   {
+    "kind": "module-slot",
+    "position": "right",
+    "label": "C3850-NM-4-1G"
+   }
+  ]
+ },
+ {
+  "model": "WS-C3850-48T",
+  "match": [
+   "WS-C3850-48T",
+   "WS-C3850-48P",
+   "WS-C3850-48F",
+   "WS-C3850-48U"
+  ],
+  "vendor": "Cisco",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "console-usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "rj45",
+    "names": "GigabitEthernet1/0/1..48",
+    "rows": 2,
+    "order": "top-odd",
+    "block": 12,
+    "position": "left",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30",
+     "31",
+     "32",
+     "33",
+     "34",
+     "35",
+     "36",
+     "37",
+     "38",
+     "39",
+     "40",
+     "41",
+     "42",
+     "43",
+     "44",
+     "45",
+     "46",
+     "47",
+     "48"
+    ]
+   },
+   {
+    "kind": "module-slot",
+    "position": "right",
+    "label": "NM-4-1G"
+   }
+  ]
+ },
+ {
+  "model": "C1000-8T-2G-L",
+  "match": [
+   "C1000-8T-2G-L",
+   "C1000-8P-2G-L",
+   "C1000-8FP-2G-L",
+   "C1000-8T-E-2G-L",
+   "C1000-8P-E-2G-L",
+   "C1000-8FP-E-2G-L"
+  ],
+  "vendor": "Cisco",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "console-rj45",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "rj45",
+    "names": "GigabitEthernet1/0/1..8",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "center",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8"
+    ]
+   },
+   {
+    "kind": "combo",
+    "names": "GigabitEthernet1/0/9..10",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "9",
+     "10"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "C1000-24T-4G-L",
+  "match": [
+   "C1000-24T-4G-L",
+   "C1000-24P-4G-L",
+   "C1000-24FP-4G-L",
+   "C1000-24T-4X-L",
+   "C1000-24P-4X-L",
+   "C1000-24FP-4X-L"
+  ],
+  "vendor": "Cisco",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "reset",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "console-rj45",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "rj45",
+    "names": "GigabitEthernet1/0/1..24",
+    "rows": 2,
+    "order": "top-odd",
+    "block": 12,
+    "position": "center",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24"
+    ]
+   },
+   {
+    "kind": "sfp",
+    "names": "GigabitEthernet1/0/25..28",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "C1000-48T-4G-L",
+  "match": [
+   "C1000-48T-4G-L",
+   "C1000-48P-4G-L",
+   "C1000-48FP-4G-L",
+   "C1000-48T-4X-L",
+   "C1000-48P-4X-L",
+   "C1000-48FP-4X-L"
+  ],
+  "vendor": "Cisco",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "reset",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "console-rj45",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "rj45",
+    "names": "GigabitEthernet1/0/1..48",
+    "rows": 2,
+    "order": "top-odd",
+    "block": 12,
+    "position": "center",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30",
+     "31",
+     "32",
+     "33",
+     "34",
+     "35",
+     "36",
+     "37",
+     "38",
+     "39",
+     "40",
+     "41",
+     "42",
+     "43",
+     "44",
+     "45",
+     "46",
+     "47",
+     "48"
+    ]
+   },
+   {
+    "kind": "sfp",
+    "names": "GigabitEthernet1/0/49..52",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "CRS326-24G-2S+",
+  "match": [
+   "CRS326-24G-2S+",
+   "CRS326-24G-2S+IN",
+   "CRS326-24G-2S+RM"
+  ],
+  "vendor": "MikroTik",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "console-rj45",
+    "position": "left",
+    "label": "CONSOLE"
+   },
+   {
+    "kind": "rj45",
+    "names": "ether1..24",
+    "rows": 2,
+    "order": "bottom-first",
+    "block": 8,
+    "position": "center",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24"
+    ]
+   },
+   {
+    "kind": "sfp+",
+    "names": "sfp-sfpplus1..2",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "SFP+1",
+     "SFP+2"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "CRS328-24P-4S+",
+  "match": [
+   "CRS328-24P-4S+",
+   "CRS328-24P-4S+RM"
+  ],
+  "vendor": "MikroTik",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "rj45",
+    "names": "ether1..24",
+    "rows": 2,
+    "order": "bottom-first",
+    "block": 8,
+    "position": "left",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24"
+    ]
+   },
+   {
+    "kind": "sfp+",
+    "names": "sfp-sfpplus1..4",
+    "rows": 2,
+    "order": "bottom-first",
+    "block": 0,
+    "position": "center",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4"
+    ]
+   },
+   {
+    "kind": "console-rj45",
+    "position": "right",
+    "label": "CONSOLE"
+   },
+   {
+    "kind": "reset",
+    "position": "right",
+    "label": "RESET"
+   }
+  ]
+ },
+ {
+  "model": "CRS317-1G-16S+",
+  "match": [
+   "CRS317-1G-16S+",
+   "CRS317-1G-16S+RM"
+  ],
+  "vendor": "MikroTik",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "sfp+",
+    "names": "sfp-sfpplus1..16",
+    "rows": 1,
+    "order": "single-row",
+    "block": 4,
+    "position": "left",
+    "labels": [
+     "SFP+1",
+     "SFP+2",
+     "SFP+3",
+     "SFP+4",
+     "SFP+5",
+     "SFP+6",
+     "SFP+7",
+     "SFP+8",
+     "SFP+9",
+     "SFP+10",
+     "SFP+11",
+     "SFP+12",
+     "SFP+13",
+     "SFP+14",
+     "SFP+15",
+     "SFP+16"
+    ]
+   },
+   {
+    "kind": "rj45",
+    "names": "ether1",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right"
+   },
+   {
+    "kind": "console-rj45",
+    "position": "right",
+    "label": ""
+   }
+  ]
+ },
+ {
+  "model": "CRS309-1G-8S+",
+  "match": [
+   "CRS309-1G-8S+",
+   "CRS309-1G-8S+IN"
+  ],
+  "vendor": "MikroTik",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "sfp+",
+    "names": "sfp-sfpplus1..8",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "left",
+    "labels": [
+     "SFP+1",
+     "SFP+2",
+     "SFP+3",
+     "SFP+4",
+     "SFP+5",
+     "SFP+6",
+     "SFP+7",
+     "SFP+8"
+    ]
+   },
+   {
+    "kind": "rj45",
+    "names": "ether1",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "POE/BOOT"
+    ]
+   },
+   {
+    "kind": "console-db9",
+    "position": "right",
+    "label": "CONSOLE"
+   },
+   {
+    "kind": "reset",
+    "position": "right",
+    "label": "RESET"
+   }
+  ]
+ },
+ {
+  "model": "CRS305-1G-4S+",
+  "match": [
+   "CRS305-1G-4S+",
+   "CRS305-1G-4S+IN"
+  ],
+  "vendor": "MikroTik",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "rj45",
+    "names": "ether1",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "left",
+    "labels": [
+     "ETH/BOOT"
+    ]
+   },
+   {
+    "kind": "sfp+",
+    "names": "sfp-sfpplus1..4",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "CRS310-8G+2S+",
+  "match": [
+   "CRS310-8G+2S+",
+   "CRS310-8G+2S+IN"
+  ],
+  "vendor": "MikroTik",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "reset",
+    "position": "left",
+    "label": "Reset"
+   },
+   {
+    "kind": "power-dc",
+    "position": "left",
+    "label": "12-57V"
+   },
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": "USB"
+   },
+   {
+    "kind": "rj45",
+    "names": "ether1..8",
+    "rows": 2,
+    "order": "bottom-first",
+    "block": 0,
+    "position": "center",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8"
+    ]
+   },
+   {
+    "kind": "sfp+",
+    "names": "sfp-sfpplus1..2",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "SFP+1",
+     "SFP+2"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "CRS112-8G-4S",
+  "match": [
+   "CRS112-8G-4S",
+   "CRS112-8G-4S-IN"
+  ],
+  "vendor": "MikroTik",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "reset",
+    "position": "left",
+    "label": "RESET"
+   },
+   {
+    "kind": "power-dc",
+    "position": "left",
+    "label": "POWER DC12-48V"
+   },
+   {
+    "kind": "console-rj45",
+    "position": "left",
+    "label": "CONSOLE"
+   },
+   {
+    "kind": "rj45",
+    "names": "ether1..8",
+    "rows": 2,
+    "order": "bottom-first",
+    "block": 0,
+    "position": "center",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8"
+    ]
+   },
+   {
+    "kind": "sfp",
+    "names": "sfp9..12",
+    "rows": 2,
+    "order": "bottom-first",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "9",
+     "10",
+     "11",
+     "12"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "CCR2004-16G-2S+",
+  "match": [
+   "CCR2004-16G-2S+",
+   "CCR2004-16G-2S+PC"
+  ],
+  "vendor": "MikroTik",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "sfp+",
+    "names": "sfp-sfpplus1..2",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "left",
+    "labels": [
+     "SFP+1",
+     "SFP+2"
+    ]
+   },
+   {
+    "kind": "rj45",
+    "names": "ether1..16",
+    "rows": 2,
+    "order": "bottom-first",
+    "block": 8,
+    "position": "center",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16"
+    ]
+   },
+   {
+    "kind": "console-rj45",
+    "position": "right",
+    "label": "CONSOLE"
+   },
+   {
+    "kind": "reset",
+    "position": "right",
+    "label": "RESET"
+   },
+   {
+    "kind": "usb",
+    "position": "right",
+    "label": "USB"
+   }
+  ]
+ },
+ {
+  "model": "CCR2116-12G-4S+",
+  "match": [
+   "CCR2116-12G-4S+"
+  ],
+  "vendor": "MikroTik",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "sfp+",
+    "names": "sfp-sfpplus1..4",
+    "rows": 2,
+    "order": "bottom-first",
+    "block": 0,
+    "position": "left",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4"
+    ]
+   },
+   {
+    "kind": "rj45",
+    "names": "ether1..12",
+    "rows": 1,
+    "order": "single-row",
+    "block": 4,
+    "position": "center",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12"
+    ]
+   },
+   {
+    "kind": "console-rj45",
+    "position": "right",
+    "label": "CONSOLE"
+   },
+   {
+    "kind": "rj45",
+    "names": "ether13",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "ETH/BOOT"
+    ]
+   },
+   {
+    "kind": "usb",
+    "position": "right",
+    "label": "USB"
+   },
+   {
+    "kind": "reset",
+    "position": "right",
+    "label": "RESET"
+   }
+  ]
+ },
+ {
+  "model": "CCR1009-7G-1C-1S+",
+  "match": [
+   "CCR1009-7G-1C-1S+",
+   "CCR1009-7G-1C-1S+PC",
+   "CCR1009-7G-1C-PC"
+  ],
+  "vendor": "MikroTik",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "sfp+",
+    "names": "sfp-sfpplus1",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "left",
+    "labels": [
+     "SFP+"
+    ]
+   },
+   {
+    "kind": "combo",
+    "names": "combo1",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "left",
+    "labels": [
+     "SFP + ETH"
+    ]
+   },
+   {
+    "kind": "rj45",
+    "names": "ether1..7",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "center",
+    "labels": [
+     "ETH1",
+     "ETH2",
+     "ETH3",
+     "ETH4",
+     "ETH5",
+     "ETH6",
+     "ETH7"
+    ]
+   },
+   {
+    "kind": "reset",
+    "position": "center",
+    "label": "RES"
+   },
+   {
+    "kind": "console-db9",
+    "position": "right",
+    "label": "CONSOLE"
+   },
+   {
+    "kind": "usb",
+    "position": "right",
+    "label": "USB"
+   }
+  ]
+ },
+ {
+  "model": "RB5009UG+S+",
+  "match": [
+   "RB5009UG+S+",
+   "RB5009UG+S+IN",
+   "RB5009UPr+S+"
+  ],
+  "vendor": "MikroTik",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "reset",
+    "position": "left",
+    "label": "RESET"
+   },
+   {
+    "kind": "power-dc",
+    "position": "left",
+    "label": "DC1 24-57V"
+   },
+   {
+    "kind": "sfp+",
+    "names": "sfp-sfpplus1",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "left",
+    "labels": [
+     "SFP+"
+    ]
+   },
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": "USB"
+   },
+   {
+    "kind": "rj45",
+    "names": "ether1..8",
+    "rows": 1,
+    "order": "single-row",
+    "block": 4,
+    "position": "center",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "RB4011iGS+",
+  "match": [
+   "RB4011iGS+",
+   "RB4011iGS+RM",
+   "RB4011iGS+5HacQ2HnD"
+  ],
+  "vendor": "MikroTik",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "reset",
+    "position": "left",
+    "label": "RESET"
+   },
+   {
+    "kind": "sfp+",
+    "names": "sfp-sfpplus1",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "left",
+    "labels": [
+     "SFP+"
+    ]
+   },
+   {
+    "kind": "rj45",
+    "names": "ether1..5",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "center",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5"
+    ]
+   },
+   {
+    "kind": "rj45",
+    "names": "ether6..10",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "6",
+     "7",
+     "8",
+     "9",
+     "10"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "hEX S",
+  "match": [
+   "RB760iGS",
+   "hEX S"
+  ],
+  "vendor": "MikroTik",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "power-dc",
+    "position": "left",
+    "label": "Power 12-57V DC"
+   },
+   {
+    "kind": "sfp",
+    "names": "sfp1",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "left",
+    "labels": [
+     "SFP"
+    ]
+   },
+   {
+    "kind": "rj45",
+    "names": "ether1..5",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "PoE in",
+     "2",
+     "3",
+     "4",
+     "5"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "hEX",
+  "match": [
+   "RB750Gr3",
+   "hEX"
+  ],
+  "vendor": "MikroTik",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "power-dc",
+    "position": "left",
+    "label": "Power DC8-30V"
+   },
+   {
+    "kind": "reset",
+    "position": "left",
+    "label": "RES"
+   },
+   {
+    "kind": "rj45",
+    "names": "ether1..5",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "Internet",
+     "2",
+     "3",
+     "4",
+     "5"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "hAP ax^2",
+  "match": [
+   "hAP ax^2",
+   "hAP ax2",
+   "C52iG-5HaxD2HaxD",
+   "C52iG-5HaxD2HaxD-TC"
+  ],
+  "vendor": "MikroTik",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "power-dc",
+    "position": "left",
+    "label": "DC 12-28V"
+   },
+   {
+    "kind": "reset",
+    "position": "left",
+    "label": "Reset"
+   },
+   {
+    "kind": "rj45",
+    "names": "ether1..5",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "Internet",
+     "2",
+     "3",
+     "4",
+     "5"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "hAP ax^3",
+  "match": [
+   "hAP ax^3",
+   "hAP ax3",
+   "C53UiG+5HPaxD2HPaxD"
+  ],
+  "vendor": "MikroTik",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "power-dc",
+    "position": "left",
+    "label": "DC 12-28V"
+   },
+   {
+    "kind": "reset",
+    "position": "left",
+    "label": "RESET"
+   },
+   {
+    "kind": "rj45",
+    "names": "ether1..5",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "center",
+    "labels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5"
+    ]
+   },
+   {
+    "kind": "usb",
+    "position": "center",
+    "label": "USB"
+   }
+  ]
+ },
+ {
+  "model": "L009UiGS",
+  "match": [
+   "L009UiGS",
+   "L009UiGS-RM",
+   "L009UiGS-2HaxD"
+  ],
+  "vendor": "MikroTik",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "reset",
+    "position": "left",
+    "label": "RESET"
+   },
+   {
+    "kind": "power-dc",
+    "position": "left",
+    "label": "24-56 V DC"
+   },
+   {
+    "kind": "sfp",
+    "names": "sfp1",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "left",
+    "labels": [
+     "SFP"
+    ]
+   },
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": "USB"
+   },
+   {
+    "kind": "rj45",
+    "names": "ether1..8",
+    "rows": 1,
+    "order": "single-row",
+    "block": 4,
+    "position": "center",
+    "labels": [
+     "PoE in",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "PoE out"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "EdgeRouter X SFP 6-Port",
+  "match": [
+   "EdgeRouter X SFP",
+   "ER-X-SFP"
+  ],
+  "vendor": "Ubiquiti",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "sfp",
+    "names": "eth5",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "left",
+    "labels": [
+     "eth5/SFP"
+    ]
+   },
+   {
+    "kind": "rj45",
+    "names": "eth0..4",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "eth0",
+     "eth1",
+     "eth2",
+     "eth3",
+     "eth4"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "EdgeRouter X 5-Port",
+  "match": [
+   "EdgeRouter X 5-Port",
+   "ER-X"
+  ],
+  "vendor": "Ubiquiti",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "rj45",
+    "names": "eth0..4",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "center",
+    "labels": [
+     "eth0/PoE IN",
+     "eth1",
+     "eth2",
+     "eth3",
+     "eth4/PoE OUT"
+    ]
+   }
+  ]
+ },
+ {
+  "model": "EdgeRouter 4",
+  "match": [
+   "EdgeRouter 4",
+   "ER-4"
+  ],
+  "vendor": "Ubiquiti",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "console-rj45",
+    "position": "center",
+    "label": "CONSOLE"
+   },
+   {
+    "kind": "usb",
+    "position": "center",
+    "label": ""
+   },
+   {
+    "kind": "rj45",
+    "names": "eth0..2",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "eth0",
+     "eth1",
+     "eth2"
+    ]
+   },
+   {
+    "kind": "sfp",
+    "names": "eth3",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "eth3"
+    ]
+   },
+   {
+    "kind": "reset",
+    "position": "right",
+    "label": "RESET"
+   }
+  ]
+ },
+ {
+  "model": "EdgeRouter 6P",
+  "match": [
+   "EdgeRouter 6P",
+   "ER-6P"
+  ],
+  "vendor": "Ubiquiti",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "console-rj45",
+    "position": "center",
+    "label": "CONSOLE"
+   },
+   {
+    "kind": "usb",
+    "position": "center",
+    "label": ""
+   },
+   {
+    "kind": "rj45",
+    "names": "eth0..4",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "eth0",
+     "eth1",
+     "eth2",
+     "eth3",
+     "eth4"
+    ]
+   },
+   {
+    "kind": "sfp",
+    "names": "eth5",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "eth5"
+    ]
+   },
+   {
+    "kind": "reset",
+    "position": "right",
+    "label": "RESET"
+   }
+  ]
+ },
+ {
+  "model": "EdgeRouter 12",
+  "match": [
+   "EdgeRouter 12",
+   "ER-12"
+  ],
+  "vendor": "Ubiquiti",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "console-rj45",
+    "position": "left",
+    "label": "CONSOLE"
+   },
+   {
+    "kind": "usb",
+    "position": "left",
+    "label": ""
+   },
+   {
+    "kind": "rj45",
+    "names": "eth0..9",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "center",
+    "labels": [
+     "0",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9"
+    ]
+   },
+   {
+    "kind": "sfp",
+    "names": "eth10..11",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "10",
+     "11"
+    ]
+   },
+   {
+    "kind": "reset",
+    "position": "right",
+    "label": "RESET"
+   }
+  ]
+ },
+ {
+  "model": "EdgeRouter Lite 3-Port",
+  "match": [
+   "EdgeRouter Lite",
+   "ERLite-3",
+   "ER-Lite"
+  ],
+  "vendor": "Ubiquiti",
+  "form": "desktop",
+  "groups": [
+   {
+    "kind": "console-rj45",
+    "position": "left",
+    "label": "CONSOLE"
+   },
+   {
+    "kind": "rj45",
+    "names": "eth0..2",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "center",
+    "labels": [
+     "eth0",
+     "eth1",
+     "eth2"
+    ]
+   },
+   {
+    "kind": "reset",
+    "position": "right",
+    "label": "RESET"
+   }
+  ]
+ },
+ {
+  "model": "EdgeRouter Infinity",
+  "match": [
+   "EdgeRouter Infinity",
+   "ER-8-XG"
+  ],
+  "vendor": "Ubiquiti",
+  "form": "1U-19in",
+  "groups": [
+   {
+    "kind": "usb",
+    "position": "center",
+    "label": ""
+   },
+   {
+    "kind": "console-rj45",
+    "position": "center",
+    "label": "CONSOLE"
+   },
+   {
+    "kind": "sfp+",
+    "names": "eth1..8",
+    "rows": 2,
+    "order": "top-odd",
+    "block": 2,
+    "position": "right",
+    "labels": [
+     "eth1",
+     "eth2",
+     "eth3",
+     "eth4",
+     "eth5",
+     "eth6",
+     "eth7",
+     "eth8"
+    ]
+   },
+   {
+    "kind": "rj45",
+    "names": "eth0",
+    "rows": 1,
+    "order": "single-row",
+    "block": 0,
+    "position": "right",
+    "labels": [
+     "eth0"
+    ]
+   },
+   {
+    "kind": "reset",
+    "position": "right",
+    "label": ""
+   }
+  ]
+ }
+]

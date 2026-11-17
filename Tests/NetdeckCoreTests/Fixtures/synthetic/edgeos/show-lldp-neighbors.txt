@@ -1,0 +1,8 @@
+show lldp neighbors
+Capability Codes: R - Router, B - Bridge, W - Wlan r - Repeater, S - Station
+                  D - Docsis, T - Telephone, O - Other
+
+Device ID                 Local  Proto  Cap   Platform             Port ID
+---------                 -----  -----  ---   --------             -------
+office-ap                 eth2   LLDP   BW    UAP-AC-Lite          eth0
+ubnt@er-x-lab:~$ 

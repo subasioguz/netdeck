@@ -1,0 +1,74 @@
+[
+  {
+    "uuid": "00000000-0000-0000-0000-000000000001",
+    "source": "",
+    "klass": "VolumeStatus",
+    "args": {
+      "volume": "fast",
+      "state": "DEGRADED",
+      "status": "One or more devices has been removed by the administrator."
+    },
+    "node": "Controller A",
+    "key": "[\"fast\"]",
+    "datetime": {
+      "$date": 1794830400000
+    },
+    "last_occurrence": {
+      "$date": 1794830400000
+    },
+    "dismissed": false,
+    "mail": null,
+    "text": "Pool %(volume)s state is %(state)s: %(status)s",
+    "id": "00000000-0000-0000-0000-000000000001",
+    "level": "CRITICAL",
+    "formatted": "Pool fast state is DEGRADED: One or more devices has been removed by the administrator.",
+    "one_shot": false
+  },
+  {
+    "uuid": "00000000-0000-0000-0000-000000000002",
+    "source": "",
+    "klass": "SMART",
+    "args": {
+      "device": "/dev/sdc"
+    },
+    "node": "Controller A",
+    "key": "[\"/dev/sdc\"]",
+    "datetime": {
+      "$date": 1794880000000
+    },
+    "last_occurrence": {
+      "$date": 1794880000000
+    },
+    "dismissed": false,
+    "mail": null,
+    "text": "%(message)s",
+    "id": "00000000-0000-0000-0000-000000000002",
+    "level": "WARNING",
+    "formatted": "Device: /dev/sdc [SAT], 8 Currently unreadable (pending) sectors.<br>See <a href=\"/ui/storage/disks\">Disks</a>.",
+    "one_shot": false
+  },
+  {
+    "uuid": "00000000-0000-0000-0000-000000000003",
+    "klass": "NTPHealthCheck",
+    "datetime": {
+      "$date": 1794700000000
+    },
+    "dismissed": true,
+    "level": "WARNING",
+    "formatted": "NTP health check failed.",
+    "text": "NTP health check failed.",
+    "one_shot": false
+  },
+  {
+    "uuid": "00000000-0000-0000-0000-000000000004",
+    "klass": "HasUpdate",
+    "datetime": {
+      "$date": 1794870000000
+    },
+    "dismissed": false,
+    "level": "INFO",
+    "formatted": "There is a new update available.",
+    "text": "There is a new update available.",
+    "one_shot": false
+  }
+]

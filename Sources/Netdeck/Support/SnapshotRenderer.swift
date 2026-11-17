@@ -72,7 +72,7 @@ enum RenderCatalog {
         let id = DemoData.profile().id
         var out: [(String, AnyView, CGSize)] = [
             ("faceplate", AnyView(
-                FrontPanelView(model: snap.model, vendor: "Juniper", hostname: snap.hostname, ports: ports, selected: ["0/0/2"])
+                FrontPanelView(model: snap.model, vendor: snap.platform.vendor, hostname: snap.hostname, ports: ports, selected: ["0/0/2"])
                     .padding(20).background(Theme.stageMid)), CGSize(width: 1100, height: 240)),
             ("firstrun", root(AppModel(persists: false)), window),
         ]
@@ -380,6 +380,26 @@ enum RenderCatalog {
         router.detected = found
         let basic = deviceModel(router) { s in s.setOfflinePhase(.unsupported(found)) }
         out.append(("basic", root(basic), window))
+
+        // Faceplates of other models (generic layout from the port list).
+        out.append(("faceplate-models", AnyView(
+            VStack(spacing: 18) {
+                ForEach(Array(DemoData.layoutSamples().enumerated()), id: \.offset) { _, snap in
+                    FrontPanelView(model: snap.model, vendor: snap.platform.vendor, hostname: snap.hostname,
+                                   ports: PanelBuilder.ports(snapshot: snap, session: nil, colors: VLANColorMap.default(for: snap)))
+                }
+            }
+            .padding(20).background(Theme.stageMid)), CGSize(width: 1100, height: 2900)))
+
+        // Appliances over HTTPS: a Dell server and a Synology NAS.
+        for (name, sample, kind, url) in [("appliance-server", DemoData.sampleServer(), DeviceKind.server, "https://192.0.2.30"),
+                                          ("appliance-nas", DemoData.sampleNAS(), DeviceKind.storage, "https://192.0.2.20:5001")] {
+            let p = DeviceProfile(id: "render-\(name)", name: sample.hostname ?? name, kind: kind, location: "Home",
+                                  connection: .api(url: url), username: "netdeck")
+            let m = deviceModel(p) { s in s.setOfflineAppliance(sample) }
+            m.selection = .device(p.id, .overview)
+            out.append((name, root(m), window))
+        }
         return out
     }
 }

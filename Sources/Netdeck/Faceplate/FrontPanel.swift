@@ -19,32 +19,49 @@ struct PanelPort: Equatable, Identifiable {
     var hasModule = false     // sfp: something is plugged in
     var isDAC = false         // sfp: a direct-attach copper cable hangs below
     var accessibility: String = ""
+    /// Where the port sits, in panel units (set by `PanelBuilder.arrange`).
+    var frame: CGRect = .zero
+    /// Top row (number above the port) or bottom row (number below).
+    var top = true
+    /// Number printed next to the port.
+    var label: String = ""
+    /// Copper ports of one block share a metal shield.
+    var block = 0
+    /// Ports on a removable uplink module share a plate with this title and tag ("4× SFP+ 10G", "PIC 2").
+    var plate: PanelPlate?
     var id: String { slotKey }
 }
 
-/// Geometry of an EX4300-48T front panel in panel units (docs/DESIGN.md §5).
+struct PanelPlate: Equatable, Hashable {
+    var title: String
+    var tag: String
+}
+
+/// Front panel geometry in panel units (docs/DESIGN.md §5). The chassis is 1000 units wide (a 19"
+/// unit, as on the EX4300-48T) and grows when a model has more ports than fit.
 enum FrontGeometry {
-    static let minX: CGFloat = -31, maxX: CGFloat = 1031
+    static let minX: CGFloat = -31
     static let minY: CGFloat = -2
     static let chassisHeight: CGFloat = 118
     static let cableDrop: CGFloat = 44
-    static let groupX: [CGFloat] = [100, 272, 444, 616]
+    /// Left edge of the first copper block; the model name, LEDs and hostname label sit left of it.
+    static let firstPortX: CGFloat = 100
 
     static func height(hasCables: Bool) -> CGFloat { chassisHeight - minY + (hasCables ? cableDrop : 4) }
 
-    static func copperRect(_ n: Int) -> CGRect {
-        let g = n / 12, k = n % 12
-        let col = k / 2, row = k % 2
-        return CGRect(x: groupX[min(g, 3)] + CGFloat(col) * 27, y: row == 0 ? 35 : 60, width: 24, height: 20)
+    /// Chassis width for these ports: 1000, or wider when the ports need more room.
+    static func chassisWidth(_ ports: [PanelPort]) -> CGFloat {
+        max(1000, (ports.map(\.frame.maxX).max() ?? 0) + 27.5)
     }
 
-    static func isTopRow(_ n: Int) -> Bool { n % 2 == 0 }
+    static func maxX(_ ports: [PanelPort]) -> CGFloat { chassisWidth(ports) + 31 }
 
-    static func cageRect(_ i: Int) -> CGRect { CGRect(x: 807.5 + CGFloat(i) * 43, y: 47, width: 36, height: 22) }
-
-    static func rect(for port: PanelPort) -> CGRect {
-        port.kind == .copper ? copperRect(port.index) : cageRect(port.index)
+    /// Drawing width ÷ height for these ports.
+    static func aspect(_ ports: [PanelPort], hasCables: Bool) -> CGFloat {
+        (maxX(ports) - minX) / height(hasCables: hasCables)
     }
+
+    static func rect(for port: PanelPort) -> CGRect { port.frame }
 
     /// Larger hit target (port pitch).
     static func hitRect(for port: PanelPort) -> CGRect {
@@ -63,7 +80,7 @@ enum FrontGeometry {
 /// Converts panel units to view points for a given drawing width.
 struct PanelScale {
     let k: CGFloat
-    init(width: CGFloat) { k = width / (FrontGeometry.maxX - FrontGeometry.minX) }
+    init(width: CGFloat, ports: [PanelPort]) { k = width / (FrontGeometry.maxX(ports) - FrontGeometry.minX) }
     func x(_ u: CGFloat) -> CGFloat { (u - FrontGeometry.minX) * k }
     func y(_ u: CGFloat) -> CGFloat { (u - FrontGeometry.minY) * k }
     func point(_ p: CGPoint) -> CGPoint { CGPoint(x: x(p.x), y: y(p.y)) }
@@ -86,10 +103,14 @@ struct FrontPanelView: View {
     @Environment(\.colorScheme) private var scheme
 
     private var hasCables: Bool { showsCables && ports.contains { $0.isDAC } }
+    /// Ports that shape the chassis: an empty skeleton still shows the EX4300 shields and module plate.
+    private var shape: [PanelPort] { ports.isEmpty && skeleton ? BoardStage.skeletonPorts : ports }
+    /// The known model's spec, for its console/management/USB ports and ears.
+    private var spec: FaceplateSpec? { model.isEmpty ? nil : FaceplateCatalog.spec(forModel: model) }
 
     var body: some View {
         GeometryReader { geo in
-            let s = PanelScale(width: geo.size.width)
+            let s = PanelScale(width: geo.size.width, ports: shape)
             Canvas { ctx, _ in
                 draw(&ctx, s)
             }
@@ -119,7 +140,7 @@ struct FrontPanelView: View {
                 }
             }
         }
-        .aspectRatio((FrontGeometry.maxX - FrontGeometry.minX) / FrontGeometry.height(hasCables: hasCables), contentMode: .fit)
+        .aspectRatio(FrontGeometry.aspect(shape, hasCables: hasCables), contentMode: .fit)
     }
 
     private func port(at location: CGPoint, _ s: PanelScale) -> PanelPort? {
@@ -131,10 +152,11 @@ struct FrontPanelView: View {
 
     private func draw(_ ctx: inout GraphicsContext, _ s: PanelScale) {
         let k = s.k
-        drawEars(&ctx, s)
+        let cw = FrontGeometry.chassisWidth(shape)
+        if spec?.hasEars ?? true { drawEars(&ctx, s, chassisWidth: cw) }
 
         // Chassis body
-        let chassis = Path(roundedRect: s.rect(CGRect(x: 0, y: 0, width: 1000, height: 118)), cornerRadius: 2 * k)
+        let chassis = Path(roundedRect: s.rect(CGRect(x: 0, y: 0, width: cw, height: 118)), cornerRadius: 2 * k)
         ctx.fill(chassis, with: .linearGradient(
             Gradient(stops: [.init(color: Color(hex: 0x3B4148), location: 0), .init(color: Color(hex: 0x30363C), location: 0.07),
                              .init(color: Color(hex: 0x252A2F), location: 0.6), .init(color: Color(hex: 0x1B1F23), location: 1)]),
@@ -143,24 +165,30 @@ struct FrontPanelView: View {
         var brushed = Path()
         var yy: CGFloat = 1.3
         while yy < 117 {
-            brushed.addRect(s.rect(CGRect(x: 0, y: yy, width: 1000, height: 0.45)))
+            brushed.addRect(s.rect(CGRect(x: 0, y: yy, width: cw, height: 0.45)))
             yy += 1.3
         }
         ctx.fill(brushed, with: .color(.white.opacity(0.028)))
         // Edges
-        ctx.fill(Path(s.rect(CGRect(x: 0, y: 0, width: 1000, height: 1.1))), with: .color(.white.opacity(0.16)))
-        ctx.fill(Path(s.rect(CGRect(x: 0, y: 116.8, width: 1000, height: 1.2))), with: .color(.black.opacity(0.55)))
+        ctx.fill(Path(s.rect(CGRect(x: 0, y: 0, width: cw, height: 1.1))), with: .color(.white.opacity(0.16)))
+        ctx.fill(Path(s.rect(CGRect(x: 0, y: 116.8, width: cw, height: 1.2))), with: .color(.black.opacity(0.55)))
         ctx.fill(Path(s.rect(CGRect(x: 0, y: 0, width: 1, height: 118))), with: .color(.black.opacity(0.5)))
-        ctx.fill(Path(s.rect(CGRect(x: 999, y: 0, width: 1, height: 118))), with: .color(.black.opacity(0.5)))
+        ctx.fill(Path(s.rect(CGRect(x: cw - 1, y: 0, width: 1, height: 118))), with: .color(.black.opacity(0.5)))
         if scheme == .dark {
             ctx.stroke(chassis, with: .color(.white.opacity(0.06)), lineWidth: 1)
         }
 
         drawLeftSection(&ctx, s)
-        for g in FrontGeometry.groupX {
-            drawShield(&ctx, s, CGRect(x: g - 4.5, y: 31.5, width: 168, height: 52))
+        for shield in Self.shields(shape) { drawShield(&ctx, s, shield) }
+        for plate in Self.plates(shape) { drawModulePlate(&ctx, s, plate.rect, plate.plate) }
+        if let spec, !skeleton {
+            let l = PanelBuilder.layout(spec)
+            for d in l.decorations { drawDecoration(&ctx, s, d) }
+            // A module slot with nothing in it gets a blank cover plate.
+            for m in l.modules where !ports.contains(where: { $0.plate != nil && m.rect.insetBy(dx: -2, dy: -30).contains($0.frame.origin) }) {
+                drawModulePlate(&ctx, s, m.rect, PanelPlate(title: m.title, tag: ""))
+            }
         }
-        if ports.contains(where: { $0.kind == .sfp }) || skeleton { drawModulePlate(&ctx, s) }
 
         // Cables first so cages and numbers sit on top of them.
         if hasCables {
@@ -172,9 +200,72 @@ struct FrontPanelView: View {
         _ = k
     }
 
-    private func drawEars(_ ctx: inout GraphicsContext, _ s: PanelScale) {
+    /// One shield per copper block: the block's ports plus a 4.5 × 3.5 unit margin.
+    static func shields(_ ports: [PanelPort]) -> [CGRect] {
+        let copper = ports.filter { $0.kind == .copper }
+        return Dictionary(grouping: copper, by: \.block).sorted { $0.key < $1.key }.map { _, ps in
+            ps.map(\.frame).reduce(ps[0].frame) { $0.union($1) }.insetBy(dx: -4.5, dy: -3.5)
+        }
+    }
+
+    /// Module plates around the cages that share one (EX4300 uplink module).
+    static func plates(_ ports: [PanelPort]) -> [(rect: CGRect, plate: PanelPlate)] {
+        let onPlates = ports.filter { $0.plate != nil }
+        return Dictionary(grouping: onPlates, by: { $0.plate! }).map { plate, ps in
+            let u = ps.map(\.frame).reduce(ps[0].frame) { $0.union($1) }
+            return (CGRect(x: u.minX - 18.5, y: u.minY - 26, width: u.width + 37, height: u.height + 54), plate)
+        }.sorted { $0.rect.minX < $1.rect.minX }
+    }
+
+    /// Console, management, USB, reset, DC input and auxiliary cages of a known model, each with its
+    /// printed label. Nothing here is selectable: Netdeck doesn't manage these ports.
+    private func drawDecoration(_ ctx: inout GraphicsContext, _ s: PanelScale, _ d: PanelDecoration) {
         let k = s.k
-        for x0 in [CGFloat(-30), 999] {
+        let r = d.frame
+        let rim = Color(hex: 0x7F8993)
+        switch d.kind {
+        case "usb", "console-usb":
+            ctx.fill(Path(roundedRect: s.rect(r), cornerRadius: 1 * k), with: .color(Color(hex: 0x0B0D0F)))
+            ctx.stroke(Path(roundedRect: s.rect(r), cornerRadius: 1 * k), with: .color(rim), lineWidth: 0.8 * k)
+            ctx.fill(Path(s.rect(r.insetBy(dx: r.width * 0.2, dy: r.height * 0.3))), with: .color(Color(hex: 0x3A4148)))
+        case "reset":
+            let c = s.point(CGPoint(x: r.midX, y: r.midY))
+            ctx.fill(Path(ellipseIn: CGRect(x: c.x - 3 * k, y: c.y - 3 * k, width: 6 * k, height: 6 * k)), with: .color(Color(hex: 0x050607)))
+            ctx.stroke(Path(ellipseIn: CGRect(x: c.x - 3 * k, y: c.y - 3 * k, width: 6 * k, height: 6 * k)), with: .color(rim), lineWidth: 0.6 * k)
+        case "power-dc":
+            let c = s.point(CGPoint(x: r.midX, y: r.midY))
+            ctx.fill(Path(ellipseIn: CGRect(x: c.x - 7 * k, y: c.y - 7 * k, width: 14 * k, height: 14 * k)),
+                     with: .radialGradient(Gradient(colors: [Color(hex: 0x050607), Color(hex: 0x2B3036)]), center: c, startRadius: 0, endRadius: 7 * k))
+            ctx.fill(Path(ellipseIn: CGRect(x: c.x - 1.6 * k, y: c.y - 1.6 * k, width: 3.2 * k, height: 3.2 * k)), with: .color(Color(hex: 0xB9C1C8)))
+        case "console-db9":
+            var p = Path()
+            p.addLines([CGPoint(x: r.minX, y: r.minY), CGPoint(x: r.maxX, y: r.minY), CGPoint(x: r.maxX - 3, y: r.maxY), CGPoint(x: r.minX + 3, y: r.maxY)].map(s.point))
+            p.closeSubpath()
+            ctx.fill(p, with: .color(Color(hex: 0x050607)))
+            ctx.stroke(p, with: .color(rim), lineWidth: 0.8 * k)
+        case "sfp-aux":
+            let cage = Path(roundedRect: s.rect(r), cornerRadius: 1.4 * k)
+            ctx.fill(cage, with: .linearGradient(Gradient(colors: [Color(hex: 0xB9C1C8), Color(hex: 0x6B747D)]),
+                                                 startPoint: s.point(CGPoint(x: 0, y: r.minY)), endPoint: s.point(CGPoint(x: 0, y: r.maxY))))
+            ctx.fill(Path(roundedRect: s.rect(r.insetBy(dx: 2.2, dy: 2.2)), cornerRadius: 0.8 * k), with: .color(Color(hex: 0x050607)))
+        default:   // console-rj45, mgmt-rj45, aux
+            let mouth = mouthPath(r, top: true, s)
+            ctx.fill(mouth, with: .color(Color(hex: 0x050607)))
+            ctx.stroke(mouth, with: .color(d.kind.hasPrefix("console") ? Theme.HW.metalAccent.opacity(0.7) : Color.black.opacity(0.7)), lineWidth: 0.8 * k)
+        }
+        let label = d.label.count > 8 ? String(d.label.prefix(8)) : d.label
+        ctx.draw(Text(label).font(.system(size: 5.4 * k, weight: .semibold)).foregroundStyle(Color(hex: 0x8C969F)),
+                 at: s.point(CGPoint(x: r.midX, y: r.minY - 6)), anchor: .center)
+    }
+
+    /// Port labels longer than a number ("SFP+1", "PoE in") get a smaller font so they fit the port.
+    private func labelSize(_ label: String, width: CGFloat) -> CGFloat {
+        min(7.2, (width + 4) / (0.6 * CGFloat(max(1, label.count))))
+    }
+
+    private func drawEars(_ ctx: inout GraphicsContext, _ s: PanelScale, chassisWidth cw: CGFloat) {
+        let k = s.k
+        for x0 in [CGFloat(-30), cw - 1] {
             let ear = Path(roundedRect: s.rect(CGRect(x: x0, y: 0, width: 31, height: 118)), cornerRadius: 2.5 * k)
             ctx.fill(ear, with: .linearGradient(Gradient(colors: [Color(hex: 0x363C42), Color(hex: 0x202428)]),
                                                 startPoint: s.point(CGPoint(x: x0, y: 0)), endPoint: s.point(CGPoint(x: x0, y: 118))))
@@ -208,7 +299,9 @@ struct FrontPanelView: View {
             l.addFilter(.shadow(color: .black.opacity(0.45), radius: 0.6 * k, x: 0, y: 1.2 * k))
             l.fill(Path(roundedRect: label, cornerRadius: 1.6 * k), with: .color(Color(hex: 0xF4F2EA)))
         }
-        ctx.draw(Text(hostname).font(.system(size: 8.2 * k, weight: .bold)).foregroundStyle(Color(hex: 0x16181B)),
+        // Long hostnames get a smaller font so they stay on the label (about 0.62 em per character).
+        let size = min(8.2, 50 / (0.62 * CGFloat(max(1, hostname.count))))
+        ctx.draw(Text(hostname).font(.system(size: size * k, weight: .bold)).foregroundStyle(Color(hex: 0x16181B)),
                  at: CGPoint(x: label.midX, y: label.midY), anchor: .center)
     }
 
@@ -242,8 +335,8 @@ struct FrontPanelView: View {
 
     private func drawCopper(_ ctx: inout GraphicsContext, _ s: PanelScale, _ port: PanelPort) {
         let k = s.k
-        let r = FrontGeometry.copperRect(port.index)
-        let top = FrontGeometry.isTopRow(port.index)
+        let r = port.frame
+        let top = port.top
         let mouth = mouthPath(r, top: top, s)
         let isSelected = selected.contains(port.slotKey)
         let look: PanelPort.Look = skeleton ? .down : port.look
@@ -306,13 +399,13 @@ struct FrontPanelView: View {
 
         // VLAN bar
         if look != .disabled && !port.vlanBars.isEmpty && !skeleton {
-            drawVLANBar(&ctx, s, CGRect(x: r.minX + 0.5, y: top ? 27.6 : 85, width: 23, height: 2.6), port.vlanBars)
+            drawVLANBar(&ctx, s, CGRect(x: r.minX + 0.5, y: top ? r.minY - 7.4 : r.maxY + 5, width: 23, height: 2.6), port.vlanBars)
         }
 
         // Number
         let numberColor = isSelected ? Theme.HW.plateLabelSel : (look == .disabled ? Theme.HW.plateLabelDim : Theme.HW.plateLabel)
-        ctx.draw(Text(String(port.index)).font(.system(size: 7.2 * k, weight: isSelected ? .bold : .semibold)).foregroundStyle(numberColor),
-                 at: s.point(CGPoint(x: r.midX, y: top ? 21.8 : 93)), anchor: .center)
+        ctx.draw(Text(port.label).font(.system(size: labelSize(port.label, width: r.width) * k, weight: isSelected ? .bold : .semibold)).foregroundStyle(numberColor),
+                 at: s.point(CGPoint(x: r.midX, y: top ? r.minY - 13.2 : r.maxY + 13)), anchor: .center)
 
         // Selection / hover rings
         if isSelected {
@@ -333,26 +426,25 @@ struct FrontPanelView: View {
         }
     }
 
-    private func drawModulePlate(_ ctx: inout GraphicsContext, _ s: PanelScale) {
+    private func drawModulePlate(_ ctx: inout GraphicsContext, _ s: PanelScale, _ plate: CGRect, _ info: PanelPlate) {
         let k = s.k
-        let plate = CGRect(x: 789, y: 21, width: 202, height: 76)
         let path = Path(roundedRect: s.rect(plate), cornerRadius: 3 * k)
         ctx.fill(path, with: .linearGradient(Gradient(colors: [Color(hex: 0x2C3137), Color(hex: 0x1F2327)]),
                                              startPoint: s.point(CGPoint(x: 0, y: plate.minY)), endPoint: s.point(CGPoint(x: 0, y: plate.maxY))))
         ctx.stroke(path, with: .color(Color(hex: 0x0F1113)), lineWidth: 1 * k)
-        for sx in [CGFloat(797.5), 982.5] {
-            let c = s.point(CGPoint(x: sx, y: 59))
+        for sx in [plate.minX + 8.5, plate.maxX - 8.5] {
+            let c = s.point(CGPoint(x: sx, y: plate.midY))
             ctx.fill(Path(ellipseIn: CGRect(x: c.x - 3.6 * k, y: c.y - 3.6 * k, width: 7.2 * k, height: 7.2 * k)),
                      with: .radialGradient(Gradient(colors: [Color(hex: 0xC9CFD5), Color(hex: 0x6E777F)]), center: c, startRadius: 0, endRadius: 3.6 * k))
         }
-        text(&ctx, s, t("4× SFP+ 10G"), at: CGPoint(x: 807, y: 33.5), size: 5.8, weight: .semibold, color: Color(hex: 0x8C969F), tracking: 0.6)
-        ctx.draw(Text("PIC 2").font(.system(size: 5.8 * k, weight: .semibold)).foregroundStyle(Color(hex: 0x8C969F)),
-                 at: s.point(CGPoint(x: 983, y: 31.5)), anchor: .trailing)
+        text(&ctx, s, info.title, at: CGPoint(x: plate.minX + 18, y: plate.minY + 12.5), size: 5.8, weight: .semibold, color: Color(hex: 0x8C969F), tracking: 0.6)
+        ctx.draw(Text(info.tag).font(.system(size: 5.8 * k, weight: .semibold)).foregroundStyle(Color(hex: 0x8C969F)),
+                 at: s.point(CGPoint(x: plate.maxX - 8, y: plate.minY + 10.5)), anchor: .trailing)
     }
 
     private func drawCage(_ ctx: inout GraphicsContext, _ s: PanelScale, _ port: PanelPort) {
         let k = s.k
-        let r = FrontGeometry.cageRect(port.index)
+        let r = port.frame
         let isSelected = selected.contains(port.slotKey)
         let cage = Path(roundedRect: s.rect(r), cornerRadius: 1.4 * k)
         ctx.fill(cage, with: .linearGradient(Gradient(colors: [Color(hex: 0xB9C1C8), Color(hex: 0x8D969F), Color(hex: 0x6B747D)]),
@@ -376,24 +468,26 @@ struct FrontPanelView: View {
             }
         }
 
-        // LED above the cage
-        let ledR = CGRect(x: r.minX + 15.5, y: 41.4, width: 5, height: 2.6)
+        // LED above the cage (inside its top edge for a top-row cage, whose number sits above)
+        let ledR = port.top ? CGRect(x: r.maxX - 6.5, y: r.minY + 0.6, width: 4.4, height: 1.8)
+                            : CGRect(x: r.minX + 15.5, y: r.minY - 5.6, width: 5, height: 2.6)
         if port.warning && !skeleton {
             drawLED(&ctx, s, ledR, color: Theme.HW.ledAmber, glow: true)
         } else {
             drawLED(&ctx, s, ledR, color: port.look == .up && !skeleton ? Theme.HW.ledGreen : Theme.HW.ledOff, glow: port.look == .up && !skeleton)
         }
         if !port.vlanBars.isEmpty && port.look != .disabled && !skeleton {
-            drawVLANBar(&ctx, s, CGRect(x: r.minX + 1, y: 72.2, width: 34, height: 2.6), port.vlanBars)
+            drawVLANBar(&ctx, s, CGRect(x: r.minX + 1, y: port.top ? r.minY - 4.4 : r.maxY + 3.2, width: r.width - 2, height: 2.6), port.vlanBars)
         }
         // Number with a chassis-colored outline so it reads over a hanging cable.
         let numberColor = isSelected ? Theme.HW.plateLabelSel : Theme.HW.plateLabel
-        let np = s.point(CGPoint(x: r.midX, y: 81.6))
+        let np = s.point(CGPoint(x: r.midX, y: port.top ? r.minY - 10.6 : r.maxY + 12.6))
+        let size = labelSize(port.label, width: r.width)
         for (dx, dy) in [(-1.1, 0.0), (1.1, 0.0), (0.0, -1.1), (0.0, 1.1)] {
-            ctx.draw(Text(String(port.index)).font(.system(size: 7.2 * k, weight: .semibold)).foregroundStyle(Color(hex: 0x23282D)),
+            ctx.draw(Text(port.label).font(.system(size: size * k, weight: .semibold)).foregroundStyle(Color(hex: 0x23282D)),
                      at: CGPoint(x: np.x + dx * k, y: np.y + dy * k), anchor: .center)
         }
-        ctx.draw(Text(String(port.index)).font(.system(size: 7.2 * k, weight: isSelected ? .bold : .semibold)).foregroundStyle(numberColor),
+        ctx.draw(Text(port.label).font(.system(size: size * k, weight: isSelected ? .bold : .semibold)).foregroundStyle(numberColor),
                  at: np, anchor: .center)
 
         if isSelected {
@@ -414,7 +508,7 @@ struct FrontPanelView: View {
 
     private func drawDAC(_ ctx: inout GraphicsContext, _ s: PanelScale, _ port: PanelPort) {
         let k = s.k
-        let r = FrontGeometry.cageRect(port.index)
+        let r = port.frame
         let start = CGPoint(x: r.midX, y: r.midY + 1.5)
         let endX = port.index % 2 == 0 ? r.midX - 14 : r.midX + 10
         let end = CGPoint(x: endX, y: FrontGeometry.chassisHeight + FrontGeometry.cableDrop)

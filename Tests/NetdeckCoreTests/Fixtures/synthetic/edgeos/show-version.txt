@@ -1,0 +1,9 @@
+show version
+Version:      v2.0.9-hotfix.7
+Build ID:     5611704
+Build on:     02/10/23 12:30
+Copyright:    2012-2020 Ubiquiti Networks, Inc.
+HW model:     EdgeRouter X 5-Port
+HW S/N:       TEST0000001
+Uptime:       10:42:31 up 12 days,  3:05,  1 user,  load average: 0.10, 0.07, 0.02
+ubnt@er-x-lab:~$ 

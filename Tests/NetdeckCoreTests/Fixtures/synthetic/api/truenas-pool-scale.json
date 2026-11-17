@@ -1,0 +1,178 @@
+[
+  {
+    "id": 1,
+    "name": "tank",
+    "guid": "1234567890123456789",
+    "path": "/mnt/tank",
+    "status": "ONLINE",
+    "healthy": true,
+    "warning": false,
+    "status_code": "HEALTHY",
+    "status_detail": null,
+    "scan": {
+      "function": "SCRUB",
+      "state": "FINISHED",
+      "errors": 0
+    },
+    "topology": {
+      "data": [
+        {
+          "name": "raidz1-0",
+          "type": "RAIDZ1",
+          "path": null,
+          "guid": "11",
+          "status": "ONLINE",
+          "stats": {
+            "read_errors": 0,
+            "write_errors": 0,
+            "checksum_errors": 0
+          },
+          "children": [
+            {
+              "name": "sda1",
+              "type": "DISK",
+              "path": "/dev/disk/by-partuuid/00000000-0000-0000-0000-000000000sda",
+              "guid": "10000000000000003",
+              "status": "ONLINE",
+              "stats": {
+                "read_errors": 0,
+                "write_errors": 0,
+                "checksum_errors": 0,
+                "size": 0,
+                "allocated": 0
+              },
+              "children": [],
+              "device": "sda1",
+              "disk": "sda",
+              "unavail_disk": null
+            },
+            {
+              "name": "sdb1",
+              "type": "DISK",
+              "path": "/dev/disk/by-partuuid/00000000-0000-0000-0000-000000000sdb",
+              "guid": "10000000000000003",
+              "status": "ONLINE",
+              "stats": {
+                "read_errors": 0,
+                "write_errors": 0,
+                "checksum_errors": 0,
+                "size": 0,
+                "allocated": 0
+              },
+              "children": [],
+              "device": "sdb1",
+              "disk": "sdb",
+              "unavail_disk": null
+            },
+            {
+              "name": "sdc1",
+              "type": "DISK",
+              "path": "/dev/disk/by-partuuid/00000000-0000-0000-0000-000000000sdc",
+              "guid": "10000000000000003",
+              "status": "ONLINE",
+              "stats": {
+                "read_errors": 0,
+                "write_errors": 0,
+                "checksum_errors": 2,
+                "size": 0,
+                "allocated": 0
+              },
+              "children": [],
+              "device": "sdc1",
+              "disk": "sdc",
+              "unavail_disk": null
+            }
+          ]
+        }
+      ],
+      "log": [],
+      "cache": [],
+      "spare": [],
+      "special": [],
+      "dedup": []
+    },
+    "size": 11991548690432,
+    "allocated": 4398046511104,
+    "free": 7593502179328,
+    "freeing": 0,
+    "fragmentation": "3",
+    "autotrim": {
+      "value": "off"
+    }
+  },
+  {
+    "id": 2,
+    "name": "fast",
+    "guid": "2234567890123456789",
+    "path": "/mnt/fast",
+    "status": "DEGRADED",
+    "healthy": false,
+    "warning": false,
+    "status_code": "DEGRADED",
+    "status_detail": "One or more devices has been removed by the administrator.",
+    "topology": {
+      "data": [
+        {
+          "name": "mirror-0",
+          "type": "MIRROR",
+          "path": null,
+          "guid": "21",
+          "status": "DEGRADED",
+          "stats": {
+            "read_errors": 0,
+            "write_errors": 0,
+            "checksum_errors": 0
+          },
+          "children": [
+            {
+              "name": "nvme0n1p1",
+              "type": "DISK",
+              "path": "/dev/disk/by-partuuid/00000000-0000-0000-0000-00000nvme0n1",
+              "guid": "10000000000000007",
+              "status": "ONLINE",
+              "stats": {
+                "read_errors": 0,
+                "write_errors": 0,
+                "checksum_errors": 0,
+                "size": 0,
+                "allocated": 0
+              },
+              "children": [],
+              "device": "nvme0n1p1",
+              "disk": "nvme0n1",
+              "unavail_disk": null
+            },
+            {
+              "name": "nvme1n1p1",
+              "type": "DISK",
+              "path": "/dev/disk/by-partuuid/00000000-0000-0000-0000-00000nvme1n1",
+              "guid": "10000000000000007",
+              "status": "REMOVED",
+              "stats": {
+                "read_errors": 0,
+                "write_errors": 0,
+                "checksum_errors": 0,
+                "size": 0,
+                "allocated": 0
+              },
+              "children": [],
+              "device": "nvme1n1p1",
+              "disk": "nvme1n1",
+              "unavail_disk": null
+            }
+          ]
+        }
+      ],
+      "log": [],
+      "cache": [],
+      "spare": [],
+      "special": [],
+      "dedup": []
+    },
+    "size": 996432412672,
+    "allocated": 214748364800,
+    "free": 781684047872,
+    "freeing": 0,
+    "fragmentation": "1"
+  }
+]

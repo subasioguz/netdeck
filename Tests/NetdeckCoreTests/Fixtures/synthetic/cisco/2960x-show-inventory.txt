@@ -1,0 +1,12 @@
+show inventory
+NAME: "1", DESCR: "WS-C2960X-24TS-L"
+PID: WS-C2960X-24TS-L  , VID: V05  , SN: TEST0000201
+
+NAME: "Switch 1 - FlexStackPlus Module", DESCR: "Stacking Module"
+PID: C2960X-STACK      , VID: V02  , SN: TEST0000202
+
+NAME: "GigabitEthernet1/0/25", DESCR: "1000BaseSX SFP"
+PID: GLC-SX-MMD          , VID: V01  , SN: TEST0000203
+
+
+SW-FLOOR-02#

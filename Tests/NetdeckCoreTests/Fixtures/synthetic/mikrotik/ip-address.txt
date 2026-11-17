@@ -1,0 +1,2 @@
+ 0   address=192.0.2.2/24 network=192.0.2.0 interface=office actual-interface=office
+ 1   comment=to firewall address=198.51.100.2/30 network=198.51.100.0 interface=sfp-sfpplus2 actual-interface=sfp-sfpplus2

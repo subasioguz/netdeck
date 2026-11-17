@@ -1,0 +1,40 @@
+[
+  {
+    "@odata.id": "/redfish/v1/Systems/System.Embedded.1/EthernetInterfaces/NIC.Integrated.1-1-1",
+    "@odata.type": "#EthernetInterface.v1_6_0.EthernetInterface",
+    "AutoNeg": true,
+    "Description": "Integrated NIC 1 Port 1 Partition 1",
+    "FullDuplex": true,
+    "IPv4Addresses": [],
+    "IPv6Addresses": [],
+    "Id": "NIC.Integrated.1-1-1",
+    "LinkStatus": "LinkUp",
+    "MACAddress": "B0:7B:25:00:00:21",
+    "Name": "System Ethernet Interface",
+    "PermanentMACAddress": "B0:7B:25:00:00:21",
+    "SpeedMbps": 10000,
+    "Status": {
+      "Health": "OK",
+      "State": "Enabled"
+    }
+  },
+  {
+    "@odata.id": "/redfish/v1/Systems/System.Embedded.1/EthernetInterfaces/NIC.Integrated.1-2-1",
+    "@odata.type": "#EthernetInterface.v1_6_0.EthernetInterface",
+    "AutoNeg": true,
+    "Description": "Integrated NIC 1 Port 2 Partition 1",
+    "FullDuplex": true,
+    "IPv4Addresses": [],
+    "IPv6Addresses": [],
+    "Id": "NIC.Integrated.1-2-1",
+    "LinkStatus": "LinkDown",
+    "MACAddress": "B0:7B:25:00:00:22",
+    "Name": "System Ethernet Interface",
+    "PermanentMACAddress": "B0:7B:25:00:00:22",
+    "SpeedMbps": 0,
+    "Status": {
+      "Health": "OK",
+      "State": "Enabled"
+    }
+  }
+]

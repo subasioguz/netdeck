@@ -383,17 +383,20 @@ struct RearInspector: View {
     @ViewBuilder
     private var middle: some View {
         if case let .qsfp(i) = item {
+            let port = snapshot.rearPorts.indices.contains(i) ? snapshot.rearPorts[i] : nil
+            let staged = port.flatMap { session.rearEdit(pic: $0.pic, port: $0.port) }
+            let role = staged?.role ?? port?.role ?? .virtualChassis
+            let locked = port == nil || session.pending != nil
             VStack(alignment: .leading, spacing: 10) {
                 HStack(spacing: 8) {
                     FieldLabel(text: t("What should this port be used for?"))
-                    Pill(text: t("Coming soon"), kind: .neutral)
+                    if staged != nil { Pill(text: t("Change staged"), kind: .accent, small: true) }
                 }
                 HStack(spacing: 10) {
                     OptionCard(title: t("Virtual Chassis (stacking)"), subtitle: t("To run as one device with another EX switch. There is no second switch today."),
-                               selected: true) {}
-                    // Role changes need an operational command outside commit confirmed; the core does not stage them yet.
-                    OptionCard(title: t("Network port"), subtitle: t("Becomes a normal 40G port (%@). Connect a server or an uplink and pick a VLAN.", "et-0/1/\(i)"),
-                               selected: false, disabled: true) {}
+                               selected: role == .virtualChassis, disabled: locked) { setRole(.virtualChassis, port) }
+                    OptionCard(title: t("Network port"), subtitle: t("Becomes a normal 40G port (%@). Connect a server or an uplink and pick a VLAN.", port?.networkName ?? "et-0/1/\(i)"),
+                               selected: role == .network, disabled: locked) { setRole(.network, port) }
                 }
                 .fixedSize(horizontal: false, vertical: true)
                 HStack(alignment: .top, spacing: 10) {
@@ -418,6 +421,12 @@ struct RearInspector: View {
                     .font(Typo.callout).foregroundStyle(Theme.text2).fixedSize(horizontal: false, vertical: true)
             }
         }
+    }
+
+    /// Stages the role (or drops the staged change when it is the current role again).
+    private func setRole(_ role: RearPort.Role, _ port: RearPort?) {
+        guard let port else { return }
+        session.stage(RearPortEdit(pic: port.pic, port: port.port, role: role))
     }
 
     @ViewBuilder

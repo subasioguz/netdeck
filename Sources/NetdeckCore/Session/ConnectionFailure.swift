@@ -12,6 +12,10 @@ public enum ConnectionFailure: Equatable, Sendable {
     case sshUnreachable(detail: String)
     case hostKeyChanged(detail: String)
     case droppedWhileReading(detail: String)
+    /// HTTPS: no answer from the device's API (refused, timed out, unknown host).
+    case apiUnreachable(detail: String)
+    /// HTTPS: the device's certificate differs from the one trusted on first connection.
+    case certificateChanged(host: String)
     case other(String)
 
     /// `reading` is true when the failure happened after login, while the snapshot was being read.
@@ -42,6 +46,14 @@ public enum ConnectionFailure: Equatable, Sendable {
                 }
                 guard let p = serialPath else { return .other(reason) }
                 return fileExists(p) ? .droppedWhileReading(detail: reason) : .cableNotFound(path: p)
+            }
+        }
+        if let e = error as? APIError {
+            switch e {
+            case .unauthorized: return .wrongPassword
+            case let .certificateChanged(host): return .certificateChanged(host: host)
+            case let .unreachable(detail): return reading ? .droppedWhileReading(detail: detail) : .apiUnreachable(detail: detail)
+            default: return .other(message)
             }
         }
         if let e = error as? TransportError {

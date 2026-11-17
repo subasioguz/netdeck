@@ -86,7 +86,7 @@ struct BasicOverviewScreen: View {
                     tile(t("Shown as"), t("Info card, no panel"))
                 }
             }
-            MicroHeading(text: t("Not available with basic support")).padding(.top, 10)
+            MicroHeading(text: t("Not available for this device")).padding(.top, 10)
             VStack(spacing: 0) {
                 unavailable("rectangle.connected.to.line.below", t("Front panel and ports"))
                 unavailable("square.3.layers.3d", t("VLANs"))
@@ -103,9 +103,8 @@ struct BasicOverviewScreen: View {
     private func unavailable(_ symbol: String, _ title: String, last: Bool = false) -> some View {
         HStack(spacing: 10) {
             Image(systemName: symbol).font(.system(size: 12.5, weight: .medium)).foregroundStyle(Theme.text3).frame(width: 18)
-            Text(title).font(Typo.body).foregroundStyle(Theme.text2)
+            Text(title).font(Typo.body).foregroundStyle(Theme.text3)
             Spacer()
-            Pill(text: t("Coming soon"), kind: .outline, small: true)
         }
         .frame(height: 40)
         .overlay(alignment: .bottom) { if !last { Rectangle().fill(Theme.border).frame(height: 1) } }
@@ -129,7 +128,7 @@ struct BasicOverviewScreen: View {
             HStack(alignment: .top, spacing: 10) {
                 Image(systemName: "info.circle").font(.system(size: 14, weight: .medium)).foregroundStyle(Theme.accentInk)
                     .padding(.top, 1)
-                Text(t("Full support for %@ is coming. Netdeck only reads this device; it never changes it.", platform == .unknown ? device.name : platform.vendor))
+                Text(t("Netdeck shows basic information for %@. It only reads this device; it never changes it.", platform == .unknown ? device.name : platform.vendor))
                     .font(Typo.callout).foregroundStyle(Theme.text1).lineSpacing(2.5).fixedSize(horizontal: false, vertical: true)
             }
             .padding(14).frame(maxWidth: .infinity, alignment: .leading)

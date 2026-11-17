@@ -1,0 +1,27 @@
+show lldp neighbors
+-------------------------------------------------------------------------------
+LLDP neighbors:
+-------------------------------------------------------------------------------
+Interface:    eth2, via: LLDP, RID: 1, Time: 0 day, 02:11:45
+  Chassis:
+    ChassisID:    mac 48:a9:8a:00:00:20
+    SysName:      office-ap
+    SysDescr:     UAP-AC-Lite
+    MgmtIP:       198.51.100.140
+    Capability:   Bridge, on
+    Capability:   Wlan, on
+  Port:
+    PortID:       mac 48:a9:8a:00:00:20
+    PortDescr:    eth0
+    TTL:          120
+-------------------------------------------------------------------------------
+Interface:    eth0, via: LLDP, RID: 2, Time: 0 day, 05:01:02
+  Chassis:
+    ChassisID:    mac 48:a9:8a:00:00:01
+    SysName:      isp-gw
+  Port:
+    PortID:       ifname ge-0/0/1
+    PortDescr:    customer
+    TTL:          120
+-------------------------------------------------------------------------------
+ubnt@er-x-lab:~$ 

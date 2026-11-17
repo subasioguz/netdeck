@@ -4,13 +4,15 @@ import Foundation
 public struct StagedEdits: Equatable, Sendable {
     public var ports: [PortEdit]
     public var vlans: [VLANEdit]
+    public var rear: [RearPortEdit]
 
-    public init(ports: [PortEdit] = [], vlans: [VLANEdit] = []) {
+    public init(ports: [PortEdit] = [], vlans: [VLANEdit] = [], rear: [RearPortEdit] = []) {
         self.ports = ports
         self.vlans = vlans
+        self.rear = rear
     }
 
-    public var isEmpty: Bool { ports.isEmpty && vlans.isEmpty }
+    public var isEmpty: Bool { ports.isEmpty && vlans.isEmpty && rear.isEmpty }
 }
 
 /// Staged edits kept on this Mac, one JSON file per device, so they survive a restart (§6.1).
@@ -32,7 +34,7 @@ public struct StagedEditsStore: Sendable {
     public func load(deviceID: String) -> StagedEdits {
         guard let url = try? fileURL(deviceID: deviceID), let data = try? Data(contentsOf: url),
               let file = try? JSONDecoder().decode(File.self, from: data) else { return StagedEdits() }
-        return StagedEdits(ports: file.ports.map(\.edit), vlans: file.vlans.compactMap(\.edit))
+        return StagedEdits(ports: file.ports.map(\.edit), vlans: file.vlans.compactMap(\.edit), rear: file.rear ?? [])
     }
 
     public func save(_ edits: StagedEdits, deviceID: String) throws {
@@ -41,7 +43,8 @@ public struct StagedEditsStore: Sendable {
             if FileManager.default.fileExists(atPath: url.path) { try FileManager.default.removeItem(at: url) }
             return
         }
-        let file = File(ports: edits.ports.map(StoredPort.init), vlans: edits.vlans.map(StoredVLAN.init))
+        let file = File(ports: edits.ports.map(StoredPort.init), vlans: edits.vlans.map(StoredVLAN.init),
+                        rear: edits.rear.isEmpty ? nil : edits.rear)
         let enc = JSONEncoder()
         enc.outputFormatting = [.prettyPrinted, .sortedKeys]
         try enc.encode(file).write(to: url, options: .atomic)
@@ -58,6 +61,8 @@ public struct StagedEditsStore: Sendable {
         var version = 1
         var ports: [StoredPort]
         var vlans: [StoredVLAN]
+        /// Rear QSFP+ roles; absent in files written before they existed.
+        var rear: [RearPortEdit]?
     }
 
     private struct StoredPort: Codable {

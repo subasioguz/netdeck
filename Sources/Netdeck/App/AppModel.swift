@@ -192,15 +192,23 @@ final class AppModel {
     /// Renders and previews: shows a prepared offline session for a device.
     func installSession(_ s: DeviceSession, for id: String) { sessions[id] = s }
 
-    /// Basic support (§3.11): the device was recognized but has no full driver yet.
+    /// Basic support (§3.11): the device was recognized but Netdeck has no driver for it.
     func isBasic(_ id: String) -> Bool {
-        guard let d = device(id) else { return false }
+        guard let d = device(id), !isAppliance(id) else { return false }
         let s = sessions[id]
         if case .unsupported = s?.phase { return true }
         // A recognized model whose family isn't fully supported (Juniper SRX, MX, QFX).
         if let found = s?.detection ?? d.detected, found.support != .full { return true }
         if s?.snapshot != nil { return false }
         if let p = d.effectivePlatform { return p.support != .full }
+        return false
+    }
+
+    /// A server BMC or NAS reached over HTTPS: shown as an information screen (Overview only).
+    func isAppliance(_ id: String) -> Bool {
+        guard let d = device(id) else { return false }
+        if sessions[id]?.appliance != nil { return true }
+        if case .api = d.connection { return true }
         return false
     }
 
@@ -416,7 +424,7 @@ final class AppModel {
         add(p)
         sessions[p.id] = session
         if let path = p.serialPath { serialOwners[path] = p.id }
-        selection = .device(p.id, isBasic(p.id) ? .overview : .ports)
+        selection = .device(p.id, isBasic(p.id) || isAppliance(p.id) ? .overview : .ports)
     }
 
     /// Add device without a (successful) test: saves it, opens it and reads it once. When the name is
@@ -424,7 +432,7 @@ final class AppModel {
     func addAndRead(_ profile: DeviceProfile, password: String, renameFromHostname: Bool) throws {
         if !password.isEmpty { try Keychain.setPassword(password, for: profile.id) }
         add(profile)
-        selection = .device(profile.id, .ports)
+        selection = .device(profile.id, isAppliance(profile.id) ? .overview : .ports)
         guard let s = session(for: profile.id) else { return }
         let id = profile.id
         readTasks[id] = Task { [weak self] in

@@ -1,0 +1,113 @@
+{
+  "@odata.context": "/redfish/v1/$metadata#Thermal.Thermal",
+  "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/Thermal",
+  "@odata.type": "#Thermal.v1_7_0.Thermal",
+  "Id": "Thermal",
+  "Name": "Thermal",
+  "Temperatures": [
+    {
+      "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Temperatures/0",
+      "MemberId": "iDRAC.Embedded.1#CPU1Temp",
+      "Name": "CPU1 Temp",
+      "PhysicalContext": "SystemBoard",
+      "ReadingCelsius": 48,
+      "UpperThresholdCritical": 90,
+      "Status": {
+        "Health": "OK",
+        "State": "Enabled"
+      }
+    },
+    {
+      "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Temperatures/1",
+      "MemberId": "iDRAC.Embedded.1#CPU2Temp",
+      "Name": "CPU2 Temp",
+      "PhysicalContext": "SystemBoard",
+      "ReadingCelsius": 51,
+      "UpperThresholdCritical": 90,
+      "Status": {
+        "Health": "OK",
+        "State": "Enabled"
+      }
+    },
+    {
+      "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Temperatures/2",
+      "MemberId": "iDRAC.Embedded.1#SystemBoardInletTemp",
+      "Name": "System Board Inlet Temp",
+      "PhysicalContext": "SystemBoard",
+      "ReadingCelsius": 23,
+      "UpperThresholdCritical": 90,
+      "Status": {
+        "Health": "OK",
+        "State": "Enabled"
+      }
+    },
+    {
+      "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Temperatures/3",
+      "MemberId": "iDRAC.Embedded.1#SystemBoardExhaustTemp",
+      "Name": "System Board Exhaust Temp",
+      "PhysicalContext": "SystemBoard",
+      "ReadingCelsius": 37,
+      "UpperThresholdCritical": 90,
+      "Status": {
+        "Health": "OK",
+        "State": "Enabled"
+      }
+    }
+  ],
+  "Fans": [
+    {
+      "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/0",
+      "FanName": "System Board Fan1A",
+      "LowerThresholdCritical": 600,
+      "MemberId": "0x17||Fan.Embedded.0",
+      "Name": "System Board Fan1A",
+      "PhysicalContext": "SystemBoard",
+      "Reading": 6840,
+      "ReadingUnits": "RPM",
+      "Status": {
+        "Health": "OK",
+        "State": "Enabled"
+      }
+    },
+    {
+      "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/1",
+      "FanName": "System Board Fan2A",
+      "LowerThresholdCritical": 600,
+      "MemberId": "0x17||Fan.Embedded.1",
+      "Name": "System Board Fan2A",
+      "PhysicalContext": "SystemBoard",
+      "Reading": 6720,
+      "ReadingUnits": "RPM",
+      "Status": {
+        "Health": "OK",
+        "State": "Enabled"
+      }
+    },
+    {
+      "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/2",
+      "FanName": "System Board Fan3A",
+      "LowerThresholdCritical": 600,
+      "MemberId": "0x17||Fan.Embedded.2",
+      "Name": "System Board Fan3A",
+      "PhysicalContext": "SystemBoard",
+      "Reading": 6960,
+      "ReadingUnits": "RPM",
+      "Status": {
+        "Health": "OK",
+        "State": "Enabled"
+      }
+    },
+    {
+      "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/3",
+      "FanName": "System Board Fan6A",
+      "MemberId": "0x17||Fan.Embedded.6A",
+      "Name": "System Board Fan6A",
+      "Reading": null,
+      "ReadingUnits": "RPM",
+      "Status": {
+        "Health": null,
+        "State": "Absent"
+      }
+    }
+  ]
+}

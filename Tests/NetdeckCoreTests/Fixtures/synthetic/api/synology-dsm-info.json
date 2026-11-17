@@ -1,0 +1,15 @@
+{
+  "data": {
+    "codepage": "enu",
+    "model": "DS920+",
+    "ram": 4096,
+    "serial": "TEST0000002",
+    "temperature": 41,
+    "temperature_warn": false,
+    "time": "Tue Nov 17 10:15:00 2026",
+    "uptime": 1036800,
+    "version": "69057",
+    "version_string": "DSM 7.2.1-69057 Update 5"
+  },
+  "success": true
+}

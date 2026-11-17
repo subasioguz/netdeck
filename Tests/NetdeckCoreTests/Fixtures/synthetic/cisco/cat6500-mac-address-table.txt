@@ -1,0 +1,12 @@
+show mac address-table
+Legend: * - primary entry
+        age - seconds since last seen
+        n/a - not available
+
+  vlan   mac address     type    learn     age              ports
+------+----------------+--------+-----+----------+--------------------------
+*  777  48a9.8a00.0100    static  No           -   Router
+*   10  48a9.8a00.0011   dynamic  Yes          5   Gi1/1
+*   20  48a9.8a00.0012   dynamic  Yes         30   Gi2/3
+*  ---  ffff.ffff.ffff    static  No           -   Switch
+CORE-6500#

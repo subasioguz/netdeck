@@ -16,6 +16,8 @@
 	<key>LSApplicationCategoryType</key><string>public.app-category.developer-tools</string>
 	<key>NSHighResolutionCapable</key><true/>
 	<key>NSPrincipalClass</key><string>NSApplication</string>
+	<key>NSLocalNetworkUsageDescription</key><string>Netdeck connects to the switches, routers, servers and storage you add on your local network.</string>
+	<key>NSAppTransportSecurity</key><dict><key>NSAllowsLocalNetworking</key><true/></dict>
 	<key>NSHumanReadableCopyright</key><string>Copyright © 2026 Oğuzhan Subaşı. Apache License 2.0.</string>
 </dict>
 </plist>

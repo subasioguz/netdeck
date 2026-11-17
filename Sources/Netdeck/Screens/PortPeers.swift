@@ -68,6 +68,7 @@ extension SwitchPort {
     var isEnabled: Bool { !(configDisabled || !adminUp) }
     var speedText: String {
         guard linkUp else { return "—" }
+        if let speed, !speed.isEmpty { return speed }   // as the device reports it
         return kind == .copper ? t("%@ · full duplex", "1 Gbps") : "1 Gbps"
     }
     var isTopRow: Bool { kind == .copper && number % 2 == 0 }

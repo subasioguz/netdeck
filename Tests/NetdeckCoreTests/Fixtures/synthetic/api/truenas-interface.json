@@ -1,0 +1,197 @@
+[
+  {
+    "id": "enp5s0",
+    "name": "enp5s0",
+    "fake": false,
+    "type": "PHYSICAL",
+    "state": {
+      "name": "enp5s0",
+      "orig_name": "enp5s0",
+      "description": "enp5s0",
+      "mtu": 1500,
+      "cloned": false,
+      "flags": [
+        "UP",
+        "BROADCAST",
+        "RUNNING",
+        "MULTICAST"
+      ],
+      "nd6_flags": [],
+      "capabilities": [],
+      "link_state": "LINK_STATE_UP",
+      "media_type": "Ethernet",
+      "media_subtype": "autoselect",
+      "active_media_type": "Ethernet",
+      "active_media_subtype": "1000Mb/s Twisted Pair",
+      "supported_media": [],
+      "media_options": null,
+      "link_address": "a8:a1:59:00:00:01",
+      "permanent_link_address": "a8:a1:59:00:00:01",
+      "hardware_link_address": "a8:a1:59:00:00:01",
+      "rx_queues": 4,
+      "tx_queues": 4,
+      "aliases": [
+        {
+          "type": "LINK",
+          "address": "a8:a1:59:00:00:01"
+        },
+        {
+          "type": "INET",
+          "address": "192.0.2.30",
+          "netmask": 24,
+          "broadcast": "192.0.2.255"
+        },
+        {
+          "type": "INET6",
+          "address": "fe80::aaa1:59ff:fe00:1",
+          "netmask": 64,
+          "broadcast": null
+        }
+      ],
+      "vrrp_config": []
+    },
+    "aliases": [],
+    "ipv4_dhcp": true,
+    "ipv6_auto": false,
+    "description": "",
+    "mtu": null
+  },
+  {
+    "id": "enp6s0",
+    "name": "enp6s0",
+    "fake": false,
+    "type": "PHYSICAL",
+    "state": {
+      "name": "enp6s0",
+      "orig_name": "enp6s0",
+      "description": "enp6s0",
+      "mtu": 1500,
+      "cloned": false,
+      "flags": [
+        "UP",
+        "BROADCAST",
+        "RUNNING",
+        "MULTICAST"
+      ],
+      "nd6_flags": [],
+      "capabilities": [],
+      "link_state": "LINK_STATE_DOWN",
+      "media_type": "Ethernet",
+      "media_subtype": "autoselect",
+      "active_media_type": "Ethernet",
+      "active_media_subtype": "Unknown",
+      "supported_media": [],
+      "media_options": null,
+      "link_address": "a8:a1:59:00:00:02",
+      "permanent_link_address": "a8:a1:59:00:00:02",
+      "hardware_link_address": "a8:a1:59:00:00:02",
+      "rx_queues": 4,
+      "tx_queues": 4,
+      "aliases": [
+        {
+          "type": "LINK",
+          "address": "a8:a1:59:00:00:02"
+        }
+      ],
+      "vrrp_config": []
+    },
+    "aliases": [],
+    "ipv4_dhcp": true,
+    "ipv6_auto": false,
+    "description": "",
+    "mtu": null
+  },
+  {
+    "id": "br0",
+    "name": "br0",
+    "fake": false,
+    "type": "BRIDGE",
+    "state": {
+      "name": "br0",
+      "orig_name": "br0",
+      "description": "br0",
+      "mtu": 1500,
+      "cloned": true,
+      "flags": [
+        "UP",
+        "BROADCAST",
+        "RUNNING",
+        "MULTICAST"
+      ],
+      "nd6_flags": [],
+      "capabilities": [],
+      "link_state": "LINK_STATE_UP",
+      "media_type": "Ethernet",
+      "media_subtype": "autoselect",
+      "active_media_type": "Ethernet",
+      "active_media_subtype": "Unknown",
+      "supported_media": [],
+      "media_options": null,
+      "link_address": "a8:a1:59:00:00:03",
+      "permanent_link_address": "a8:a1:59:00:00:03",
+      "hardware_link_address": "a8:a1:59:00:00:03",
+      "rx_queues": 4,
+      "tx_queues": 4,
+      "aliases": [
+        {
+          "type": "INET",
+          "address": "198.51.100.5",
+          "netmask": 24,
+          "broadcast": "198.51.100.255"
+        }
+      ],
+      "vrrp_config": []
+    },
+    "aliases": [
+      {
+        "type": "INET",
+        "address": "198.51.100.5",
+        "netmask": 24
+      }
+    ],
+    "ipv4_dhcp": false,
+    "ipv6_auto": false,
+    "description": "",
+    "mtu": null
+  },
+  {
+    "id": "vlan10",
+    "name": "vlan10",
+    "fake": false,
+    "type": "VLAN",
+    "state": {
+      "name": "vlan10",
+      "orig_name": "vlan10",
+      "description": "vlan10",
+      "mtu": 1500,
+      "cloned": true,
+      "flags": [
+        "UP",
+        "BROADCAST",
+        "RUNNING",
+        "MULTICAST"
+      ],
+      "nd6_flags": [],
+      "capabilities": [],
+      "link_state": "LINK_STATE_UP",
+      "media_type": "Ethernet",
+      "media_subtype": "autoselect",
+      "active_media_type": "Ethernet",
+      "active_media_subtype": "Unknown",
+      "supported_media": [],
+      "media_options": null,
+      "link_address": "a8:a1:59:00:00:01",
+      "permanent_link_address": "a8:a1:59:00:00:01",
+      "hardware_link_address": "a8:a1:59:00:00:01",
+      "rx_queues": 4,
+      "tx_queues": 4,
+      "aliases": [],
+      "vrrp_config": []
+    },
+    "aliases": [],
+    "ipv4_dhcp": true,
+    "ipv6_auto": false,
+    "description": "",
+    "mtu": null
+  }
+]

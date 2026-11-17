@@ -1,0 +1,6 @@
+                  time: 10:21:39
+                  date: nov/17/2026
+  time-zone-autodetect: yes
+        time-zone-name: manual
+            gmt-offset: +00:00
+            dst-active: no

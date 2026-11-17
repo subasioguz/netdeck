@@ -1,0 +1,14 @@
+{
+  "error": {
+    "code": 403,
+    "errors": {
+      "token": "TESTTOKEN0000",
+      "types": [
+        {
+          "type": "otp"
+        }
+      ]
+    }
+  },
+  "success": false
+}

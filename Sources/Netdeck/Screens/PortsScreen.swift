@@ -14,8 +14,11 @@ struct PortsScreen: View {
         Binding(get: { model.portsState[device.id] ?? PortsViewState() }, set: { model.portsState[device.id] = $0 })
     }
     private var selected: String? { state.wrappedValue.selected }
-    private var face: PanelFace { state.wrappedValue.face }
-    private var mode: PortsMode { state.wrappedValue.mode }
+    /// The rear face exists only for models Netdeck has a rear drawing of (EX4300).
+    private var hasRear: Bool { session.snapshot?.junosModel?.rearPIC != nil }
+    private var face: PanelFace { hasRear ? state.wrappedValue.face : .front }
+    /// Rooms (VLANs) only on devices with Ethernet switching.
+    private var mode: PortsMode { session.snapshot?.hasSwitching == false ? .ports : state.wrappedValue.mode }
     private var showsList: Bool { state.wrappedValue.list }
 
     var body: some View {
@@ -77,7 +80,7 @@ struct PortsScreen: View {
         return HStack(spacing: 10) {
             VStack(alignment: .leading, spacing: 1) {
                 Text(face == .front ? t("Front panel") : t("Rear panel")).font(Typo.cardTitle).foregroundStyle(Theme.text1)
-                Text(face == .front ? t("48 copper ports (1G) · 4 SFP+ slots (10G)") : t("4 QSFP+ (40G) · management · console · power · fans"))
+                Text(face == .front ? Self.frontSummary(snap) : t("4 QSFP+ (40G) · management · console · power · fans"))
                     .font(Typo.caption).foregroundStyle(Theme.text3).lineLimit(1)
             }
             .layoutPriority(1)
@@ -87,14 +90,29 @@ struct PortsScreen: View {
                 Color.clear.frame(width: 0, height: 0)
             }
             Spacer(minLength: 8)
-            Segmented(options: [(PanelFace.front, t("Front"), nil), (.rear, t("Rear"), nil)], selection: state.face, compact: true)
-            Segmented(options: [(PortsMode.ports, t("Ports"), nil), (.rooms, t("Rooms"), "square.3.layers.3d")], selection: state.mode, compact: true)
-                .disabled(face == .rear || showsList).opacity(face == .rear || showsList ? 0.5 : 1)
+            if hasRear {
+                Segmented(options: [(PanelFace.front, t("Front"), nil), (.rear, t("Rear"), nil)], selection: state.face, compact: true)
+            }
+            if snap.hasSwitching {
+                Segmented(options: [(PortsMode.ports, t("Ports"), nil), (.rooms, t("Rooms"), "square.3.layers.3d")], selection: state.mode, compact: true)
+                    .disabled(face == .rear || showsList).opacity(face == .rear || showsList ? 0.5 : 1)
+            }
             Button { state.wrappedValue.list.toggle() } label: { Image(systemName: "list.bullet") }
                 .buttonStyle(ToggleIconStyle(on: showsList)).help(t("List"))
                 .disabled(face == .rear)
         }
         .padding(.horizontal, 16).frame(height: 54)
+    }
+
+    /// "48 copper ports (1G) · 4 SFP+ slots (10G)" on the EX4300-48T; counts for other models.
+    static func frontSummary(_ snap: SwitchSnapshot) -> String {
+        let copper = snap.ports.filter { $0.kind == .copper }.count
+        let cages = snap.ports.count - copper
+        if copper == 48 && cages == 4 && snap.junosModel?.rearPIC != nil { return t("48 copper ports (1G) · 4 SFP+ slots (10G)") }
+        var parts: [String] = []
+        if copper > 0 { parts.append(copper == 1 ? t("1 copper port") : t("%@ copper ports", String(copper))) }
+        if cages > 0 { parts.append(cages == 1 ? t("1 module slot") : t("%@ module slots", String(cages))) }
+        return parts.joined(separator: " · ")
     }
 
     @ViewBuilder
@@ -145,9 +163,9 @@ struct FrontStage: View {
         GeometryReader { geo in
             let stageW = geo.size.width
             let panelW = stageW - side * 2
-            let s = PanelScale(width: panelW)
             let ports = PanelBuilder.ports(snapshot: snapshot, session: session, colors: colors)
-            let panelH = panelW * FrontGeometry.height(hasCables: ports.contains { $0.isDAC }) / (FrontGeometry.maxX - FrontGeometry.minX)
+            let s = PanelScale(width: panelW, ports: ports)
+            let panelH = panelW / FrontGeometry.aspect(ports, hasCables: ports.contains { $0.isDAC })
             let stageH = above + panelH + below + legend
             let notchX: CGFloat? = selected.flatMap { key in ports.first { $0.slotKey == key } }
                 .map { side + s.x(FrontGeometry.rect(for: $0).midX) }
@@ -156,7 +174,7 @@ struct FrontStage: View {
                     StageBackground()
                     FloorShadow().frame(width: panelW * 0.9, height: 18)
                         .position(x: stageW / 2, y: above + s.y(FrontGeometry.chassisHeight) - 4)
-                    FrontPanelView(model: snapshot.model, vendor: "Juniper", hostname: device.name, ports: ports,
+                    FrontPanelView(model: snapshot.model, vendor: snapshot.platform.vendor, hostname: device.name, ports: ports,
                                    selected: Set([selected].compactMap { $0 }), hovered: hovered,
                                    onTap: { p in withAnimation(.easeOut(duration: 0.2)) { selected = selected == p.slotKey ? nil : p.slotKey } },
                                    onHover: { hovered = $0?.slotKey })
@@ -275,7 +293,7 @@ struct Callouts: View {
         ports.compactMap { pp -> Item? in
             guard pp.kind == .copper, let sp = snapshot.ports.first(where: { $0.slotKey == pp.slotKey }),
                   let peer = PortPeer.of(sp, session: session) else { return nil }
-            let top = FrontGeometry.isTopRow(pp.index)
+            let top = pp.top
             let a = FrontGeometry.anchor(for: pp, below: !top)
             return Item(key: pp.slotKey, peer: peer, anchor: CGPoint(x: origin.x + s.x(a.x), y: origin.y + s.y(a.y)), top: top, warning: false)
         }
@@ -301,7 +319,7 @@ struct Callouts: View {
         let dacs = ports.filter { $0.isDAC }
         if !dacs.isEmpty {
             let warn = dacs.contains { $0.warning }
-            let xs = dacs.map { origin.x + s.x(FrontGeometry.cageRect($0.index).midX) }
+            let xs = dacs.map { origin.x + s.x($0.frame.midX) }
             let cableEnd = origin.y + s.y(FrontGeometry.chassisHeight + FrontGeometry.cableDrop)
             let cx = min(xs.reduce(0, +) / CGFloat(xs.count), stageWidth - 14 - 110)
             let names = dacs.compactMap { d in snapshot.ports.first { $0.slotKey == d.slotKey }?.name }

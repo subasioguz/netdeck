@@ -1,0 +1,8 @@
+show arp
+Address                  HWtype  HWaddress           Flags Mask            Iface
+203.0.113.1              ether   48:a9:8a:00:00:01   C                     eth0
+198.51.100.10            ether   48:a9:8a:00:00:10   C                     switch0.10
+198.51.100.140           ether   48:a9:8a:00:00:20   C                     switch0.20
+192.0.2.50               ether   48:a9:8a:00:00:30   C                     switch0
+198.51.100.11                    (incomplete)                              switch0.10
+ubnt@er-x-lab:~$ 

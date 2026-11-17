@@ -1,0 +1,33 @@
+{
+  "version": "TrueNAS-13.0-U6.1",
+  "buildtime": [
+    {
+      "$date": 1702900000000
+    }
+  ],
+  "hostname": "freenas",
+  "physmem": 34359738368,
+  "model": "Intel(R) Xeon(R) CPU E3-1230 v6 @ 3.50GHz",
+  "cores": 8,
+  "physical_cores": 4,
+  "loadavg": [
+    0.3,
+    0.25,
+    0.2
+  ],
+  "uptime": "3 days, 1:00",
+  "uptime_seconds": 262800.0,
+  "system_serial": "To be filled by O.E.M.",
+  "system_product": "X11SSH-F",
+  "license": null,
+  "boottime": {
+    "$date": 1794654000000
+  },
+  "datetime": {
+    "$date": 1794916800000
+  },
+  "birthday": null,
+  "timezone": "UTC",
+  "system_manufacturer": "Supermicro",
+  "ecc_memory": true
+}

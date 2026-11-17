@@ -1,0 +1,11 @@
+show archive
+The maximum archive configurations allowed is 5.
+There are currently 1 archive configurations saved.
+The next archive file will be named flash:netdeck-Nov-17-10-15-02.517-1
+ Archive #  Name
+   1        flash:netdeck-Nov-17-10-02-11.204-0 <- Most Recent
+   2
+   3
+   4
+   5
+SW-ACCESS-01#

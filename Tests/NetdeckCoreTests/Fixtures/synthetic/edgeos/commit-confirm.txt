@@ -1,0 +1,6 @@
+commit-confirm 5
+commit-confirm will automatically reboot in 5 minutes unless confirmed
+Proceed? [yes][y]
+Type 'confirm' to stop reboot
+[edit]
+ubnt@er-x-lab# 

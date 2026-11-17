@@ -73,6 +73,8 @@ public struct JunosConfig: Equatable, Sendable {
     public var rstpDisabled: Set<String> = []
     public var bpduBlockOnEdge = false
     public var rtgGroups: [RTGGroup] = []
+    /// Physical port → security zone (Juniper SRX `security zones security-zone Z interfaces P.0`).
+    public var zones: [String: String] = [:]
     public var lines: [String] = []
 
     public init() {}
@@ -227,6 +229,11 @@ public enum SetConfigParser {
                     case "l3-interface": v.l3Interface = t[4]
                     default: break
                     }
+                }
+            case "security":
+                // set security zones security-zone trust interfaces ge-0/0/1.0 host-inbound-traffic ...
+                if t.count > 5, t[2] == "zones", t[3] == "security-zone", t[5] == "interfaces", t.count > 6 {
+                    cfg.zones[InterfaceName.physical(t[6])] = t[4]
                 }
             case "protocols":
                 guard t[2] == "rstp" else { continue }

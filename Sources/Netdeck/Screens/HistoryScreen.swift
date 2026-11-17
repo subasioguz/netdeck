@@ -334,9 +334,16 @@ private struct HistoryTimeline: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Segmented(options: [(HistoryViewState.Filter.all, t("All"), nil), (.commits, t("Switch history"), nil), (.backups, t("Local backups"), nil)],
-                      selection: $state.filter)
-                .padding(.horizontal, 16).padding(.top, 14).padding(.bottom, 10)
+            if data.session.changeTraits.history == .commits {
+                Segmented(options: [(HistoryViewState.Filter.all, t("All"), nil), (.commits, t("Switch history"), nil), (.backups, t("Local backups"), nil)],
+                          selection: $state.filter)
+                    .padding(.horizontal, 16).padding(.top, 14).padding(.bottom, 10)
+            } else {
+                // The device keeps no numbered versions (IOS, RouterOS): only Netdeck's own backups.
+                Text(t("This device keeps no version history. Netdeck backs up its configuration on every read and before every change."))
+                    .font(.system(size: 11.5)).foregroundStyle(Theme.text3).fixedSize(horizontal: false, vertical: true)
+                    .padding(.horizontal, 16).padding(.top, 14).padding(.bottom, 10)
+            }
             if let days = data.clockBehindDays, state.filter != .backups {
                 HStack(alignment: .center, spacing: 9) {
                     Image(systemName: "exclamationmark.triangle").font(.system(size: 12.5, weight: .semibold)).foregroundStyle(Theme.warn)
@@ -766,24 +773,30 @@ private struct VersionDetail: View {
     }
 
     private func footer(_ comparison: Comparison, target: HistoryVersion) -> some View {
-        let rollbackIndex: Int? = { if case let .commit(i) = selected, i > 0 { return i }; return nil }()
         let session = data.session
+        let rollbackIndex: Int? = { if case let .commit(i) = selected, i > 0, session.changeTraits.canRollback { return i }; return nil }()
         return HStack(spacing: 10) {
             Text(t("Going back also goes through \"Review changes\" first. Nothing is sent to the switch without your confirmation."))
                 .font(.system(size: 12)).foregroundStyle(Theme.text3).lineSpacing(1.5)
                 .fixedSize(horizontal: false, vertical: true).frame(maxWidth: .infinity, alignment: .leading)
             Button { export() } label: { Label(t("Export"), systemImage: "square.and.arrow.down") }
                 .buttonStyle(SecondaryButtonStyle()).disabled(currentText == nil)
+            if session.changeTraits.canRollback {
+                rollbackButton(rollbackIndex, session: session)
+            }
+        }
+        .padding(.horizontal, 20).padding(.vertical, 14)
+        .background(Theme.surface2)
+        .overlay(alignment: .top) { Rectangle().fill(Theme.border).frame(height: 1) }
+    }
+
+    private func rollbackButton(_ rollbackIndex: Int?, session: DeviceSession) -> some View {
             Button {
                 if let i = rollbackIndex { model.sheet = .rollback(deviceID: device.id, index: i) }
             } label: { Label(t("Go back to this version…"), systemImage: "arrow.uturn.backward") }
                 .buttonStyle(PrimaryButtonStyle())
                 .disabled(rollbackIndex == nil || session.pending != nil || session.isBusy)
                 .help(rollbackIndex != nil ? "" : (selected == .commit(0) ? t("This is the current version.") : t("Going back works for versions the switch keeps.")))
-        }
-        .padding(.horizontal, 20).padding(.vertical, 14)
-        .background(Theme.surface2)
-        .overlay(alignment: .top) { Rectangle().fill(Theme.border).frame(height: 1) }
     }
 
     // MARK: Text actions

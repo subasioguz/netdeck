@@ -1,0 +1,32 @@
+{
+  "data": {
+    "dns": [
+      "192.0.2.1"
+    ],
+    "gateway": "192.0.2.1",
+    "hostname": "nas-01",
+    "workgroup": "WORKGROUP",
+    "interfaces": [
+      {
+        "id": "eth0",
+        "type": "lan",
+        "mac": "00:11:32:00:00:01",
+        "ip": [
+          {
+            "address": "192.0.2.20",
+            "netmask": "255.255.255.0"
+          }
+        ],
+        "ipv6": []
+      },
+      {
+        "id": "eth1",
+        "type": "lan",
+        "mac": "00:11:32:00:00:02",
+        "ip": [],
+        "ipv6": []
+      }
+    ]
+  },
+  "success": true
+}

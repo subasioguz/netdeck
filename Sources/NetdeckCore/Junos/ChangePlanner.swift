@@ -28,21 +28,78 @@ public enum VLANEdit: Equatable, Sendable {
     case delete(name: String)
 }
 
+/// A staged role change of a rear QSFP+ port (EX4300): Virtual Chassis stacking port or network port.
+public struct RearPortEdit: Equatable, Sendable, Codable {
+    public var pic: Int
+    public var port: Int
+    public var role: RearPort.Role
+
+    public init(pic: Int, port: Int, role: RearPort.Role) {
+        self.pic = pic
+        self.port = port
+        self.role = role
+    }
+
+    /// Subject shown in the review sheet ("QSFP+ 1/0").
+    public var subject: String { "QSFP+ \(pic)/\(port)" }
+}
+
 public struct PlannedChange: Equatable, Sendable, Identifiable {
-    public enum Kind: String, Sendable { case port, vlan }
+    public enum Kind: String, Sendable { case port, vlan, rearPort }
     public var id = UUID()
     public var kind: Kind
     public var subject: String          // "ge-0/0/2" or VLAN name
     public var summary: String          // plain language, e.g. "description: R640-PVE-01 → SRV02-IDRAC"
     public var commands: [String]
+    /// Problems that block Apply until fixed.
     public var warnings: [String] = []
+    /// Runs as a separate command that the safety timer can't undo (§3.8). Apply needs an explicit tick.
+    public var outsideTimer = false
+    /// Commands that put the previous state back, for platforms whose safety net runs an undo script
+    /// (RouterOS). Empty when the device undoes changes itself.
+    public var undo: [String] = []
+
+    public init(id: UUID = UUID(), kind: Kind, subject: String, summary: String, commands: [String], warnings: [String] = [],
+                outsideTimer: Bool = false, undo: [String] = []) {
+        self.id = id
+        self.kind = kind
+        self.subject = subject
+        self.summary = summary
+        self.commands = commands
+        self.warnings = warnings
+        self.outsideTimer = outsideTimer
+        self.undo = undo
+    }
 }
 
 public struct ChangePlan: Equatable, Sendable {
     public var changes: [PlannedChange]
-    public var commands: [String] { changes.flatMap(\.commands) }
+    /// Commands applied under the safety timer.
+    public var commands: [String] { changes.filter { !$0.outsideTimer }.flatMap(\.commands) }
+    /// Commands run separately afterwards, not covered by the timer.
+    public var operationalCommands: [String] { changes.filter(\.outsideTimer).flatMap(\.commands) }
+    /// Undo commands of the timed part, in reverse order of the changes.
+    public var undoCommands: [String] { changes.filter { !$0.outsideTimer }.reversed().flatMap(\.undo) }
     public var warnings: [String] { changes.flatMap(\.warnings) }
-    public var isEmpty: Bool { commands.isEmpty }
+    public var isEmpty: Bool { commands.isEmpty && operationalCommands.isEmpty }
+    /// The plan has a part the safety timer can't undo.
+    public var hasUntimedPart: Bool { !operationalCommands.isEmpty }
+
+    public init(changes: [PlannedChange]) { self.changes = changes }
+}
+
+/// Picks the change planner for the platform a snapshot was read from.
+public enum Planner {
+    public static func plan(snapshot: SwitchSnapshot, ports: [PortEdit], vlans: [VLANEdit], rear: [RearPortEdit] = []) -> ChangePlan {
+        switch snapshot.platform {
+        case .juniperJunos:
+            var p = ChangePlanner.plan(ports: ports, vlans: vlans, config: snapshot.config)
+            p.changes += ChangePlanner.planRear(rear, snapshot: snapshot)
+            return p
+        default:
+            return VendorPlanners.plan(snapshot: snapshot, ports: ports, vlans: vlans)
+        }
+    }
 }
 
 /// Turns staged edits into Junos `set`/`delete` commands against a known config.
@@ -58,6 +115,28 @@ public enum ChangePlanner {
             if let c = planPort(edit, config: &cfg) { changes.append(c) }
         }
         return ChangePlan(changes: changes)
+    }
+
+    // MARK: Rear QSFP+ roles (operational commands, outside the timer)
+
+    /// `request virtual-chassis vc-port set|delete` per changed port. These take effect at once and no
+    /// `commit confirmed` covers them, so they are marked `outsideTimer`.
+    public static func planRear(_ edits: [RearPortEdit], snapshot: SwitchSnapshot) -> [PlannedChange] {
+        var out: [PlannedChange] = []
+        for e in edits {
+            guard let current = snapshot.rearPorts.first(where: { $0.pic == e.pic && $0.port == e.port }), current.role != e.role else { continue }
+            let command: String, summary: String
+            switch e.role {
+            case .network:
+                command = "request virtual-chassis vc-port delete pic-slot \(e.pic) port \(e.port)"
+                summary = t("role: Virtual Chassis port → network port (%@)", current.networkName)
+            case .virtualChassis:
+                command = "request virtual-chassis vc-port set pic-slot \(e.pic) port \(e.port)"
+                summary = t("role: network port (%@) → Virtual Chassis port", current.networkName)
+            }
+            out.append(PlannedChange(kind: .rearPort, subject: e.subject, summary: summary, commands: [command], outsideTimer: true))
+        }
+        return out
     }
 
     // MARK: Ports

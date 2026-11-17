@@ -9,9 +9,16 @@ struct DeviceScreen: View {
     var section: DeviceSection
 
     /// What the main area shows: a section, or the connection board that stands in for all of them.
-    private enum Content { case basic, history, board(ConnectionBoard.Mode), section }
+    private enum Content { case basic, appliance(ApplianceSnapshot), history, board(ConnectionBoard.Mode), section }
 
     private var content: Content {
+        if model.isAppliance(device.id) {
+            switch session.phase {
+            case .connecting: return .board(.connecting)
+            case .failed: return .board(.failed(session.failure ?? .other(session.lastError ?? t("Couldn't connect"))))
+            default: return session.appliance.map(Content.appliance) ?? .board(.idle)
+            }
+        }
         let basic = model.isBasic(device.id)
         if basic {
             return section == .history && (session.detection ?? device.detected)?.platform.exportsConfig == true ? .history : .basic
@@ -51,6 +58,7 @@ struct DeviceScreen: View {
             Group {
                 switch content {
                 case .basic: BasicOverviewScreen(device: device, session: session)
+                case let .appliance(a): ApplianceScreen(device: device, session: session, appliance: a)
                 case .history: HistoryScreen(device: device, session: session)
                 case let .board(mode): ConnectionBoard(device: device, session: session, mode: mode)
                 case .section:
@@ -166,13 +174,16 @@ struct DeviceHeader: View {
     }
 
     private var subtitle: String {
+        if let a = session.appliance {
+            return [a.model, a.osVersion, a.serial].compactMap { $0 }.joined(separator: " · ")
+        }
         guard let snap = session.snapshot else {
             let det = session.detection ?? device.detected
             if let det, let serial = det.serial { return det.summary + " · " + serial }
             return det?.summary ?? device.kind.title
         }
         var parts = [snap.model]
-        if let v = snap.version.junos { parts.append("Junos \(v)") }
+        if let v = snap.osVersion { parts.append("\(snap.platform.osName) \(v)") }
         if let s = snap.hardware.serial { parts.append(s) }
         return parts.joined(separator: " · ")
     }

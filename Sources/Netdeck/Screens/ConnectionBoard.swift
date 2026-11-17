@@ -41,19 +41,19 @@ struct ConnectionBoard: View {
     private var header: some View {
         HStack(spacing: 10) {
             VStack(alignment: .leading, spacing: 1) {
-                Text(t("Front panel")).font(Typo.cardTitle).foregroundStyle(Theme.text1)
+                Text(model.isAppliance(device.id) ? t("Overview") : t("Front panel")).font(Typo.cardTitle).foregroundStyle(Theme.text1)
                 if BoardStage.isEX4300(device: device, session: session) {
                     Text(t("48 copper ports (1G) · 4 SFP+ slots (10G)")).font(Typo.caption).foregroundStyle(Theme.text3).lineLimit(1)
                 }
             }
             .layoutPriority(1)
             switch mode {
-            case .connecting: Pill(text: t("Reading ports…"), kind: .outline)
+            case .connecting: Pill(text: model.isAppliance(device.id) ? t("Reading…") : t("Reading ports…"), kind: .outline)
             case .foreign: Pill(text: t("Apply is off"), kind: .warn, icon: "lock")
             default: EmptyView()
             }
             Spacer(minLength: 8)
-            if case .connecting = mode {
+            if case .connecting = mode, BoardStage.isEX4300(device: device, session: session) {
                 Segmented(options: [(PanelFace.front, t("Front"), nil), (.rear, t("Rear"), nil)], selection: .constant(.front), compact: true)
                     .disabled(true).opacity(0.55)
             }
@@ -125,11 +125,29 @@ struct BoardStage: View {
     private var isConnecting: Bool { if case .connecting = mode { return true }; return false }
 
     var body: some View {
+        if model.isAppliance(device.id) { applianceStage } else { panelStage }
+    }
+
+    /// Servers and NAS have no faceplate: the device's type tile on the stage.
+    private var applianceStage: some View {
+        ZStack {
+            StageBackground()
+            RoundedRectangle(cornerRadius: 22, style: .continuous).fill(Theme.darkTile).frame(width: 84, height: 84)
+                .overlay(Image(systemName: device.kind.symbol).font(.system(size: 34, weight: .medium)).foregroundStyle(Theme.onDarkTile))
+                .shadow(color: .black.opacity(0.18), radius: 12, y: 8)
+                .opacity(isConnecting ? 0.6 : 1)
+        }
+        .frame(height: Self.height)
+    }
+
+    private var panelStage: some View {
         GeometryReader { geo in
             let w = geo.size.width
             let panelW = w - side * 2
-            let panelH = panelW * FrontGeometry.height(hasCables: false) / (FrontGeometry.maxX - FrontGeometry.minX)
-            let s = PanelScale(width: panelW)
+            let shown = panelPorts
+            let panelH = panelW / FrontGeometry.aspect(shown, hasCables: false)
+            let s = PanelScale(width: panelW, ports: shown)
+            let cw = FrontGeometry.chassisWidth(shown)
             ZStack(alignment: .topLeading) {
                 StageBackground()
                 FloorShadow().frame(width: panelW * 0.9, height: 18)
@@ -139,9 +157,9 @@ struct BoardStage: View {
                     .frame(width: panelW, height: panelH)
                     .overlay {
                         if isConnecting && !reduceMotion && !RenderMode.active {
-                            Sheen().frame(width: s.rect(CGRect(x: 0, y: 0, width: 1000, height: 118)).width,
-                                          height: s.rect(CGRect(x: 0, y: 0, width: 1000, height: 118)).height)
-                                .position(x: s.x(500), y: s.y(59))
+                            Sheen().frame(width: s.rect(CGRect(x: 0, y: 0, width: cw, height: 118)).width,
+                                          height: s.rect(CGRect(x: 0, y: 0, width: cw, height: 118)).height)
+                                .position(x: s.x(cw / 2), y: s.y(59))
                         }
                     }
                     .offset(x: side, y: top)
@@ -166,14 +184,24 @@ struct BoardStage: View {
         .frame(height: Self.height)
     }
 
+    /// Ports of the panel on the board: the last known (or foreign-candidate) reading, else the skeleton.
+    private var panelPorts: [PanelPort] {
+        if let snap = isForeign ? session.snapshot : lastKnown {
+            return PanelBuilder.ports(snapshot: snap, session: session, colors: model.colors(for: device.id))
+        }
+        return Self.skeletonPorts
+    }
+
     @ViewBuilder
     private var panel: some View {
         if let snap = isForeign ? session.snapshot : lastKnown {
-            FrontPanelView(model: snap.model, vendor: "Juniper", hostname: device.name,
-                           ports: PanelBuilder.ports(snapshot: snap, session: session, colors: model.colors(for: device.id)), showsCables: false)
+            FrontPanelView(model: snap.model, vendor: snap.platform.vendor, hostname: device.name,
+                           ports: panelPorts, showsCables: false)
                 .opacity(isForeign ? 1 : 0.5)
         } else {
-            FrontPanelView(model: session.detection?.model ?? device.detected?.model ?? "", vendor: "Juniper", hostname: device.name,
+            let platform = session.detection?.platform ?? device.effectivePlatform
+            FrontPanelView(model: session.detection?.model ?? device.detected?.model ?? "",
+                           vendor: platform.map { $0 == .unknown ? "" : $0.vendor } ?? "", hostname: device.name,
                            ports: Self.skeletonPorts, skeleton: true, showsCables: false)
         }
     }
@@ -188,11 +216,15 @@ struct BoardStage: View {
     }
 
     /// Port outlines only: 48 copper mouths and 4 empty cages, nothing lit.
-    static let skeletonPorts: [PanelPort] = (0..<48).map {
-        PanelPort(slotKey: "0/0/\($0)", name: "ge-0/0/\($0)", kind: .copper, index: $0, look: .down, vlanBars: [])
+    static let skeletonPorts: [PanelPort] = PanelBuilder.arrange((0..<48).map {
+        var p = PanelPort(slotKey: "0/0/\($0)", name: "ge-0/0/\($0)", kind: .copper, index: $0, look: .down, vlanBars: [])
+        p.label = String($0)
+        return p
     } + (0..<4).map {
-        PanelPort(slotKey: "0/2/\($0)", name: "xe-0/2/\($0)", kind: .sfp, index: $0, look: .empty, vlanBars: [])
-    }
+        var p = PanelPort(slotKey: "0/2/\($0)", name: "xe-0/2/\($0)", kind: .sfp, index: $0, look: .empty, vlanBars: [])
+        p.label = String($0)
+        return p
+    }, junos: JunosModel("EX4300-48T"))
 }
 
 /// A faint light band crossing the skeleton while connecting. Only shown while the board is in the
@@ -515,13 +547,15 @@ struct FailureCopy {
     init(_ failure: ConnectionFailure, profile p: DeviceProfile) {
         let target: String = {
             if case let .ssh(host, port) = p.connection { return port == 22 ? host : "\(host):\(port)" }
+            if case let .api(url) = p.connection { return URL(string: url)?.host ?? url }
             return p.name
         }()
         switch failure {
         case .wrongPassword:
             self.init(symbol: "key", tone: .danger, title: t("The switch didn't accept the password"),
                       text: t("The saved password for \"%@\" was rejected. It may have changed on the switch. Netdeck doesn't retry on its own, to avoid a lockout.", p.username),
-                      tag: t("Wrong password"), raw: p.connection.type == .ssh ? "Permission denied" : "Login incorrect")
+                      tag: t("Wrong password"),
+                      raw: p.connection.type == .ssh ? "Permission denied" : (p.connection.type == .api ? "401 Unauthorized" : "Login incorrect"))
         case let .cableNotFound(path):
             self.init(symbol: "powerplug", tone: .warn, title: t("Serial cable not found"),
                       text: t("%@ isn't visible right now. The USB serial adapter may be unplugged or on another port.", path),
@@ -556,6 +590,14 @@ struct FailureCopy {
             self.init(symbol: "lock.open.trianglebadge.exclamationmark", tone: .danger, title: t("SSH: the host key changed"),
                       text: t("%@ presented a different key than last time. That happens after a reinstall, but it can also mean someone is in between. Netdeck won't connect until the old key is removed from its known hosts file.", target),
                       tag: t("Host key changed"), raw: Self.lastLine(detail))
+        case let .apiUnreachable(detail):
+            self.init(symbol: "network.slash", tone: .neutral, title: t("HTTPS: the address can't be reached"),
+                      text: t("Netdeck couldn't reach %@. Check that the device is on, the address and port are right (Synology uses 5001) and this Mac is on the same network.", target),
+                      tag: t("Unreachable"), raw: Self.lastLine(detail))
+        case let .certificateChanged(host):
+            self.init(symbol: "lock.open.trianglebadge.exclamationmark", tone: .danger, title: t("HTTPS: the certificate changed"),
+                      text: t("%@ presented a different security certificate than last time. That happens after a reset or a certificate renewal, but it can also mean someone is in between. Trust the new certificate only if you know why it changed.", host),
+                      tag: t("Certificate changed"))
         case let .droppedWhileReading(detail):
             self.init(symbol: "bolt.slash", tone: .neutral, title: t("The connection dropped while reading"),
                       text: t("The device stopped answering in the middle of the read. Nothing was changed on it. Check the cable or the network and try again."),
@@ -763,6 +805,14 @@ private struct ErrorCard: View {
                 }
                 Spacer()
                 tryAgain
+            case .certificateChanged:
+                Spacer()
+                Button(t("Trust the new certificate")) {
+                    if case let .api(url) = session.profile.connection { APIPins.forget(url: url) }
+                    model.connect(device.id)
+                }
+                .buttonStyle(PrimaryButtonStyle())
+                .disabled(session.isBusy)
             default:
                 Spacer()
                 tryAgain

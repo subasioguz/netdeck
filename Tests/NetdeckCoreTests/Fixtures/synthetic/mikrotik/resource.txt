@@ -1,0 +1,18 @@
+                   uptime: 12d4h3m10s
+                  version: 7.16.2 (stable)
+               build-time: 2024-11-26 13:52:37
+         factory-software: 6.44.6
+              free-memory: 437.2MiB
+             total-memory: 512.0MiB
+                      cpu: ARMv7
+                cpu-count: 1
+            cpu-frequency: 800MHz
+                 cpu-load: 2%
+           free-hdd-space: 2.5MiB
+          total-hdd-space: 16.0MiB
+  write-sect-since-reboot: 1254
+         write-sect-total: 98213
+               bad-blocks: 0%
+        architecture-name: arm
+               board-name: CRS326-24G-2S+
+                 platform: MikroTik

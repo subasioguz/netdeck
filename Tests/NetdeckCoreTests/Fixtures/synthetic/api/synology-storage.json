@@ -1,0 +1,201 @@
+{
+  "data": {
+    "disks": [
+      {
+        "id": "sata1",
+        "name": "Drive 1",
+        "device": "/dev/sata1",
+        "slot_id": 1,
+        "model": "ST4000VN008-2DR166",
+        "vendor": "Seagate",
+        "serial": "TEST0000021",
+        "firm": "SC60",
+        "diskType": "SATA",
+        "isSsd": false,
+        "size_total": "4000787030016",
+        "temp": 34,
+        "status": "normal",
+        "smart_status": "normal",
+        "used_by": "reuse_1",
+        "container": {
+          "str": "DS920+",
+          "type": "internal",
+          "order": 0
+        },
+        "exceed_bad_sector_thr": false,
+        "below_remain_life_thr": false
+      },
+      {
+        "id": "sata2",
+        "name": "Drive 2",
+        "device": "/dev/sata2",
+        "slot_id": 2,
+        "model": "ST4000VN008-2DR166",
+        "vendor": "Seagate",
+        "serial": "TEST0000022",
+        "firm": "SC60",
+        "diskType": "SATA",
+        "isSsd": false,
+        "size_total": "4000787030016",
+        "temp": 35,
+        "status": "normal",
+        "smart_status": "normal",
+        "used_by": "reuse_1",
+        "container": {
+          "str": "DS920+",
+          "type": "internal",
+          "order": 0
+        },
+        "exceed_bad_sector_thr": false,
+        "below_remain_life_thr": false
+      },
+      {
+        "id": "sata3",
+        "name": "Drive 3",
+        "device": "/dev/sata3",
+        "slot_id": 3,
+        "model": "WD40EFZX-68AWUN0",
+        "vendor": "WDC",
+        "serial": "TEST0000023",
+        "firm": "SC60",
+        "diskType": "SATA",
+        "isSsd": false,
+        "size_total": "4000787030016",
+        "temp": 36,
+        "status": "normal",
+        "smart_status": "normal",
+        "used_by": "reuse_2",
+        "container": {
+          "str": "DS920+",
+          "type": "internal",
+          "order": 0
+        },
+        "exceed_bad_sector_thr": false,
+        "below_remain_life_thr": false
+      },
+      {
+        "id": "sata4",
+        "name": "Drive 4",
+        "device": "/dev/sata4",
+        "slot_id": 4,
+        "model": "WD40EFZX-68AWUN0",
+        "vendor": "WDC",
+        "serial": "TEST0000024",
+        "firm": "SC60",
+        "diskType": "SATA",
+        "isSsd": false,
+        "size_total": "4000787030016",
+        "temp": 39,
+        "status": "crashed",
+        "smart_status": "failing",
+        "used_by": "reuse_2",
+        "container": {
+          "str": "DS920+",
+          "type": "internal",
+          "order": 0
+        },
+        "exceed_bad_sector_thr": false,
+        "below_remain_life_thr": false
+      },
+      {
+        "id": "nvme0n1",
+        "name": "M.2 Drive 1",
+        "device": "/dev/nvme0n1",
+        "slot_id": 1,
+        "model": "SNV2S500G",
+        "vendor": "Kingston",
+        "serial": "TEST0000025",
+        "firm": "SC60",
+        "diskType": "NVMe",
+        "isSsd": true,
+        "size_total": "500107862016",
+        "temp": 0,
+        "status": "not_initialized",
+        "smart_status": "normal",
+        "used_by": "",
+        "container": {
+          "str": "DS920+",
+          "type": "internal",
+          "order": 0
+        },
+        "exceed_bad_sector_thr": false,
+        "below_remain_life_thr": false
+      }
+    ],
+    "storagePools": [
+      {
+        "id": "reuse_1",
+        "num_id": 1,
+        "status": "normal",
+        "device_type": "shr_without_disk_protect",
+        "raidType": "single",
+        "disks": [
+          "sata1",
+          "sata2"
+        ],
+        "size": {
+          "total": "3992731566080",
+          "used": "3992731566080"
+        },
+        "desc": ""
+      },
+      {
+        "id": "reuse_2",
+        "num_id": 2,
+        "status": "degraded",
+        "device_type": "raid_1",
+        "raidType": "single",
+        "disks": [
+          "sata3",
+          "sata4"
+        ],
+        "size": {
+          "total": "3992731566080",
+          "used": "3992731566080"
+        },
+        "desc": ""
+      }
+    ],
+    "volumes": [
+      {
+        "id": "volume_1",
+        "num_id": 1,
+        "status": "normal",
+        "fs_type": "btrfs",
+        "pool_path": "reuse_1",
+        "vol_path": "/volume1",
+        "size": {
+          "total": "3830251552768",
+          "used": "2104119017472",
+          "free_inode": "0",
+          "total_device": "3992731566080"
+        },
+        "description": ""
+      },
+      {
+        "id": "volume_2",
+        "num_id": 2,
+        "status": "normal",
+        "fs_type": "ext4",
+        "pool_path": "reuse_2",
+        "vol_path": "/volume2",
+        "size": {
+          "total": "3830251552768",
+          "used": "958062575616",
+          "free_inode": "0",
+          "total_device": "3992731566080"
+        },
+        "description": ""
+      }
+    ],
+    "ssdCaches": [],
+    "hotSpares": [],
+    "env": {
+      "batchTask": {
+        "max_task": 64,
+        "remain_task": 64
+      }
+    }
+  },
+  "success": true
+}

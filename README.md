@@ -7,8 +7,10 @@ serial console or SSH, draws the device's real front and rear panels, shows what
 port, and turns your edits into a reviewed, time-boxed change that the device rolls back on its own if
 you don't confirm it.
 
-> **Status: early development.** The device core (connection, parsing, change planning, safe apply) is
-> working and tested against real hardware. The macOS interface is being built now.
+> **Status: early development.** The Junos core is tested against real hardware (EX4300-48T). The drivers
+> for the other platforms are written from vendor documentation and covered by unit tests on synthetic
+> captures; they have not met real hardware yet. Try them with `netdeck-probe` first (it never applies
+> anything) and send captures.
 
 ---
 
@@ -31,31 +33,32 @@ Netdeck keeps the device's own safety net in place and puts a clear picture on t
 
 | | Status |
 |---|---|
-| Serial console (USB) and SSH connections | Done |
-| Login handling for console, shell and CLI prompts | Done |
+| Serial console (USB), SSH and HTTPS API connections | Done |
+| Login handling for console, shell and CLI prompts; automatic hand-over to the right platform | Done |
 | Ports, VLANs, MAC table, LLDP, hardware, optics, commit history | Done |
 | Plain-language change plan (edit ports and VLANs) | Done |
-| Device's own diff and `commit check` before anything is applied | Done |
-| `commit confirmed` apply, one-click confirm or revert, rollback to any version | Done |
+| Device-side safety timer on every apply, one-click confirm or revert | Done |
+| Rear QSFP+ role changes (Virtual Chassis port ↔ network port) on the EX4300 | Done |
 | Automatic config backups before every change | Done |
 | Device auto-detection (vendor, model, OS) | Done |
-| Visual front and rear panels, "who is connected" view, VLAN rooms view | In progress |
-| Multiple devices grouped by location, global "awaiting confirmation" banner | In progress |
-| English and Turkish interface | In progress |
+| Front panels drawn per model (68 known panels, generic layout for the rest) | Done |
+| Health, storage, sensors and interfaces of servers and NAS (read only) | Done |
+| Multiple devices grouped by location, global "awaiting confirmation" banner | Done |
+| English and Turkish interface | Done |
 
 ## Supported devices
 
-| Platform | Devices | Support |
-|---|---|---|
-| Juniper Junos (ELS) | EX switches, tested on EX4300-48T with Junos 21.2 | Full |
-| Juniper Junos | SRX, MX, QFX | Detected, full support planned |
-| MikroTik RouterOS | Routers and switches | Detected, planned |
-| Cisco IOS / IOS-XE | Switches and routers | Detected, planned |
-| Ubiquiti EdgeOS | Routers | Detected, planned |
-| Dell iDRAC (Redfish) | Server management controllers | Detected, planned |
-| Synology DSM, TrueNAS | Storage | Detected, planned |
+| Platform | Devices | Safety net when you apply | Tested on hardware |
+|---|---|---|---|
+| Juniper Junos | EX, QFX, SRX (ports, VLANs, security zones), MX (ports) | `commit confirmed` | EX4300-48T, Junos 21.2 |
+| Cisco IOS / IOS-XE | Catalyst switches | `configure terminal revert timer` (turns the config archive on if needed), `write memory` only after you confirm | Not yet |
+| MikroTik RouterOS 7 | CRS switches, CCR / RB / hEX routers (bridge VLAN filtering) | An undo script and a scheduler on the router run unless you confirm | Not yet |
+| Ubiquiti EdgeOS | EdgeRouter | `commit-confirm` (the router restarts with its saved configuration if not confirmed), `save` only after you confirm | Not yet |
+| Dell iDRAC (Redfish) | PowerEdge servers | Read only | Not yet |
+| Synology DSM, TrueNAS | NAS | Read only | Not yet |
 
-"Detected" means Netdeck recognises the device when it connects and shows basic information.
+Other devices are recognised when possible and shown with basic information. HTTPS devices with a
+self-signed certificate are trusted on first use and pinned, like SSH host keys.
 
 ## Safety model
 
@@ -94,8 +97,9 @@ firmware before using the app. It never commits.
 ```sh
 swift build --product netdeck-probe
 
-# Read everything Netdeck shows
+# Read everything Netdeck shows (the platform is detected; --platform cisco|mikrotik|edgeos|... forces it)
 NETDECK_PASSWORD=... .build/debug/netdeck-probe --serial /dev/cu.usbserial-XXXX --user root snapshot
+NETDECK_PASSWORD=... .build/debug/netdeck-probe --api https://192.0.2.30 --user root snapshot
 
 # Ask the device what a change would do, then throw it away
 NETDECK_PASSWORD=... .build/debug/netdeck-probe --ssh 192.0.2.10 --user admin \
@@ -108,15 +112,20 @@ NETDECK_PASSWORD=... .build/debug/netdeck-probe --ssh 192.0.2.10 --user admin \
 Sources/
   NetdeckCore/            UI-independent core (fully unit-tested)
     Transport/            Serial console (termios) and SSH (system ssh with a forced TTY)
+    CLI/                  Text CLI session shared by the non-Junos drivers (prompts come from a dialect)
+    Drivers/              DeviceDriver protocol, driver factory, per-platform change traits
     Junos/                CLI session, output parsers, config model, change planner, driver
-    Model/                Snapshot, ports, device kinds and platforms, auto-detection
+    Cisco/ MikroTik/ EdgeOS/  Dialect, parsers, change planner and driver per platform
+    API/                  HTTPS client with certificate pinning; Redfish, Synology and TrueNAS readers
+    Model/                Snapshots, ports, device kinds and platforms, auto-detection, faceplate catalog
     Session/              Observable per-device state for the UI
     Support/              Backups, device list, Keychain, localization
   Netdeck/                SwiftUI app
   netdeck-probe/          Command-line field tool
 Tests/
   NetdeckCoreTests/       Parser, planner, session and detection tests
-    Fixtures/             Real console captures (anonymized)
+    Fixtures/             Real console captures (anonymized); synthetic/ holds captures written
+                          from vendor documentation until real ones replace them
 ```
 
 Netdeck talks to devices the same way you would: through their CLI. It reads with `show` commands,

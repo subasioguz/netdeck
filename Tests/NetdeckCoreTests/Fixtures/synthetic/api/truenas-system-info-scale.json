@@ -1,0 +1,32 @@
+{
+  "version": "TrueNAS-SCALE-24.10.2",
+  "buildtime": {
+    "$date": 1736174400000
+  },
+  "hostname": "truenas",
+  "physmem": 67317272576,
+  "model": "AMD Ryzen 5 PRO 4650G with Radeon Graphics",
+  "cores": 12,
+  "physical_cores": 6,
+  "loadavg": [
+    0.12,
+    0.18,
+    0.21
+  ],
+  "uptime": "12 days, 4:00:00.420000",
+  "uptime_seconds": 1051200.42,
+  "system_serial": "TEST0000003",
+  "system_product": "X570D4U",
+  "system_product_version": "To Be Filled By O.E.M.",
+  "license": null,
+  "boottime": {
+    "$date": 1793865600000
+  },
+  "datetime": {
+    "$date": 1794916800000
+  },
+  "birthday": null,
+  "timezone": "Europe/Istanbul",
+  "system_manufacturer": "ASRockRack",
+  "ecc_memory": true
+}

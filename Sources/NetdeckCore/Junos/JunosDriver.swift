@@ -5,6 +5,10 @@ public enum DriverError: Error, LocalizedError, Equatable {
     case rejected([String])
     case commitFailed(String)
     case nothingPending
+    /// The platform or driver can't do this operation.
+    case notSupported
+    /// The device is missing something the safety timer needs (e.g. the IOS configuration archive).
+    case safetyNetUnavailable(String)
 
     public var errorDescription: String? {
         switch self {
@@ -13,6 +17,8 @@ public enum DriverError: Error, LocalizedError, Equatable {
         case .rejected(let lines): return t("The switch rejected some commands:") + "\n" + lines.joined(separator: "\n")
         case .commitFailed(let out): return t("The switch could not commit the change:") + "\n" + out
         case .nothingPending: return t("There is no change waiting for confirmation.")
+        case .notSupported: return t("Netdeck can't do this on this device.")
+        case .safetyNetUnavailable(let why): return why
         }
     }
 }
@@ -218,5 +224,32 @@ public actor JunosDriver {
             if !errs.isEmpty { rejected.append("\(c)\n  → \(errs.joined(separator: " "))") }
         }
         if !rejected.isEmpty { throw DriverError.rejected(rejected) }
+    }
+}
+
+// MARK: - DeviceDriver
+
+extension JunosDriver: DeviceDriver {
+    public func read(progress: @Sendable (LoadStep) -> Void) async throws -> DeviceReading {
+        .network(try await loadSnapshot(progress: progress))
+    }
+
+    public func preview(_ plan: ChangePlan) async throws -> PreviewResult {
+        try await preview(plan.commands)
+    }
+
+    public func apply(_ plan: ChangePlan, confirmMinutes: Int, comment: String) async throws -> ApplyResult {
+        try await apply(plan.commands, confirmMinutes: confirmMinutes, comment: comment)
+    }
+
+    /// Operational commands (Virtual Chassis port roles) at the `>` prompt, one by one. Stops at the
+    /// first command the switch rejects.
+    public func runOperational(_ plan: ChangePlan) async throws {
+        try await exitConfig()
+        for c in plan.operationalCommands {
+            let out = try await cli.run(c, idle: .seconds(60))
+            let errs = OutputParsers.errors(in: out)
+            if !errs.isEmpty { throw DriverError.rejected(["\(c)\n  → \(errs.joined(separator: " "))"]) }
+        }
     }
 }

@@ -1,0 +1,37 @@
+[
+  {
+    "@odata.id": "/redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1/Volumes/Disk.Virtual.0:RAID.Integrated.1-1",
+    "@odata.type": "#Volume.v1_5_0.Volume",
+    "BlockSizeBytes": 512,
+    "CapacityBytes": 479559942144,
+    "Description": "Disk.Virtual.0:RAID.Integrated.1-1",
+    "Encrypted": false,
+    "Id": "Disk.Virtual.0:RAID.Integrated.1-1",
+    "Links": {
+      "Drives": [
+        {
+          "@odata.id": "/redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1/Drives/Disk.Bay.0:Enclosure.Internal.0-1:RAID.Integrated.1-1"
+        },
+        {
+          "@odata.id": "/redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1/Drives/Disk.Bay.1:Enclosure.Internal.0-1:RAID.Integrated.1-1"
+        }
+      ],
+      "Drives@odata.count": 2
+    },
+    "Name": "Virtual Disk 0",
+    "RAIDType": "RAID1",
+    "VolumeType": "Mirrored",
+    "Oem": {
+      "Dell": {
+        "DellVirtualDisk": {
+          "RaidStatus": "Online",
+          "WriteCachePolicy": "WriteBack"
+        }
+      }
+    },
+    "Status": {
+      "Health": "OK",
+      "State": "Enabled"
+    }
+  }
+]

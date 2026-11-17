@@ -101,6 +101,11 @@ public actor JunosCLI {
                 if buffer.contains("Login incorrect") || buffer.contains("Permission denied") {
                     throw CLIError.authenticationFailed
                 }
+                // Another platform's prompt (RouterOS, IOS, a Linux shell...): hand over at once instead
+                // of pressing Return until the attempts run out.
+                if DeviceDetector.foreignPrompt(lastLine) != nil {
+                    throw CLIError.unrecognizedPrompt(String(buffer.suffix(4000)))
+                }
                 try send("\r")
                 _ = try? await waitForPrompt(timeout: .seconds(4))
             }
@@ -111,14 +116,16 @@ public actor JunosCLI {
     /// Leaves the console logged out (important for a shared physical console).
     public func logout() async {
         for _ in 0..<3 {
-            let kind = Self.promptKind(lastLine)
-            if kind == .login || closedReason != nil { break }
+            let line = lastLine
+            let kind = Self.promptKind(line)
+            let foreign = kind == nil ? DeviceDetector.foreignPrompt(line) : nil
+            if kind == .login || closedReason != nil || DeviceDetector.isLoginPrompt(line) { break }
             raw = Data()
             switch kind {
             case .configuration: try? send("exit configuration-mode\r")
             case .question: try? send("yes\r")
             case .pager: try? send("q")
-            default: try? send("exit\r")
+            default: try? send(foreign == .mikrotikRouterOS ? "/quit\r" : "exit\r")
             }
             _ = try? await waitForPrompt(timeout: .seconds(4))
         }

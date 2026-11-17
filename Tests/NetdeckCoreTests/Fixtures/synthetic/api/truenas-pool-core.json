@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "name": "tank",
+    "guid": "3234567890123456789",
+    "path": "/mnt/tank",
+    "status": "ONLINE",
+    "healthy": true,
+    "is_decrypted": true,
+    "encrypt": 0,
+    "scan": {
+      "function": "SCRUB",
+      "state": "FINISHED",
+      "errors": 0
+    },
+    "topology": {
+      "data": [
+        {
+          "name": "mirror-0",
+          "type": "MIRROR",
+          "status": "ONLINE",
+          "stats": {
+            "read_errors": 0,
+            "write_errors": 0,
+            "checksum_errors": 0
+          },
+          "children": [
+            {
+              "name": "ada0p2",
+              "type": "DISK",
+              "path": "/dev/disk/by-partuuid/00000000-0000-0000-0000-00000000ada0",
+              "guid": "10000000000000004",
+              "status": "ONLINE",
+              "stats": {
+                "read_errors": 0,
+                "write_errors": 0,
+                "checksum_errors": 0,
+                "size": 0,
+                "allocated": 0
+              },
+              "children": [],
+              "device": "ada0p2",
+              "disk": "ada0",
+              "unavail_disk": null
+            },
+            {
+              "name": "ada1p2",
+              "type": "DISK",
+              "path": "/dev/disk/by-partuuid/00000000-0000-0000-0000-00000000ada1",
+              "guid": "10000000000000004",
+              "status": "ONLINE",
+              "stats": {
+                "read_errors": 0,
+                "write_errors": 0,
+                "checksum_errors": 0,
+                "size": 0,
+                "allocated": 0
+              },
+              "children": [],
+              "device": "ada1p2",
+              "disk": "ada1",
+              "unavail_disk": null
+            }
+          ]
+        },
+        {
+          "name": "mirror-1",
+          "type": "MIRROR",
+          "status": "ONLINE",
+          "stats": {
+            "read_errors": 0,
+            "write_errors": 0,
+            "checksum_errors": 0
+          },
+          "children": [
+            {
+              "name": "ada2p2",
+              "type": "DISK",
+              "path": "/dev/disk/by-partuuid/00000000-0000-0000-0000-00000000ada2",
+              "guid": "10000000000000004",
+              "status": "ONLINE",
+              "stats": {
+                "read_errors": 0,
+                "write_errors": 0,
+                "checksum_errors": 0,
+                "size": 0,
+                "allocated": 0
+              },
+              "children": [],
+              "device": "ada2p2",
+              "disk": "ada2",
+              "unavail_disk": null
+            },
+            {
+              "name": "ada3p2",
+              "type": "DISK",
+              "path": "/dev/disk/by-partuuid/00000000-0000-0000-0000-00000000ada3",
+              "guid": "10000000000000004",
+              "status": "ONLINE",
+              "stats": {
+                "read_errors": 0,
+                "write_errors": 0,
+                "checksum_errors": 0,
+                "size": 0,
+                "allocated": 0
+              },
+              "children": [],
+              "device": "ada3p2",
+              "disk": "ada3",
+              "unavail_disk": null
+            }
+          ]
+        }
+      ],
+      "log": [],
+      "cache": [],
+      "spare": [],
+      "special": [],
+      "dedup": []
+    }
+  }
+]

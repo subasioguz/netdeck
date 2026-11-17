@@ -1,0 +1,16 @@
+show interfaces
+Codes: S - State, L - Link, u - Up, D - Down, A - Admin Down
+Interface    IP Address                        S/L  Description
+---------    ----------                        ---  -----------
+eth0         203.0.113.10/24                   u/u  WAN uplink
+             2001:db8::10/64
+eth1         -                                 u/u  Office desk
+eth2         -                                 u/u  AP trunk
+eth3         -                                 u/D
+eth4         -                                 A/D  Spare
+lo           127.0.0.1/8                       u/u
+             ::1/128
+switch0      192.0.2.1/24                      u/u  Local
+switch0.10   198.51.100.1/25                   u/u  Staff LAN
+switch0.20   198.51.100.129/25                 u/u  Guest
+ubnt@er-x-lab:~$ 

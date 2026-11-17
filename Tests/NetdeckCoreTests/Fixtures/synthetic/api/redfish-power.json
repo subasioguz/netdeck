@@ -1,0 +1,65 @@
+{
+  "@odata.context": "/redfish/v1/$metadata#Power.Power",
+  "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/Power",
+  "@odata.type": "#Power.v1_5_4.Power",
+  "Id": "Power",
+  "Name": "Power",
+  "PowerControl": [
+    {
+      "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/Power#/PowerControl/0",
+      "MemberId": "PowerControl",
+      "Name": "System Power Control",
+      "PowerAllocatedWatts": 1470,
+      "PowerAvailableWatts": 0,
+      "PowerCapacityWatts": 1470,
+      "PowerConsumedWatts": 182,
+      "PowerMetrics": {
+        "AverageConsumedWatts": 180,
+        "IntervalInMin": 1,
+        "MaxConsumedWatts": 231,
+        "MinConsumedWatts": 174
+      },
+      "PowerRequestedWatts": 576
+    }
+  ],
+  "PowerSupplies": [
+    {
+      "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/Power#/PowerSupplies/0",
+      "FirmwareVersion": "00.24.7B",
+      "LastPowerOutputWatts": 182,
+      "LineInputVoltage": 230,
+      "LineInputVoltageType": "ACMidLine",
+      "Manufacturer": "DELL",
+      "MemberId": "PSU.Slot.1",
+      "Model": "PWR SPLY,750W,RDNT,DELTA",
+      "Name": "PS1 Status",
+      "PartNumber": "0TEST1A01",
+      "PowerCapacityWatts": 750,
+      "PowerSupplyType": "AC",
+      "SerialNumber": "TEST0000101",
+      "Status": {
+        "Health": "OK",
+        "State": "Enabled"
+      }
+    },
+    {
+      "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/Power#/PowerSupplies/1",
+      "FirmwareVersion": "00.24.7B",
+      "LastPowerOutputWatts": 0,
+      "LineInputVoltage": 0,
+      "LineInputVoltageType": "Unknown",
+      "Manufacturer": "DELL",
+      "MemberId": "PSU.Slot.2",
+      "Model": "PWR SPLY,750W,RDNT,DELTA",
+      "Name": "PS2 Status",
+      "PartNumber": "0TEST1A01",
+      "PowerCapacityWatts": 750,
+      "PowerSupplyType": "AC",
+      "SerialNumber": "TEST0000102",
+      "Status": {
+        "Health": "Critical",
+        "State": "Enabled"
+      }
+    }
+  ]
+}

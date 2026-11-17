@@ -207,9 +207,9 @@ vertical gaps 12 · outer top/bottom inset 14
 ### 3.1 All devices (overview) · `00-overview.png`
 - Header: "All devices" + "2 locations · 1 device"; subtitle "Each device has its own connection, staged changes and confirmation timer."; right: **Read all again** (secondary), **Add device** (black).
 - **Global confirmation banner** (§3.8) when any device waits.
-- One section per location (heading in `micro` uppercase + count + "…" menu). Grid: device cards (flexible) and "coming soon" placeholders (236 wide).
+- One section per location (heading in `micro` uppercase + count + "…" menu). Grid: device cards (flexible).
 - **Device card:** radius 16; header with dark type tile (40), name 16 semibold, model · OS version, and pills on the right (countdown pill "Awaiting confirmation · 4:32" in `warn`, status pill). Body: a small realistic faceplate on a mini stage (radius 12, same gradient). Five metric tiles (`surface2`, radius 10): enabled ports (8 / 52), up, warnings (`warnInk` number), devices seen, staged changes. Footer: "Last read · Last backup" + **Open**. A card waiting for confirmation gets a 1.5 pt `warnLine` outline.
-- **Placeholder cards** for kinds that are not supported yet (Router, Storage (NAS)): 1.5 pt `borderStrong` outline, transparent fill, type tile, title, "Coming soon" pill, one sentence, disabled "Add …" button. Hide them in App Store builds (§10).
+- **No promises in the UI:** Netdeck never shows "Coming soon" items. Something it can't do is shown disabled, or not at all (§10.6).
 - **Empty location:** a dashed row "No devices in this location yet" + hint + **Add a device here**.
 - **Serial cables card:** each detected USB serial adapter: name, "USB serial adapter · 9600 baud", owner pill "In use by sw-01" + "This serial cable is currently used by sw-01." + **End session** (disabled while that device waits for confirmation: "sw-01 is waiting for confirmation. Finish that first.").
 
@@ -274,31 +274,34 @@ vertical gaps 12 · outer top/bottom inset 14
 ### 3.10 Add device · `07-add-device.png`, `07b-add-device-manual.png`, `07c-add-device-basic.png`
 Sheet 860 wide; the body scrolls, the header and footer stay pinned.
 1. **What are you adding?** Seven type tiles in one row (icon, name, one-line hint): Switch · Router · Firewall · Storage (NAS) · Server (iDRAC / IPMI) · Wireless (access point) · Other. The selected tile has a dark icon tile and a 1.5 pt `text1` border. The same icons are used in the sidebar and the overview.
-2. **Connection** (option cards with a radio): Serial console · SSH · API (HTTPS). Methods a type doesn't support are disabled with a pill ("Coming soon" / "Not available for this type"):
+2. **Connection** (option cards with a radio): Serial console · SSH · API (HTTPS). Methods a type doesn't support are disabled with the pill "Not available for this type":
 
 | Type | Serial console | SSH | API (HTTPS) |
 |---|---|---|---|
-| Switch | yes | yes | coming soon |
-| Router | yes | yes | coming soon |
-| Firewall | yes | yes | coming soon |
+| Switch | yes | yes | – |
+| Router | yes | yes | – |
+| Firewall | yes | yes | – |
 | Storage (NAS) | – | yes | yes |
 | Server (iDRAC / IPMI) | – | – | **only** (Redfish) |
 | Wireless (AP) | – | yes | yes |
 | Other | yes | yes | – |
 
-3. **Brand and model:** "Detect automatically (recommended)" is the default: after connecting, Netdeck reads vendor, model and OS (`DeviceDetector`). "Let me pick the brand and model" opens a two-level picker (`07b`): brand tiles in a 4-column grid (Juniper · MikroTik RouterOS · Cisco IOS / IOS-XE · Ubiquiti · Dell iDRAC · Synology DSM · TrueNAS · Other) with a status pill (Supported / Coming soon / Basic), then the family row for the chosen brand (Juniper: EX, SRX, MX, QFX). Only Juniper is marked Supported today; support flags come from the device catalog, not from the UI.
+3. **Brand and model:** "Detect automatically (recommended)" is the default: after connecting, Netdeck reads vendor, model and OS (`DeviceDetector`). "Let me pick the brand and model" opens a two-level picker (`07b`): brand tiles in a 4-column grid (Juniper · MikroTik RouterOS · Cisco IOS / IOS-XE · Ubiquiti · Dell iDRAC · Synology DSM · TrueNAS · Other) with a status pill (Supported / Basic), then the family row for the chosen brand (Juniper: EX, SRX, MX, QFX). Every listed brand is Supported; "Other" is Basic. Support flags come from the device catalog, not from the UI.
 4. **Connection details** in an inset box: serial → Port (detected adapters with a "Plugged in" or "In use by sw-01" pill) + Speed (9600 / 19200 / 115200); SSH → Address + Port (22); API → URL. Then Username + Password (Keychain note).
    **Serial cable in use** (`07b`): "This serial cable is currently used by sw-01. Testing will end that session first. sw-01 keeps its staged changes." Blocked while sw-01 waits for confirmation.
 5. **Test result card** after "Test connection":
    - Recognized and fully supported (`07`): green card, check tile, "Juniper EX4300-48T · Junos 21.2R3.8 · recognized as a switch", details (hostname, serial, what full support means), `Full support` pill. Primary button **Add and read**.
-   - Recognized, not fully supported yet (`07c`, example values): accent card, type tile, "MikroTik RB5009 recognized", "RouterOS 7.16 · full support for this brand is coming soon · basic information will be shown", four mini tiles (Model, OS version, Uptime, Shown as: Info card, no panel), `Basic support` pill. Primary button **Add with basic info**.
+   - Recognized, no driver (`07c`, example values): accent card, type tile, "HPE 2530 recognized", "… · Netdeck shows basic information for this device", four mini tiles (Model, OS version, Uptime, Shown as: Info card, no panel), `Basic support` pill. Primary button **Add with basic info**.
    - Already in the list: "This is sw-01, which is already in your list." and the primary button becomes **Open**.
    - Failure: the error cards of §3.13 in compact form inside the sheet.
 - Footer: **Test connection** + result line (e.g. "● Login OK · EX4300-48T") · Cancel · primary.
 - First run (`07`): the sidebar shows only All devices (0) and "Add device"; the main area shows a skeleton faceplate and "Add your first device".
 
 ### 3.11 Basic-support device screen (no mockup)
-A device with basic support has no faceplate, Ports, VLANs or Connected devices. Its nav shows only **Overview** (and History & backups when the platform allows config export). The Overview card shows a type tile, name, Model, OS version, Uptime, Serial, Last read, and the note "Full support for MikroTik is coming. Netdeck only reads this device; it never changes it." No staged changes are possible.
+A device with basic support has no faceplate, Ports, VLANs or Connected devices. Its nav shows only **Overview** (and History & backups when the platform allows config export). The Overview card shows a type tile, name, Model, OS version, Uptime, Serial, Last read, and the note "Netdeck shows basic information for <brand>. It only reads this device; it never changes it." The features it lacks are listed under "Not available for this device", without any promise. No staged changes are possible.
+
+### 3.11b Appliance screen (servers and NAS over HTTPS, no mockup)
+Devices added with **API (HTTPS)** (Dell iDRAC over Redfish, Synology DSM, TrueNAS) have only **Overview**. Same card as §3.11: header with a health pill (Healthy / Warning / Critical) and a power pill; a stage with the type tile, vendor + model and software version; below it alerts (warn box), Summary tiles (model, serial, software, uptime and the facts the device gives), storage pools with a usage bar, disks, sensors (temperatures, fans), power supplies, network interfaces and firmware versions; on the right a green "Netdeck only reads this device over its API" box and the connection facts. Self-signed certificates are trusted on first use and pinned, like SSH host keys.
 
 ### 3.12 Connecting · `08-connecting.png`
 - Header pill `Connecting · serial console` (accent), Read again disabled, blue sidebar dot.
@@ -566,7 +569,6 @@ English text is the key (§8). Turkish translations of the same rows: `strings-t
 | Save |
 | Open |
 | Unknown |
-| Coming soon |
 | Today %@ |
 | Yesterday %@ |
 | %@ s |
@@ -921,7 +923,7 @@ English text is the key (§8). Turkish translations of the same rows: `strings-t
 | Hostname %@ · serial %@ · full support: front panel, ports, VLANs, history |
 | Full support |
 | %@ recognized |
-| %@ · full support for this brand is coming soon · basic information will be shown |
+| %@ · Netdeck shows basic information for this device |
 | Basic support |
 | Model |
 | OS version |
@@ -941,7 +943,7 @@ English text is the key (§8). Turkish translations of the same rows: `strings-t
 | English |
 |---|
 | Basic information |
-| Full support for %@ is coming. Netdeck only reads this device; it never changes it. |
+| Netdeck shows basic information for %@. It only reads this device; it never changes it. |
 
 ### Connecting and errors
 
@@ -1032,7 +1034,7 @@ English text is the key (§8). Turkish translations of the same rows: `strings-t
 3. **Weights:** SF has no 650/550; use `.semibold` and `.medium`.
 4. **Dark mode:** define tokens as Any/Dark pairs in the asset catalog. The primary button and the staged-changes bar invert. Hardware colors stay the same; add the 1 pt white 6% chassis outline in dark mode.
 5. **One `Canvas` per panel:** about 600 shapes; redrawn only when state changes. LED glow through a `GraphicsContext` shadow filter. A small tiled image is enough for brushed metal.
-6. **Placeholder "Coming soon" items** (Router / Storage cards, disabled connection methods, brands marked Coming soon): hide them in a Mac App Store build. App Review can reject promises of unreleased features (guidelines 2.1 and 2.3). Fine for personal use.
+6. **No "Coming soon" anywhere.** Unsupported options are disabled without a promise. App Review rejects promises of unreleased features (guidelines 2.1 and 2.3).
 7. **Trademarks:** the panel shows "JUNIPER" and the model as plain text, never a logo. Keep vendor brands out of the app icon, screenshots and store text.
 8. **Uplink slot names:** a cage shows up as `ge-0/2/N` or `xe-0/2/N` depending on the optic; the two DAC slots read as `ge-0/2/0` and `ge-0/2/1` (1G) today. The mockups use the brief's `xe-0/2/0`. Keep the physical label ("SFP+ 0") fixed, show the Junos name the switch currently uses, and explain the mismatch in the warning text.
 9. **VC ports** are missing from `show interfaces terse`; the rear QSFP+ state comes from `show virtual-chassis vc-port` ("Configured / Absent"). Role changes are operational commands outside `commit confirmed` (§6.4).
@@ -1041,4 +1043,5 @@ English text is the key (§8). Turkish translations of the same rows: `strings-t
 12. **Recognizing "This Mac":** compare with this Mac's own interface MACs. The OUI database must be local (no network lookups).
 13. **Callout density:** apply the "more than 6" rule of §4.6 or the stage gets busy once the data center fills up.
 14. **Nothing writes directly to a device:** "Add to changes", "Go back to this version", "Discard these changes…", "Roll back now" and "Confirm" either go through the review sheet or act on the pending `commit confirmed` from the countdown banner.
-15. **Support levels are data:** Full / Supported / Basic / Coming soon come from the device catalog (`Model/DeviceCatalog`), so the add-device sheet and overview update without UI changes. Juniper SRX, MX and QFX are shown as Supported per the brief; confirm that against what the driver really handles.
+15. **Support levels are data:** Full / Basic come from the device catalog (`Model/DeviceCatalog`), so the add-device sheet and overview update without UI changes. How a platform applies changes (timer kind, history, device-side preview) is `ChangeTraits` in `Drivers/DeviceDriver.swift`.
+16. **Faceplates of other models** are laid out from the port list (`PanelBuilder.arrange`): copper in blocks of 12 on two rows (first port on top; eight or fewer in one row), then each group of cages; the chassis widens when the ports don't fit. The EX4300-48T comes out exactly as §5 describes. The rear face is drawn only for the EX4300.

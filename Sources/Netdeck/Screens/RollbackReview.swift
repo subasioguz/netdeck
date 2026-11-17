@@ -233,7 +233,9 @@ struct DiscardForeignReview: View {
                 VStack(alignment: .leading, spacing: 18) {
                     HStack(alignment: .top, spacing: 10) {
                         Image(systemName: "exclamationmark.triangle.fill").font(.system(size: 13)).foregroundStyle(Theme.warn)
-                        Text(t("Another session made these changes and never committed them. Discarding clears that draft on the switch; the running configuration stays as it is. This can't be undone."))
+                        Text(session.snapshot?.platform == .mikrotikRouterOS
+                             ? t("Another session applied these changes and they still wait for confirmation. Discarding runs their undo script now, so the router goes back to the settings from before them. This can't be undone.")
+                             : t("Another session made these changes and never committed them. Discarding clears that draft on the switch; the running configuration stays as it is. This can't be undone."))
                             .font(Typo.callout).foregroundStyle(Theme.text1).fixedSize(horizontal: false, vertical: true)
                     }
                     .padding(14)

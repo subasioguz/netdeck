@@ -16,7 +16,6 @@
 "Last output: %@" = "Son görülen: %@";
 "Wrong username or password." = "Kullanıcı adı ya da şifre yanlış.";
 "The device answered, but its prompt was not recognised." = "Cihaz yanıt verdi ama istemi tanınamadı.";
-"This connection type is not supported yet." = "Bu bağlantı türü henüz desteklenmiyor.";
 "Serial · %@ · %@ baud" = "Seri · %@ · %@ baud";
 "SSH · %@" = "SSH · %@";
 "API · %@" = "API · %@";
@@ -33,7 +32,6 @@
 "Reading rear-panel ports" = "Arka paneldeki portlar okunuyor";
 
 /* Applying */
-"The switch is checking the changes" = "Switch değişiklikleri kontrol ediyor";
 "Applying changes" = "Değişiklikler uygulanıyor";
 "Confirming the change" = "Değişiklik onaylanıyor";
 "Reverting the change" = "Değişiklik geri alınıyor";
@@ -293,13 +291,10 @@
 "Serial" = "Seri no";
 "Shown as" = "Gösterim";
 "Info card, no panel" = "Bilgi kartı, panel yok";
-"Not available with basic support" = "Temel destekte olmayanlar";
 "Front panel and ports" = "Ön panel ve portlar";
 "VLANs" = "VLAN'lar";
 "Connected devices" = "Kim bağlı";
 "Changes, with the safety timer" = "Güvenlik süreli değişiklikler";
-"Coming soon" = "Yakında";
-"Full support for %@ is coming. Netdeck only reads this device; it never changes it." = "%@ için tam destek geliyor. Netdeck bu cihazı yalnızca okur, hiçbir şeyini değiştirmez.";
 "%@ days %@ h" = "%@ gün %@ sa";
 "%@ h %@ min" = "%@ sa %@ dk";
 "Go back to #%@" = "#%@ sürümüne dön";
@@ -325,7 +320,6 @@
 "Note" = "Not";
 "written to the switch history" = "switch geçmişine yazılır";
 "Review changes" = "Değişiklikleri gözden geçir";
-"The switch didn't accept the commands" = "Switch komutları kabul etmedi";
 "Syntax check passed (commit check)" = "Söz dizimi kontrolü geçti (commit check)";
 "Esc to close · your changes are kept" = "Esc ile kapat · değişiklikler kaybolmaz";
 "Apply · %@ min trial" = "Uygula · %@ dk deneme";
@@ -371,7 +365,6 @@
 "Brand and model" = "Marka ve model";
 "USB serial cable to the console port. No network needed." = "Konsol portuna USB-seri kablo. Ağ gerekmez.";
 "Over the network, through the management port." = "Ağ üzerinden, yönetim portu aracılığıyla.";
-"Redfish or REST · iDRAC, IPMI, NAS" = "Redfish ya da REST · iDRAC, IPMI, NAS";
 "Not available for this type" = "Bu tür için yok";
 "Detect automatically (recommended)" = "Otomatik algıla (önerilen)";
 "After connecting, Netdeck reads the vendor, model and OS." = "Bağlanınca marka, model ve işletim sistemi okunur.";
@@ -395,7 +388,6 @@
 "Hostname %@ · serial %@ · full support: front panel, ports, VLANs, history" = "Hostname %@ · seri no %@ · tam destek: ön panel, portlar, VLAN'lar, geçmiş";
 "Full support" = "Tam destek";
 "%@ recognized" = "%@ tanındı";
-"%@ · full support for this brand is coming soon · basic information will be shown" = "%@ · bu marka için tam destek yakında · temel bilgiler gösterilecek";
 "This is %@, which is already in your list." = "Bu %@, zaten listende.";
 "Test connection" = "Bağlantıyı dene";
 "Testing…" = "Deneniyor…";
@@ -467,18 +459,13 @@
 
 /* All devices (overview) */
 "A serial cable can serve only one device at a time." = "Bir seri kablo aynı anda yalnızca bir cihaza hizmet eder.";
-"Add router" = "Router ekle";
-"Add storage" = "Depolama ekle";
-"Disk health, shares and backups at a glance." = "Disklerin durumu, paylaşımlar ve yedekler tek bakışta.";
 "Each device has its own connection, staged changes and confirmation timer." = "Her cihazın kendi bağlantısı, hazır değişiklikleri ve onay süresi vardır.";
 "End session" = "Oturumu kapat";
 "Last read %@ · Last backup %@" = "Son okuma %@ · Son yedek %@";
 "No devices in this location yet" = "Bu konumda henüz cihaz yok";
 "Read all again" = "Hepsini yeniden oku";
 "Serial cables" = "Seri kablolar";
-"Storage (NAS)" = "Depolama (NAS)";
 "USB serial adapter · %@ baud" = "USB-seri adaptör · %@ baud";
-"Watch and manage your gateway and internet connection from here too." = "Ağ geçidini ve internet bağlantısını da buradan izleyip yöneteceksin.";
 "When the servers move to the data center, drag %@ here or add a new device." = "Sunucular veri merkezine taşınınca %@'i buraya sürükleyebilir ya da yeni cihaz ekleyebilirsin.";
 "devices seen" = "cihaz görüldü";
 "enabled ports" = "açık port";
@@ -627,3 +614,174 @@
 "empty slot" = "boş yuva";
 "no link" = "bağlantı yok";
 "warning" = "uyarı";
+
+
+/* Platforms, appliances, rear port roles */
+"%@ alert on the device" = "Cihazda %@ uyarı";
+"%@ alerts on the device" = "Cihazda %@ uyarı";
+"%@ copper ports" = "%@ bakır port";
+"%@ module slots" = "%@ modül yuvası";
+"%@ used of %@" = "%@ / %@ kullanılıyor";
+"%@ · Netdeck shows basic information for this device" = "%@ · Netdeck bu cihazın temel bilgilerini gösterir";
+"1 copper port" = "1 bakır port";
+"1 module slot" = "1 modül yuvası";
+"Automatic (DHCP)" = "Otomatik (DHCP)";
+"Change port roles" = "Port rollerini değiştir";
+"Changing port roles" = "Port rolleri değiştiriliyor";
+"Commands" = "Komutlar";
+"Critical" = "Kritik";
+"Device diff" = "Cihaz farkı";
+"Disks · %@" = "Diskler · %@";
+"EdgeOS commands" = "EdgeOS komutları";
+"Firmware" = "Yazılım sürümleri";
+"Healthy" = "Sağlıklı";
+"Hostname %@ · serial %@ · health, storage and sensors, read only" = "Ana bilgisayar adı %@ · seri no %@ · sağlık, depolama ve sensörler, yalnızca okuma";
+"I understand the safety timer can't undo this" = "Güvenlik zamanlayıcısının bunu geri alamayacağını anlıyorum";
+"IOS commands" = "IOS komutları";
+"If you don't confirm, a scheduled script on the router puts the previous settings back." = "Onaylamazsanız router üzerindeki zamanlanmış bir betik önceki ayarları geri yükler.";
+"If you don't confirm, the router restarts with its saved configuration. It is offline for a few minutes." = "Onaylamazsanız router kayıtlı yapılandırmasıyla yeniden başlar. Birkaç dakika çevrimdışı kalır.";
+"If you don't confirm, the switch replaces its configuration with the archived copy taken before the change." = "Onaylamazsanız switch, değişiklikten önce arşivlenen kopyayı yapılandırma olarak geri yükler.";
+"Netdeck can't connect to this device over %@." = "Netdeck bu cihaza %@ üzerinden bağlanamıyor.";
+"Netdeck can't do this on this device." = "Netdeck bu cihazda bunu yapamıyor.";
+"Netdeck only reads this device over its API. It never changes settings or power." = "Netdeck bu cihazı yalnızca API üzerinden okur. Ayarlarını ya da gücünü hiçbir zaman değiştirmez.";
+"Netdeck shows basic information for %@. It only reads this device; it never changes it." = "Netdeck, %@ için temel bilgileri gösterir. Bu cihazı yalnızca okur, hiçbir zaman değiştirmez.";
+"Network interfaces" = "Ağ arayüzleri";
+"Not available for this device" = "Bu cihazda yok";
+"Port %@ · copper" = "Port %@ · bakır";
+"Port %@ · module slot" = "Port %@ · modül yuvası";
+"Port roles are changed by a separate command after the other changes, not by a commit. They stay even if the timer rolls the rest back. To undo one, stage the old role again." = "Port rolleri diğer değişikliklerden sonra commit ile değil, ayrı bir komutla değişir. Zamanlayıcı geri kalanını geri alsa bile kalırlar. Geri almak için eski rolü yeniden hazırlayın.";
+"Power supplies and components" = "Güç kaynakları ve bileşenler";
+"Powered off" = "Kapalı";
+"Powered on" = "Açık";
+"Read over the device's API · %@" = "Cihazın API’sinden okundu · %@";
+"Reading…" = "Okunuyor…";
+"Redfish or REST · iDRAC, Synology, TrueNAS" = "Redfish ya da REST · iDRAC, Synology, TrueNAS";
+"Routed port" = "Yönlendirilmiş port";
+"RouterOS commands" = "RouterOS komutları";
+"Run separately, not covered by the safety timer:" = "Ayrı çalışır, güvenlik zamanlayıcısı kapsamında değildir:";
+"Security zone" = "Güvenlik bölgesi";
+"Sensors" = "Sensörler";
+"Software" = "Yazılım";
+"Storage pools" = "Depolama havuzları";
+"Summary" = "Özet";
+"The changes run as a %@-minute trial. If you don't confirm, the device rolls back on its own, even if you lose the connection." = "Değişiklikler %@ dakikalık deneme olarak çalışır. Onaylamazsanız cihaz, bağlantı kopsa bile kendiliğinden geri döner.";
+"The device checks each command as it is applied" = "Cihaz her komutu uygulanırken denetler";
+"The device didn't accept the commands" = "Cihaz komutları kabul etmedi";
+"The device is checking the changes" = "Cihaz değişiklikleri denetliyor";
+"This platform has no candidate configuration to check in advance." = "Bu platformda önceden denetlenecek aday yapılandırma yok.";
+"This port routes traffic itself instead of joining a VLAN. Netdeck changes only its description and whether it is on." = "Bu port bir VLAN’a katılmak yerine trafiği kendisi yönlendirir. Netdeck burada yalnızca açıklamasını ve açık/kapalı durumunu değiştirir.";
+"role: Virtual Chassis port → network port (%@)" = "rol: Virtual Chassis portu → ağ portu (%@)";
+"role: network port (%@) → Virtual Chassis port" = "rol: ağ portu (%@) → Virtual Chassis portu";
+"This device keeps no version history. Netdeck backs up its configuration on every read and before every change." = "Bu cihaz sürüm geçmişi tutmuyor. Netdeck yapılandırmasını her okumada ve her değişiklikten önce yedekler.";
+"Processors" = "İşlemciler";
+"Memory" = "Bellek";
+"Temperature" = "Sıcaklık";
+"health" = "sağlık";
+"power" = "güç";
+"disks" = "disk";
+"alerts" = "uyarı";
+
+/* EdgeOS */
+"%@ is not a VLAN-aware switch0 port. On EdgeOS, VLANs work only on switch0 ports with vlan-aware enabled." = "%@ vlan-aware bir switch0 portu değil. EdgeOS'ta VLAN'lar yalnızca vlan-aware açık switch0 portlarında çalışır.";
+"Another change on the router is already waiting for confirmation. Confirm it or let its timer run out first." = "Router'da onay bekleyen başka bir değişiklik var. Önce onu onaylayın ya da süresinin dolmasını bekleyin.";
+"EdgeOS can't change a VLAN's number. Delete the VLAN and add it again with the new number." = "EdgeOS bir VLAN'ın numarasını değiştiremez. VLAN'ı silip yeni numarayla tekrar ekleyin.";
+"Netdeck could not check whether the running configuration is saved. Changes that were never saved are lost if the router restarts with its saved configuration." = "Netdeck çalışan yapılandırmanın kaydedilip kaydedilmediğini kontrol edemedi. Router kayıtlı yapılandırmasıyla yeniden başlarsa hiç kaydedilmemiş değişiklikler kaybolur.";
+"Netdeck stopped the confirm timer and loaded the saved configuration again." = "Netdeck onay zamanlayıcısını durdurdu ve kayıtlı yapılandırmayı yeniden yükledi.";
+"On EdgeOS a VLAN has only a name (the description of its switch0 vif). Rename the VLAN instead." = "EdgeOS'ta bir VLAN'ın yalnızca adı vardır (switch0 vif açıklaması). Bunun yerine VLAN'ı yeniden adlandırın.";
+"The confirm timer is still running: the router restarts with its saved configuration when it runs out." = "Onay zamanlayıcısı hâlâ çalışıyor: süre dolunca router kayıtlı yapılandırmasıyla yeniden başlar.";
+"The router keeps no commit revisions, so EdgeOS can't arm its confirm timer. Turn on commit revisions (system config-management commit-revisions) first." = "Router commit geçmişi tutmuyor, bu yüzden EdgeOS onay zamanlayıcısını kuramıyor. Önce commit geçmişini açın (system config-management commit-revisions).";
+"The router rejected some commands:" = "Router bazı komutları kabul etmedi:";
+"The running configuration has changes that were never saved. If you don't confirm in time, the router restarts with its saved configuration and those changes are lost as well." = "Çalışan yapılandırmada hiç kaydedilmemiş değişiklikler var. Zamanında onaylamazsanız router kayıtlı yapılandırmasıyla yeniden başlar ve bu değişiklikler de kaybolur.";
+"This EdgeOS version has no commit-confirm, so Netdeck can't apply changes with a safety timer." = "Bu EdgeOS sürümünde commit-confirm yok, bu yüzden Netdeck değişiklikleri güvenlik zamanlayıcısıyla uygulayamaz.";
+"VLAN 1 is the default VLAN; EdgeOS keeps the name 'default' for it." = "VLAN 1 varsayılan VLAN'dır; EdgeOS onun için 'default' adını korur.";
+"VLANs on EdgeOS need the switch0 interface with vlan-aware enabled. Set that up on the router first." = "EdgeOS'ta VLAN'lar için vlan-aware açık bir switch0 arayüzü gerekir. Önce bunu router'da ayarlayın.";
+
+/* Cisco IOS */
+"This switch's IOS can't undo changes on its own (no revert timer). Netdeck doesn't apply changes without it." = "Bu switch'in IOS'u değişiklikleri kendiliğinden geri alamıyor (revert timer yok). Netdeck bu olmadan değişiklik uygulamaz.";
+"Netdeck needs privileged mode on this switch. Log in with a privilege 15 user or give the enable password." = "Netdeck bu switch'te yetkili moda (enable) ihtiyaç duyuyor. Yetki seviyesi 15 olan bir kullanıcıyla giriş yap ya da enable parolasını gir.";
+"Netdeck couldn't set up the configuration archive the revert timer needs:" = "Netdeck, revert timer'ın ihtiyaç duyduğu yapılandırma arşivini kuramadı:";
+"IOS has no candidate configuration to check in advance. The switch checks each command as it is applied; if one is rejected, or if you don't confirm in time, the revert timer puts the previous configuration back." = "IOS'ta önceden kontrol edilecek bir aday yapılandırma yok. Switch her komutu uygularken kontrol eder; biri reddedilirse ya da zamanında onaylamazsan revert timer önceki yapılandırmayı geri yükler.";
+"The configuration archive the revert timer needs is not set up yet. Netdeck turns it on first (archive path flash:netdeck), outside the timer; this doesn't affect traffic." = "Revert timer'ın ihtiyaç duyduğu yapılandırma arşivi henüz kurulu değil. Netdeck önce onu açar (archive path flash:netdeck); bu adım zamanlayıcının dışında kalır ve trafiği etkilemez.";
+"The switch shut this port down after an error (err-disabled)." = "Switch bu portu bir hata yüzünden kapattı (err-disabled).";
+"%@: IOS doesn't accept '?' in a description." = "%@: IOS açıklamada '?' kabul etmez.";
+"%@ is a routed port (no switchport). Netdeck doesn't change VLANs on routed ports." = "%@ yönlendirilmiş (routed) bir port (no switchport). Netdeck bu tür portlarda VLAN değiştirmez.";
+"%@ belongs to Port-channel%@; its VLANs follow the port-channel. Netdeck doesn't change them." = "%@, Port-channel%@ grubunun üyesi; VLAN'ları port-channel'dan gelir. Netdeck bunları değiştirmez.";
+"VLANs 1002–1005 are reserved on Cisco switches." = "1002–1005 arası VLAN'lar Cisco switch'lerde ayrılmıştır.";
+"'%@': IOS VLAN names can't contain spaces or '?' and are at most 32 characters." = "'%@': IOS VLAN adlarında boşluk ya da '?' olamaz ve en fazla 32 karakter olabilir.";
+"IOS VLANs have no description. Leave it empty." = "IOS VLAN'larında açıklama alanı yok. Boş bırak.";
+"IOS can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "IOS bir VLAN'ın numarasını değiştiremez. Yeni numarayla bir VLAN ekleyip portları ona taşı.";
+"The default VLAN (1) can't be renamed or deleted." = "Varsayılan VLAN (1) yeniden adlandırılamaz ve silinemez.";
+
+/* API module (iDRAC, Synology DSM, TrueNAS) */
+"'%@' is not a valid address." = "'%@' geçerli bir adres değil.";
+"Netdeck only connects over HTTPS. Use an https:// address." = "Netdeck yalnızca HTTPS ile bağlanır. https:// ile başlayan bir adres kullan.";
+"Netdeck can't reach the device over HTTPS (%@)." = "Netdeck cihaza HTTPS ile ulaşamıyor (%@).";
+"A secure connection to the device could not be set up (%@)." = "Cihazla güvenli bağlantı kurulamadı (%@).";
+"The security certificate of %@ has changed since Netdeck last connected. If the device was reset or got a new certificate, trust the new one. Otherwise someone may be intercepting the connection." = "%@ cihazının güvenlik sertifikası, Netdeck'in son bağlantısından bu yana değişmiş. Cihaz sıfırlandıysa ya da yeni sertifika aldıysa yenisine güven. Değilse biri bağlantının arasına giriyor olabilir.";
+"This account uses 2-step verification. Use an account without it for Netdeck." = "Bu hesapta iki adımlı doğrulama açık. Netdeck için iki adımlı doğrulaması olmayan bir hesap kullan.";
+"The device wants this account's password changed. Change it on the device's web page, then try again." = "Cihaz bu hesabın şifresinin değiştirilmesini istiyor. Şifreyi cihazın web sayfasından değiştir, sonra tekrar dene.";
+"The device blocked this Mac's address after too many failed logins. Unblock it on the device or wait, then try again." = "Çok sayıda başarısız girişten sonra cihaz bu Mac'in adresini engelledi. Engeli cihazdan kaldır ya da bekle, sonra tekrar dene.";
+"The device doesn't offer this information." = "Cihaz bu bilgiyi sunmuyor.";
+"The device sent an answer Netdeck doesn't understand (%@)." = "Cihaz, Netdeck'in anlamadığı bir yanıt gönderdi (%@).";
+"The device answered with HTTP error %@." = "Cihaz HTTP %@ hatasıyla yanıt verdi.";
+"not an HTTP answer" = "HTTP yanıtı değil";
+"no session token" = "oturum anahtarı yok";
+"login error %@" = "giriş hatası %@";
+"login failed" = "giriş başarısız";
+"no answer" = "yanıt yok";
+"The device stopped answering." = "Cihaz yanıt vermeyi bıraktı.";
+"Reading system info" = "Sistem bilgisi okunuyor";
+"Reading sensors" = "Sensörler okunuyor";
+"Reading power supplies" = "Güç kaynakları okunuyor";
+"Reading network interfaces" = "Ağ arayüzleri okunuyor";
+"Reading storage" = "Depolama okunuyor";
+"Reading the event log" = "Olay günlüğü okunuyor";
+"Reading alerts" = "Uyarılar okunuyor";
+"Processor" = "İşlemci";
+"%@ cores" = "%@ çekirdek";
+"Manufacturer" = "Üretici";
+"Power draw" = "Güç tüketimi";
+"Fans" = "Fanlar";
+"Power supplies" = "Güç kaynakları";
+"Temperatures" = "Sıcaklıklar";
+"Voltages" = "Gerilimler";
+"Batteries" = "Piller";
+"Chassis intrusion" = "Kasa açılması";
+"%@: critical" = "%@: kritik";
+"%@: warning" = "%@: uyarı";
+"Not installed" = "Takılı değil";
+"no input" = "güç girişi yok";
+"%@ W now" = "şu an %@ W";
+"Firmware %@" = "Yazılım %@";
+"Volume %@" = "Birim %@";
+"%@ status: %@" = "%@ durumu: %@";
+"The system temperature is high." = "Sistem sıcaklığı yüksek.";
+"This account can't read storage information. Use an administrator account to see volumes and disks." = "Bu hesap depolama bilgisini okuyamıyor. Birimleri ve diskleri görmek için yönetici hesabı kullan.";
+
+/* HTTPS error cards */
+"%@ presented a different security certificate than last time. That happens after a reset or a certificate renewal, but it can also mean someone is in between. Trust the new certificate only if you know why it changed." = "%@ geçen seferkinden farklı bir güvenlik sertifikası sundu. Bu bir sıfırlamadan ya da sertifika yenilemesinden sonra olur, ama araya birinin girdiği anlamına da gelebilir. Yeni sertifikaya yalnızca neden değiştiğini biliyorsanız güvenin.";
+"Certificate changed" = "Sertifika değişti";
+"HTTPS: the address can't be reached" = "HTTPS: adrese ulaşılamıyor";
+"HTTPS: the certificate changed" = "HTTPS: sertifika değişti";
+"Netdeck couldn't reach %@. Check that the device is on, the address and port are right (Synology uses 5001) and this Mac is on the same network." = "Netdeck %@ adresine ulaşamadı. Cihazın açık olduğunu, adresin ve portun doğru olduğunu (Synology 5001 kullanır) ve bu Mac'in aynı ağda olduğunu kontrol edin.";
+"Trust the new certificate" = "Yeni sertifikaya güven";
+
+/* MikroTik RouterOS */
+"%@: VLANs on RouterOS need bridge VLAN filtering. Add the port to the bridge and turn on vlan-filtering first." = "%@: RouterOS'ta VLAN için bridge VLAN filtrelemesi gerekir. Önce portu bridge'e ekleyin ve vlan-filtering'i açın.";
+"VLANs on RouterOS need bridge VLAN filtering. Turn on vlan-filtering on the bridge first." = "RouterOS'ta VLAN için bridge VLAN filtrelemesi gerekir. Önce bridge'de vlan-filtering'i açın.";
+"VLANs %@ share one bridge VLAN entry on the router. Split it into one entry per VLAN first." = "%@ VLAN'ları router'da tek bir bridge VLAN kaydını paylaşıyor. Önce her VLAN için ayrı bir kayda bölün.";
+"%@: choose a VLAN for this port." = "%@: bu port için bir VLAN seçin.";
+"RouterOS bridge VLANs have no names of their own. Netdeck shows the name of the VLAN's interface, or vlan and its number." = "RouterOS'ta bridge VLAN'larının kendi adı yoktur. Netdeck VLAN arayüzünün adını, arayüz yoksa vlan ve numarasını gösterir.";
+"VLAN '%@' has the VLAN interface '%@' on the router. Remove that interface first." = "'%@' VLAN'ının router'da '%@' adlı VLAN arayüzü var. Önce o arayüzü kaldırın.";
+"The router asks for a new password. Log in once with WinBox, WebFig or a terminal, set a password, then connect again." = "Router yeni bir şifre istiyor. WinBox, WebFig ya da bir terminalle bir kez giriş yapıp şifre belirleyin, sonra yeniden bağlanın.";
+"RouterOS has no candidate configuration to check in advance. Netdeck sends the commands one by one and undoes all of them if the router rejects one." = "RouterOS'ta önceden kontrol edilecek bir aday yapılandırma yoktur. Netdeck komutları tek tek gönderir; router birini reddederse hepsini geri alır.";
+"The router did not confirm the command." = "Router komutu onaylamadı.";
+"The undo timer is still on the router. Confirm again." = "Geri alma zamanlayıcısı hâlâ router'da. Yeniden onaylayın.";
+"This change is too large for the router's undo script. Apply it in smaller parts." = "Bu değişiklik router'daki geri alma betiği için fazla büyük. Daha küçük parçalar halinde uygulayın.";
+"Netdeck could not read the router's clock, so it can't set the undo timer. Nothing was changed." = "Netdeck router'ın saatini okuyamadığı için geri alma zamanlayıcısını kuramıyor. Hiçbir şey değiştirilmedi.";
+"The undo script on the router is incomplete." = "Router'daki geri alma betiği eksik.";
+"The undo timer did not start on the router." = "Geri alma zamanlayıcısı router'da başlamadı.";
+"Netdeck could not set the undo timer on the router, so nothing was changed." = "Netdeck router'da geri alma zamanlayıcısını kuramadı, bu yüzden hiçbir şey değiştirilmedi.";
+"The undo script did not finish on the router." = "Geri alma betiği router'da tamamlanmadı.";
+"Undo runs at %@ (router time)" = "Geri alma %@ zamanında çalışır (router saati)";
+"Another session applied these changes and they still wait for confirmation. Discarding runs their undo script now, so the router goes back to the settings from before them. This can't be undone." = "Bu değişiklikleri başka bir oturum uyguladı ve hâlâ onay bekliyorlar. Atmak, geri alma betiklerini şimdi çalıştırır; router bu değişikliklerden önceki ayarlara döner. Bu geri alınamaz.";

@@ -1,0 +1,42 @@
+{
+  "@odata.context": "/redfish/v1/$metadata#Thermal.Thermal",
+  "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/Thermal",
+  "Id": "Thermal",
+  "Name": "Thermal",
+  "Fans": [
+    {
+      "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/0",
+      "FanName": "System Board Fan1",
+      "MemberId": "0x17||Fan.Embedded.1",
+      "Reading": 4920,
+      "ReadingUnits": "RPM",
+      "Status": {
+        "Health": "OK",
+        "State": "Enabled"
+      }
+    },
+    {
+      "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/1",
+      "FanName": "System Board Fan2",
+      "MemberId": "0x17||Fan.Embedded.2",
+      "Reading": 360,
+      "ReadingUnits": "RPM",
+      "Status": {
+        "Health": "Critical",
+        "State": "Enabled"
+      }
+    }
+  ],
+  "Temperatures": [
+    {
+      "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Temperatures/0",
+      "MemberId": "iDRAC.Embedded.1#SystemBoardInletTemp",
+      "Name": "System Board Inlet Temp",
+      "ReadingCelsius": 21,
+      "Status": {
+        "Health": "OK",
+        "State": "Enabled"
+      }
+    }
+  ]
+}

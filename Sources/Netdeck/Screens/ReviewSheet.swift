@@ -23,6 +23,8 @@ struct ReviewSheet: View {
     @State private var note = ""
     @State private var checking = false
     @State private var applying = false
+    /// "I understand the safety timer can't undo this" for rear port role changes (§3.8).
+    @State private var untimedAcknowledged = false
     @Environment(\.dismiss) private var dismiss
 
     init(session: DeviceSession, isSample: Bool, timer: Int, showDetails: Bool = false, mode: ReviewMode = .changes) {
@@ -47,10 +49,14 @@ struct ReviewSheet: View {
         if checking || session.preview == nil { return .running }
         return session.preview?.checkPassed == true ? .ok : .failed
     }
+    private var traits: ChangeTraits { session.changeTraits }
     private var canApply: Bool {
         !isSample && !session.isOffline && !plan.isEmpty && session.pending == nil && !applying
             && foreignState == .ok && commitCheckState == .ok && plan.changes.allSatisfy { $0.warnings.isEmpty }
+            && (!plan.hasUntimedPart || untimedAcknowledged)
     }
+    /// Only rear port roles are staged: there is no trial, the roles change right away.
+    private var untimedOnly: Bool { plan.commands.isEmpty && plan.hasUntimedPart }
 
     var body: some View {
         switch mode {
@@ -71,8 +77,12 @@ struct ReviewSheet: View {
                     VStack(alignment: .leading, spacing: 8) {
                         MicroHeading(text: t("What will change"))
                         ForEach(plan.changes) { c in ChangeRow(change: c) { remove(c) } }
+                        if plan.hasUntimedPart { untimedBox }
                     }
-                    HStack(alignment: .top, spacing: 12) { timerBox; checksBox }
+                    HStack(alignment: .top, spacing: 12) {
+                        if !untimedOnly { timerBox }
+                        checksBox
+                    }
                         .fixedSize(horizontal: false, vertical: true)
                     details
                     VStack(alignment: .leading, spacing: 6) {
@@ -106,17 +116,50 @@ struct ReviewSheet: View {
                           isSample: isSample)
     }
 
-    private var timerBox: some View { SafetyTimerBox(timer: $timer) }
+    private var timerBox: some View { SafetyTimerBox(timer: $timer, choices: traits.timerChoices, note: traits.timeoutNote) }
+
+    /// Amber box with the acknowledgement for commands outside the timer (rear port roles).
+    private var untimedBox: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .top, spacing: 10) {
+                Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(Theme.warn)
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(t("The safety timer can't undo this change")).font(Typo.bodyStrong).foregroundStyle(Theme.warnInk)
+                    Text(t("Port roles are changed by a separate command after the other changes, not by a commit. They stay even if the timer rolls the rest back. To undo one, stage the old role again."))
+                        .font(Typo.caption).foregroundStyle(Theme.text2).fixedSize(horizontal: false, vertical: true)
+                }
+            }
+            Toggle(isOn: $untimedAcknowledged) {
+                Text(t("I understand the safety timer can't undo this")).font(Typo.bodyStrong).foregroundStyle(Theme.text1)
+            }
+            .toggleStyle(.checkbox)
+            .disabled(isSample)
+        }
+        .padding(12)
+        .background(RoundedRectangle(cornerRadius: 10, style: .continuous).fill(Theme.warnSoft))
+        .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Theme.warnLine, lineWidth: 1))
+    }
 
     private var checksBox: some View {
         VStack(alignment: .leading, spacing: 9) {
             HStack(spacing: 6) { Image(systemName: "checkmark.shield"); Text(t("Before applying")) }.font(Typo.bodyStrong).foregroundStyle(Theme.text1)
             check(.ok, t("The current config will be backed up"))
             check(foreignState, foreignState == .failed ? t("Someone else has uncommitted changes on the switch") : t("No one else has uncommitted changes on the switch"))
-            check(commitCheckState, commitCheckState == .failed ? t("The switch didn't accept the commands") : t("Syntax check passed (commit check)"))
+            if traits.devicePreview {
+                check(commitCheckState, commitCheckState == .failed ? t("The device didn't accept the commands") : t("Syntax check passed (commit check)"))
+            } else {
+                ReviewCheck(state: commitCheckState == .failed ? .failed : (commitCheckState == .running ? .running : .later),
+                            text: commitCheckState == .failed ? t("The device didn't accept the commands") : t("The device checks each command as it is applied"),
+                            note: commitCheckState == .failed ? nil : t("This platform has no candidate configuration to check in advance."))
+            }
             if isSample {
                 Text(t("This is a sample switch. Nothing is sent; Apply is turned off.")).font(Typo.caption).foregroundStyle(Theme.accentInk)
                     .fixedSize(horizontal: false, vertical: true)
+            }
+            // Notes from drivers other than Junos (unsaved configuration, how the timer works); Junos
+            // only returns its `commit check` output here, which the check line already covers.
+            if session.snapshot?.platform != .juniperJunos, let note = session.preview?.checkOutput, !note.isEmpty {
+                Text(note).font(Typo.caption).foregroundStyle(Theme.text2).fixedSize(horizontal: false, vertical: true)
             }
         }
         .padding(14).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
@@ -136,10 +179,11 @@ struct ReviewSheet: View {
             }
             .buttonStyle(.plain)
             if showDetails {
-                let code = detailsTab == 0 ? plan.commands.joined(separator: "\n") : (session.preview?.diff ?? "")
+                let code = detailsTab == 0 ? commandText : (session.preview?.diff ?? "")
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
-                        Segmented(options: [(0, t("Junos commands") + " \(plan.commands.count)", nil), (1, t("Switch diff"), nil)], selection: $detailsTab, compact: true)
+                        Segmented(options: [(0, traits.commandsTitle + " \(plan.commands.count + plan.operationalCommands.count)", nil),
+                                            (1, t("Device diff"), nil)], selection: $detailsTab, compact: true)
                         Spacer()
                         Button {
                             NSPasteboard.general.clearContents()
@@ -166,14 +210,15 @@ struct ReviewSheet: View {
             Button {
                 applying = true
                 Task {
-                    await session.apply(confirmMinutes: timer, note: note)
+                    let untimed = untimedOnly
+                    await session.apply(confirmMinutes: timer, note: note, acknowledgedUntimed: untimedAcknowledged)
                     applying = false
-                    if session.pending != nil { dismiss() }
+                    if session.pending != nil || (untimed && session.plan.isEmpty) { dismiss() }
                 }
             } label: {
                 HStack(spacing: 7) {
                     if applying { ProgressView().controlSize(.small) } else { Image(systemName: "paperplane") }
-                    Text(t("Apply · %@ min trial", String(timer)))
+                    Text(untimedOnly ? t("Change port roles") : t("Apply · %@ min trial", String(timer)))
                 }
             }
             .buttonStyle(PrimaryButtonStyle(large: true))
@@ -181,8 +226,23 @@ struct ReviewSheet: View {
         }
     }
 
+    /// The commands as sent: the timed part, then the separate commands with a comment line.
+    private var commandText: String {
+        var lines = plan.commands
+        if plan.hasUntimedPart {
+            if !lines.isEmpty { lines.append("") }
+            lines.append("# " + t("Run separately, not covered by the safety timer:"))
+            lines += plan.operationalCommands
+        }
+        return lines.joined(separator: "\n")
+    }
+
     private func remove(_ change: PlannedChange) {
         if change.kind == .port { session.unstage(port: change.subject); return }
+        if change.kind == .rearPort {
+            if let e = session.rearEdits.first(where: { $0.subject == change.subject }) { session.unstageRear(pic: e.pic, port: e.port) }
+            return
+        }
         if let i = session.vlanEdits.firstIndex(where: { VLANEditName($0) == change.subject }) { session.unstageVLAN(at: i) }
     }
 }
@@ -274,13 +334,19 @@ struct ReviewSheetHeader: View {
 /// Safety timer box: 3 / 5 / 10 minute segments and what the trial means.
 struct SafetyTimerBox: View {
     @Binding var timer: Int
+    var choices: [Int] = [3, 5, 10]
+    /// What this platform does when the timer runs out (`ChangeTraits.timeoutNote`).
+    var note: String = ""
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 6) { Image(systemName: "timer"); Text(t("Safety timer")) }.font(Typo.bodyStrong).foregroundStyle(Theme.text1)
-            Segmented(options: [3, 5, 10].map { ($0, t("%@ min", String($0)), nil) }, selection: $timer)
-            Text(t("The changes run as a %@-minute trial. If you don't confirm, the switch rolls back on its own, even if you lose the connection.", String(timer)))
+            Segmented(options: choices.map { ($0, t("%@ min", String($0)), nil) }, selection: $timer)
+            Text(t("The changes run as a %@-minute trial. If you don't confirm, the device rolls back on its own, even if you lose the connection.", String(timer)))
                 .font(Typo.caption).foregroundStyle(Theme.text2).fixedSize(horizontal: false, vertical: true)
+            if !note.isEmpty {
+                Text(note).font(Typo.caption).foregroundStyle(Theme.text3).fixedSize(horizontal: false, vertical: true)
+            }
             Spacer(minLength: 0)
         }
         .padding(14).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)

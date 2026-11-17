@@ -1,0 +1,27 @@
+{
+  "@odata.id": "/redfish/v1/",
+  "@odata.type": "#ServiceRoot.v1_5_1.ServiceRoot",
+  "Id": "RootService",
+  "Links": {
+    "Sessions": {
+      "@odata.id": "/redfish/v1/SessionService/Sessions/"
+    }
+  },
+  "Name": "HPE RESTful Root Service",
+  "Oem": {
+    "Hpe": {
+      "Manager": [
+        {
+          "ManagerType": "iLO 5",
+          "ManagerFirmwareVersion": "2.72"
+        }
+      ]
+    }
+  },
+  "Product": "ProLiant DL380 Gen10",
+  "RedfishVersion": "1.6.0",
+  "Systems": {
+    "@odata.id": "/redfish/v1/Systems/"
+  },
+  "Vendor": "HPE"
+}

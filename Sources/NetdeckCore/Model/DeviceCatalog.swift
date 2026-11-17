@@ -43,26 +43,24 @@ public enum DeviceKind: String, Codable, Sendable, CaseIterable, Identifiable {
         }
     }
 
-    /// How this type can be reached (DESIGN.md §3.10 matrix). A method the matrix allows but
-    /// Netdeck can't speak yet (`ConnectionType.isImplemented`) reads as coming soon.
+    /// How this type can be reached (DESIGN.md §3.10 matrix). Methods a type can't use are shown
+    /// disabled, without promising anything.
     public func availability(of connection: ConnectionType) -> ConnectionAvailability {
-        let planned: ConnectionAvailability
         switch (self, connection) {
-        case (.switchDevice, .api), (.router, .api), (.firewall, .api): planned = .comingSoon
-        case (.switchDevice, _), (.router, _), (.firewall, _): planned = .available
-        case (.storage, .serial), (.wireless, .serial): planned = .notAvailable
-        case (.storage, _), (.wireless, _): planned = .available
-        case (.server, .api): planned = .available
-        case (.server, _): planned = .notAvailable
-        case (.other, .api): planned = .notAvailable
-        case (.other, _): planned = .available
+        case (.switchDevice, .api), (.router, .api), (.firewall, .api): return .notAvailable
+        case (.switchDevice, _), (.router, _), (.firewall, _): return .available
+        case (.storage, .serial), (.wireless, .serial): return .notAvailable
+        case (.storage, _), (.wireless, _): return .available
+        case (.server, .api): return .available
+        case (.server, _): return .notAvailable
+        case (.other, .api): return .notAvailable
+        case (.other, _): return .available
         }
-        return planned == .available && !connection.isImplemented ? .comingSoon : planned
     }
 }
 
 public enum ConnectionAvailability: Sendable, Equatable {
-    case available, comingSoon, notAvailable
+    case available, notAvailable
 }
 
 /// Software platform a driver talks to. Brand + OS, not a specific model.
@@ -108,15 +106,16 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
 
     public var displayName: String { self == .unknown ? t("Unknown") : "\(vendor) \(osName)" }
 
-    /// Only Junos is fully supported in v1; everything else is recognised and listed as coming soon.
-    /// `unknown` ("Other" in the brand picker) gets the basic info card.
+    /// Every listed brand has a driver. `unknown` ("Other" in the brand picker) gets the basic info card.
     public var support: Support {
         switch self {
-        case .juniperJunos: return .full
         case .unknown: return .basic
-        default: return .planned
+        default: return .full
         }
     }
+
+    /// Reached over an HTTPS API and shown as an information screen (health, storage, sensors).
+    public var isAppliance: Bool { self == .dellIDRAC || self == .synologyDSM || self == .truenas }
 
     /// Second line of a brand tile in the manual picker.
     public var products: String {
@@ -124,7 +123,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .juniperJunos: return "Junos"
         case .mikrotikRouterOS: return "RouterOS"
         case .ciscoIOS: return "IOS / IOS-XE"
-        case .ubiquitiEdgeOS: return "UniFi / EdgeOS"
+        case .ubiquitiEdgeOS: return "EdgeOS"
         case .dellIDRAC: return "iDRAC"
         case .synologyDSM: return "DSM"
         case .truenas: return "TrueNAS"
@@ -137,9 +136,9 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         switch self {
         case .juniperJunos:
             return [PlatformFamily(id: "ex", name: "EX", kind: .switchDevice, support: .full),
-                    PlatformFamily(id: "srx", name: "SRX", kind: .firewall, support: .basic),
-                    PlatformFamily(id: "mx", name: "MX", kind: .router, support: .basic),
-                    PlatformFamily(id: "qfx", name: "QFX", kind: .switchDevice, support: .basic, dataCenter: true)]
+                    PlatformFamily(id: "srx", name: "SRX", kind: .firewall, support: .full),
+                    PlatformFamily(id: "mx", name: "MX", kind: .router, support: .full),
+                    PlatformFamily(id: "qfx", name: "QFX", kind: .switchDevice, support: .full, dataCenter: true)]
         default: return []
         }
     }
@@ -153,8 +152,13 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
     /// Brand name in the manual picker ("Other" for `unknown`).
     public var brand: String { self == .unknown ? t("Other") : vendor }
 
-    /// Netdeck can read and keep this platform's configuration (drives History & backups for basic devices).
-    public var exportsConfig: Bool { self == .juniperJunos }
+    /// Netdeck can read and keep this platform's configuration (drives History & backups).
+    public var exportsConfig: Bool {
+        switch self {
+        case .juniperJunos, .mikrotikRouterOS, .ciscoIOS, .ubiquitiEdgeOS: return true
+        default: return false
+        }
+    }
 
     /// Device kinds this platform is commonly used for (drives the manual brand list per type).
     public var kinds: [DeviceKind] {
@@ -162,7 +166,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .juniperJunos: return [.switchDevice, .router, .firewall]
         case .mikrotikRouterOS: return [.router, .switchDevice, .wireless]
         case .ciscoIOS: return [.switchDevice, .router]
-        case .ubiquitiEdgeOS: return [.router, .switchDevice, .wireless]
+        case .ubiquitiEdgeOS: return [.router]
         case .dellIDRAC: return [.server]
         case .synologyDSM, .truenas: return [.storage]
         case .unknown: return DeviceKind.allCases
@@ -181,8 +185,13 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
 public enum ConnectionType: String, Codable, Sendable, CaseIterable {
     case serial, ssh, api
 
-    /// Netdeck has a transport for it (serial console and SSH today; no HTTPS API client yet).
-    public var isImplemented: Bool { self != .api }
+    public var title: String {
+        switch self {
+        case .serial: return t("Serial console")
+        case .ssh: return "SSH"
+        case .api: return t("API (HTTPS)")
+        }
+    }
 }
 
 /// A product line of a platform, e.g. Juniper EX. Drives the family row of the manual picker.
@@ -239,8 +248,14 @@ public struct Detection: Codable, Sendable, Equatable, Hashable {
     /// "Juniper EX4300-48T · Junos 21.2R3.8"
     public var summary: String {
         var parts = [platform.vendor + (model.map { " " + $0 } ?? "")]
-        if let osVersion { parts.append("\(platform.osName) \(osVersion)") }
+        if let osLine { parts.append(osLine) }
         return parts.joined(separator: " · ")
+    }
+
+    /// "Junos 21.2R3.8"; API drivers already put the product name in the version ("iDRAC 7.00").
+    public var osLine: String? {
+        guard let osVersion else { return nil }
+        return osVersion.hasPrefix(platform.osName) || platform == .unknown ? osVersion : "\(platform.osName) \(osVersion)"
     }
 }
 
@@ -288,7 +303,36 @@ public enum DeviceDetector {
         if s.contains("TrueNAS") || s.contains("FreeNAS") {
             return Detection(platform: .truenas, kind: .storage)
         }
+        if s.contains("User Access Verification") {
+            return Detection(platform: .ciscoIOS)
+        }
+        // Nothing in the banner: go by the prompt the device left us at.
+        let last = s.components(separatedBy: "\n").map { $0.trimmingCharacters(in: .whitespaces) }.last { !$0.isEmpty } ?? ""
+        if let p = foreignPrompt(last), p != .unknown { return Detection(platform: p) }
         return nil
+    }
+
+    /// A prompt (or login prompt) that isn't Junos: the platform it most likely belongs to, `.unknown`
+    /// for a generic shell prompt, or nil when the line isn't a recognisable prompt at all.
+    public static func foreignPrompt(_ line: String) -> Platform? {
+        let l = line.trimmingCharacters(in: .whitespaces)
+        guard !l.isEmpty, l.count < 120 else { return nil }
+        // [admin@MikroTik] >   [admin@MikroTik] /interface>   [admin@MikroTik] <SAFE>
+        if l.range(of: #"^\[[^\]@\s]+@[^\]]+\]\s*(<SAFE>\s*)?(/[\w/\-]*)?>?$"#, options: .regularExpression) != nil,
+           l.hasSuffix(">") { return .mikrotikRouterOS }
+        if l.hasSuffix("Login:"), l.contains("MikroTik") { return .mikrotikRouterOS }
+        // ubnt@edge:~$   admin@nas:/$   root@host:~#
+        if l.range(of: #"^[\w.\-]+@[\w.\-]+:[^\s]*[$#]$"#, options: .regularExpression) != nil { return .unknown }
+        // Switch>   Switch#   Switch(config-if)#   (no "@": Junos prompts always have one)
+        if l.range(of: #"^[A-Za-z0-9][\w.\-]*(\([\w\-]+\))?[>#]$"#, options: .regularExpression) != nil { return .ciscoIOS }
+        if l.hasSuffix("Username:") { return .ciscoIOS }
+        return nil
+    }
+
+    /// A login prompt of any platform ("login:", "MikroTik Login:", "Username:").
+    public static func isLoginPrompt(_ line: String) -> Bool {
+        let l = line.trimmingCharacters(in: .whitespaces)
+        return l.hasSuffix("login:") || l.hasSuffix("Login:") || l.hasSuffix("Username:")
     }
 
     /// Parses Junos `show version`: "Model: ex4300-48t", "Junos: 21.2R3.8", "Hostname: sw-01".

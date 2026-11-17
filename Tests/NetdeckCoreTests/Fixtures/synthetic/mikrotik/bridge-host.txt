@@ -1,0 +1,9 @@
+ 0 D   mac-address=00:0C:29:00:00:01 vid=10 on-interface=ether1 bridge=bridge
+ 1 D   mac-address=00:0C:29:00:00:02 vid=10 on-interface=ether2 bridge=bridge
+ 2 D   mac-address=F0:9F:C2:00:00:01 vid=10 on-interface=ether3 bridge=bridge
+ 3 D   mac-address=3C:22:FB:00:00:01 vid=20 on-interface=ether9 bridge=bridge
+ 4 D   mac-address=48:A9:8A:00:00:10 vid=1 on-interface=uplink bridge=bridge
+ 5 D   mac-address=48:A9:8A:00:00:10 vid=10 on-interface=uplink bridge=bridge
+ 6 DL  mac-address=48:A9:8A:00:00:00 vid=1 on-interface=bridge bridge=bridge
+ 7 DL  mac-address=48:A9:8A:00:00:00 vid=10 on-interface=bridge bridge=bridge
+ 8 DL  mac-address=48:A9:8A:00:00:01 vid=10 on-interface=ether1 bridge=bridge

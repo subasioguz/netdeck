@@ -59,6 +59,7 @@ struct PortInspector: View {
                 ValueRow(label: t("Speed"), value: port.speedText)
                 ValueRow(label: t("Speed setting"), value: t("Automatic"))
                 ValueRow(label: t("Name on the switch"), value: port.name, mono: true)
+                if let zone = port.zone { ValueRow(label: t("Security zone"), value: zone, mono: true) }
             }
         }
     }
@@ -72,6 +73,10 @@ struct PortInspector: View {
     }
 
     private var location: String {
+        guard snapshot.platform == .juniperJunos, snapshot.junosModel?.rearPIC != nil else {
+            return port.kind == .copper ? t("Port %@ · copper", port.label ?? String(port.number))
+                                        : t("Port %@ · module slot", port.label ?? String(port.number))
+        }
         guard port.kind == .copper else { return t("Port %@", String(port.number)) + " · SFP+" }
         let block = String(port.number / 12 + 1)
         return port.isTopRow ? t("Port %@ · block %@, top row · copper", String(port.number), block)
@@ -89,6 +94,32 @@ struct PortInspector: View {
                     WasRow(old: port.description ?? "—") { session.stage(PortEdit(port: port.name, description: port.description ?? "")) }
                 }
             }
+            if port.isRouted || !snapshot.hasSwitching {
+                routed
+            } else {
+                vlanSettings
+            }
+        }
+    }
+
+    /// A layer 3 port: its addresses instead of VLAN choices.
+    private var routed: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            FieldLabel(text: t("Routed port"))
+            VStack(spacing: 0) {
+                if port.addresses.isEmpty {
+                    ValueRow(label: t("Address"), value: "—")
+                } else {
+                    ForEach(port.addresses, id: \.self) { a in ValueRow(label: t("Address"), value: a == "dhcp" ? t("Automatic (DHCP)") : a, mono: a != "dhcp") }
+                }
+            }
+            Text(t("This port routes traffic itself instead of joining a VLAN. Netdeck changes only its description and whether it is on."))
+                .font(Typo.micro).foregroundStyle(Theme.text3).fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    private var vlanSettings: some View {
+        VStack(alignment: .leading, spacing: 14) {
             VStack(alignment: .leading, spacing: 6) {
                 FieldLabel(text: t("How many networks on this port?"))
                 HStack(spacing: 10) {
