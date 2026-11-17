@@ -458,6 +458,40 @@ public enum CiscoParsers {
         return out
     }
 
+    // MARK: show cdp neighbors
+
+    /// `show cdp neighbors`: Device ID, Local Intrfce ("Gig 1/0/1", with a space), Holdtme, Capability,
+    /// Platform, Port ID. A long Device ID stands on a line of its own and the row follows on the next.
+    /// "% CDP is not enabled" gives no neighbors. The local name comes back without the space
+    /// ("Gig1/0/1"); `CiscoNames.resolve` turns it into the full name.
+    public static func cdpNeighbors(_ text: String) -> [LLDPNeighbor] {
+        let lines = text.components(separatedBy: "\n").map { $0.replacingOccurrences(of: "\r", with: "") }
+        guard let h = lines.firstIndex(where: { $0.hasPrefix("Device ID") && $0.contains("Local Intrfce") }) else { return [] }
+        let header = lines[h]
+        guard let cLocal = column(header, "Local Intrfce"), let cPort = column(header, "Port ID") else { return [] }
+        let cHold = column(header, "Holdtme") ?? column(header, "Hold")
+        let cPlatform = column(header, "Platform")
+        var out: [LLDPNeighbor] = []
+        var pendingDevice: String?
+        for line in lines[(h + 1)...] {
+            let t = line.trimmingCharacters(in: .whitespaces)
+            if t.isEmpty { continue }
+            if t.hasPrefix("Total cdp entries") || t.hasPrefix("Total entries") { break }
+            let chars = Array(line)
+            let device = slice(chars, 0, cLocal)
+            let local = slice(chars, cLocal, cHold ?? cPort).replacingOccurrences(of: " ", with: "")
+            guard !local.isEmpty, local.last?.isNumber == true else {
+                pendingDevice = t
+                continue
+            }
+            let platform = cPlatform.map { slice(chars, $0, cPort) } ?? ""
+            let name = device.isEmpty ? (pendingDevice ?? "") : device
+            out.append(LLDPNeighbor(localInterface: local, chassisID: platform, portInfo: slice(chars, cPort, nil), systemName: name))
+            pendingDevice = nil
+        }
+        return out
+    }
+
     // MARK: show archive
 
     /// The configuration archive (needed by `configure terminal revert timer`) has a path. Unknown

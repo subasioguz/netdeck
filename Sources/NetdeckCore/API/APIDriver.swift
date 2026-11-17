@@ -1,7 +1,8 @@
 import Foundation
 
-/// Reads a server BMC (Dell iDRAC over Redfish) or a NAS (Synology DSM, TrueNAS) over HTTPS.
-/// Read-only: the change operations keep the protocol defaults and throw `DriverError.notSupported`.
+/// Reads a server BMC (Redfish: Dell iDRAC, HPE iLO, Supermicro, Lenovo XCC) or a NAS (Synology DSM,
+/// TrueNAS) over HTTPS. Read-only apart from server power commands: the change operations keep the
+/// protocol defaults and throw `DriverError.notSupported`.
 public actor APIDriver: DeviceDriver {
     private let url: String
     private let platform: Platform
@@ -78,12 +79,27 @@ public actor APIDriver: DeviceDriver {
         }
     }
 
+    /// Server power command. Only after the user confirmed it; never retried once the device took it.
+    public func power(_ action: ApplianceSnapshot.PowerAction) async throws {
+        guard let backend else { throw TransportError.notOpen }
+        do {
+            try await backend.power(action)
+        } catch APIError.unauthorized {
+            // A session the device ended while idle rejects the command before running it; log in again once.
+            guard let credentials else { throw APIError.unauthorized }
+            await backend.logout()
+            try await backend.login(username: credentials.username, password: credentials.password)
+            try await backend.power(action)
+        }
+    }
+
     // MARK: Detection
 
     /// The client for whichever API answers, or nil when none of the wanted ones does.
     static func detect(_ platform: Platform, http: APIHTTP) async throws -> (any APIBackend)? {
         switch platform {
-        case .dellIDRAC:
+        case .dellIDRAC, .redfish:
+            // A BMC of another vendor than the one picked is still read (the snapshot says which).
             return try await RedfishClient.probe(http)
         case .synologyDSM:
             return try await SynologyClient.probe(http)
@@ -107,4 +123,10 @@ protocol APIBackend: Actor {
     func read(progress: @Sendable (LoadStep) -> Void) async throws -> ApplianceSnapshot
     /// Ends the device-side session. Never throws.
     func logout() async
+    /// Server power command; only Redfish BMCs have one.
+    func power(_ action: ApplianceSnapshot.PowerAction) async throws
+}
+
+extension APIBackend {
+    func power(_ action: ApplianceSnapshot.PowerAction) async throws { throw DriverError.notSupported }
 }

@@ -1,0 +1,53 @@
+{
+  "@odata.context": "/redfish/v1/$metadata#ComputerSystem.ComputerSystem",
+  "@odata.id": "/redfish/v1/Systems/1/",
+  "@odata.type": "#ComputerSystem.v1_13_0.ComputerSystem",
+  "Actions": {
+    "#ComputerSystem.Reset": {
+      "ResetType@Redfish.AllowableValues": ["On", "ForceOff", "GracefulShutdown", "ForceRestart", "Nmi", "PushPowerButton", "GracefulRestart"],
+      "target": "/redfish/v1/Systems/1/Actions/ComputerSystem.Reset/"
+    }
+  },
+  "BiosVersion": "U32 v2.68 (07/14/2022)",
+  "EthernetInterfaces": {
+    "@odata.id": "/redfish/v1/Systems/1/EthernetInterfaces/"
+  },
+  "HostName": "esx-01",
+  "Id": "1",
+  "Links": {
+    "Chassis": [{ "@odata.id": "/redfish/v1/Chassis/1/" }],
+    "ManagedBy": [{ "@odata.id": "/redfish/v1/Managers/1/" }]
+  },
+  "LogServices": {
+    "@odata.id": "/redfish/v1/Systems/1/LogServices/"
+  },
+  "Manufacturer": "HPE",
+  "MemorySummary": {
+    "Status": { "HealthRollup": "OK" },
+    "TotalSystemMemoryGiB": 384
+  },
+  "Model": "ProLiant DL360 Gen10",
+  "Name": "Computer System",
+  "Oem": {
+    "Hpe": {
+      "PostState": "FinishedPost"
+    }
+  },
+  "PowerState": "On",
+  "ProcessorSummary": {
+    "Count": 2,
+    "Model": "Intel(R) Xeon(R) Gold 6230 CPU @ 2.10GHz",
+    "Status": { "HealthRollup": "OK" }
+  },
+  "SKU": "867959-B21",
+  "SerialNumber": "TEST0000003",
+  "Status": {
+    "Health": "OK",
+    "HealthRollup": "OK",
+    "State": "Enabled"
+  },
+  "Storage": {
+    "@odata.id": "/redfish/v1/Systems/1/Storage/"
+  },
+  "SystemType": "Physical"
+}

@@ -823,3 +823,39 @@ final class CiscoFakeIOS: Transport, @unchecked Sendable {
         #expect(!ios.received.contains("write memory"))
     }
 }
+
+@Suite struct CiscoCDPTests {
+    static let cdp = """
+    Capability Codes: R - Router, T - Trans Bridge, B - Source Route Bridge
+                      S - Switch, H - Host, I - IGMP, r - Repeater, P - Phone,
+                      D - Remote, C - CVTA, M - Two-port Mac Relay
+
+    Device ID        Local Intrfce     Holdtme    Capability  Platform  Port ID
+    core-sw.example.test
+                     Gig 1/0/1         150             S I    WS-C3850- Ten 1/1/1
+    R1               Gig 1/0/2         163              R B S I ISR4331/K Gig 0/0/0
+    AP01             Gig 1/0/5         122             T B I  AIR-AP280 Gig 0
+
+    Total cdp entries displayed : 3
+    """
+
+    @Test func parsesRowsAndWrappedDeviceIDs() {
+        let n = CiscoParsers.cdpNeighbors(Self.cdp)
+        #expect(n.count == 3)
+        #expect(n[0].systemName == "core-sw.example.test")
+        #expect(n[0].localInterface == "Gig1/0/1")
+        #expect(n[0].portInfo == "Ten 1/1/1")
+        #expect(n[1].systemName == "R1")
+        #expect(n[1].chassisID.contains("ISR4331"))
+        #expect(CiscoParsers.cdpNeighbors("% CDP is not enabled").isEmpty)
+    }
+
+    @Test func cdpFillsPortsWithoutLLDP() {
+        var o = CiscoSnapshotBuilder.Outputs()
+        o.runningConfig = "hostname sw1\n!\ninterface GigabitEthernet1/0/1\n!\ninterface GigabitEthernet1/0/2\n!\nend"
+        o.cdp = Self.cdp
+        let snap = CiscoSnapshotBuilder.build(o)
+        #expect(snap.lldp.map(\.localInterface).contains("GigabitEthernet1/0/1"))
+        #expect(snap.lldp.first { $0.localInterface == "GigabitEthernet1/0/2" }?.systemName == "R1")
+    }
+}

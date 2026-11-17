@@ -1,0 +1,15 @@
+{
+  "@odata.id": "/redfish/v1/Chassis/1/Power/",
+  "@odata.type": "#Power.v1_3_0.Power",
+  "Id": "Power",
+  "Name": "PowerMetrics",
+  "PowerControl": [
+    { "MemberId": "0", "PowerCapacityWatts": 1000, "PowerConsumedWatts": 214 }
+  ],
+  "PowerSupplies": [
+    { "MemberId": "0", "Name": "Power Supply 1", "LastPowerOutputWatts": 107, "LineInputVoltage": 230, "PowerCapacityWatts": 500,
+      "Status": { "Health": "OK", "State": "Enabled" } },
+    { "MemberId": "1", "Name": "Power Supply 2", "LastPowerOutputWatts": 107, "LineInputVoltage": 230, "PowerCapacityWatts": 500,
+      "Status": { "Health": "OK", "State": "Enabled" } }
+  ]
+}

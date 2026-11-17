@@ -183,6 +183,140 @@ let apiFixtureNow = Date(timeIntervalSince1970: 1_794_916_800)
         #expect(RedfishParsers.selSkipToNewest(newestFirst) == nil)
         #expect(RedfishParsers.selSkipToNewest(try apiFixture("redfish-sel")) == nil)
     }
+    @Test func iDRAC9PowerActions() throws {
+        let s = RedfishParsers.snapshot(try fullReading(), now: apiFixtureNow)
+        // Nmi and PushPowerButton are left out; menu order, not the BMC's.
+        #expect(s.powerActions == [.on, .gracefulShutdown, .gracefulRestart, .forceRestart, .forceOff, .powerCycle])
+        #expect(RedfishParsers.resetTarget(try apiFixture("redfish-system")) == "/redfish/v1/Systems/System.Embedded.1/Actions/ComputerSystem.Reset")
+        // iDRAC 8 fixture lists no Reset action: nothing to offer.
+        #expect(RedfishParsers.powerActions(try apiFixture("redfish-system-idrac8")).isEmpty)
+    }
+
+    @Test func powerActionLists() {
+        let target = #""target": "/redfish/v1/Systems/1/Actions/ComputerSystem.Reset""#
+        // A target without a list: the four every service supports.
+        #expect(RedfishParsers.powerActions(apiJSON(##"{"Actions": {"#ComputerSystem.Reset": {\##(target)}}}"##))
+                == [.on, .gracefulShutdown, .gracefulRestart, .forceOff])
+        #expect(RedfishParsers.powerActions(apiJSON(##"{"Actions": {"#ComputerSystem.Reset": {\##(target), "ResetType@Redfish.AllowableValues": ["Nmi"]}}}"##)).isEmpty)
+        #expect(RedfishParsers.powerActions(apiJSON(##"{"Actions": {"#ComputerSystem.Reset": {\##(target), "ResetType@Redfish.AllowableValues": ["ForceOff", "On"]}}}"##))
+                == [.on, .forceOff])
+        // No target, no commands, whatever is listed.
+        #expect(RedfishParsers.powerActions(apiJSON(##"{"Actions": {"#ComputerSystem.Reset": {"ResetType@Redfish.AllowableValues": ["On"]}}}"##)).isEmpty)
+        #expect(RedfishParsers.powerActions(apiJSON("{}")).isEmpty)
+    }
+}
+
+// MARK: - Redfish (other vendors)
+
+@Suite struct RedfishGenericTests {
+    func hpeReading() throws -> RedfishParsers.Reading {
+        var r = RedfishParsers.Reading(system: try apiFixture("redfish-hpe-system"))
+        r.isDell = false
+        r.manager = try apiFixture("redfish-hpe-manager")
+        r.thermal = try apiFixture("redfish-hpe-thermal")
+        r.power = try apiFixture("redfish-hpe-power")
+        r.ethernet = try apiFixture("redfish-hpe-ethernet-members").array
+        r.managerNIC = try apiFixture("redfish-hpe-manager-nic")
+        r.sel = try apiFixture("redfish-hpe-iml")
+        return r
+    }
+
+    @Test func resourcePaths() throws {
+        let hpe = try apiFixture("redfish-hpe-system")
+        #expect(RedfishParsers.managerLink(hpe).map(RedfishParsers.trimmed) == "/redfish/v1/Managers/1")
+        #expect(RedfishParsers.chassisLink(hpe).map(RedfishParsers.trimmed) == "/redfish/v1/Chassis/1")
+        #expect(RedfishParsers.trimmed("/redfish/v1/Systems/1/") == "/redfish/v1/Systems/1")
+        #expect(RedfishParsers.trimmed("/") == "/")
+        let root = try apiFixture("redfish-root-hpe")
+        #expect(RedfishParsers.collectionPath(root, "Systems") == "/redfish/v1/Systems/")
+        #expect(RedfishParsers.collectionPath(root, "Managers") == "/redfish/v1/Managers")
+        // A Dell system without links falls back to the collections (the client's job): none here.
+        #expect(RedfishParsers.managerLink(try apiFixture("redfish-system-idrac8")) == nil)
+    }
+
+    @Test func hpeILO5System() throws {
+        let s = RedfishParsers.snapshot(try hpeReading(), now: apiFixtureNow)
+        #expect(s.platform == .redfish)
+        #expect(s.kind == .server)
+        #expect(s.model == "HPE ProLiant DL360 Gen10")
+        #expect(s.serial == "TEST0000003")
+        #expect(s.hostname == "esx-01")
+        #expect(s.power == .on)
+        #expect(s.health == .ok)
+        // The product name in front of the firmware version is not repeated.
+        #expect(s.osVersion == "iLO 5 2.72")
+        #expect(s.firmware == [APIFact(label: "BIOS", value: "U32 v2.68 (07/14/2022)"), APIFact(label: "iLO 5", value: "2.72")])
+        #expect(s.facts.map(\.label) == ["Processors", "Memory", "Power draw"])
+        #expect(s.facts.last?.value == "214 W")
+        #expect(s.powerActions == [.on, .gracefulShutdown, .gracefulRestart, .forceRestart, .forceOff])
+        // The vendor is in the model, not printed twice.
+        #expect(s.detection.summary == "HPE ProLiant DL360 Gen10 · iLO 5 2.72")
+        #expect(s.detection.osLine == "iLO 5 2.72")
+    }
+
+    @Test func hpeILO5SensorsAndPower() throws {
+        let s = RedfishParsers.snapshot(try hpeReading(), now: apiFixtureNow)
+        #expect(s.sensors.filter { $0.kind == .temperature }.map(\.name) == ["01-Inlet Ambient", "02-CPU 1", "03-CPU 2"])
+        #expect(s.sensors.filter { $0.kind == .fan } == [APISensor(name: "Fan 1", kind: .fan, reading: 23, unit: "%", health: .ok),
+                                                         APISensor(name: "Fan 2", kind: .fan, reading: 25, unit: "%", health: .ok)])
+        #expect(s.components == [APIComponent(name: "Power Supply 1", detail: "500 W · 107 W now", health: .ok),
+                                 APIComponent(name: "Power Supply 2", detail: "500 W · 107 W now", health: .ok)])
+        #expect(s.worstHealth == .ok)
+    }
+
+    @Test func hpeILO5NetworkAndLog() throws {
+        let s = RedfishParsers.snapshot(try hpeReading(), now: apiFixtureNow)
+        // The iLO's own port first, named after the BMC.
+        #expect(s.interfaces.map(\.name) == ["iLO 5", "1", "2"])
+        #expect(s.interfaces[0] == APINetInterface(name: "iLO 5", mac: "94:40:c9:00:00:10", linkUp: true, speedMbps: 1000, addresses: ["192.0.2.40/24"]))
+        #expect(s.interfaces[2].linkUp == false)
+        #expect(s.interfaces[2].speedMbps == nil)
+        // IML: the recent warning only; the critical entry is older than 30 days and OK entries are not alerts.
+        #expect(s.alerts.count == 1)
+        #expect(s.alerts.first?.hasSuffix(" · Network Adapter Link Down (Slot 0, Port 2)") == true)
+    }
+
+    @Test func supermicroSystem() throws {
+        var r = RedfishParsers.Reading(system: try apiFixture("redfish-supermicro-system"))
+        r.isDell = false
+        r.manager = apiJSON(#"{"@odata.id": "/redfish/v1/Managers/1", "FirmwareVersion": "01.73.12", "Model": ""}"#)
+        let s = RedfishParsers.snapshot(r, now: apiFixtureNow)
+        #expect(s.platform == .redfish)
+        #expect(s.model == "Supermicro SYS-1029P-WTR")
+        // A blank SerialNumber falls back to SKU.
+        #expect(s.serial == "TEST0000005")
+        #expect(s.hostname == nil)
+        #expect(s.power == .off)
+        // No manager model: plain "BMC".
+        #expect(s.osVersion == "BMC 01.73.12")
+        #expect(s.firmware.last == APIFact(label: "BMC", value: "01.73.12"))
+        // Reset types only behind an ActionInfo link: the four every service supports.
+        #expect(s.powerActions == [.on, .gracefulShutdown, .gracefulRestart, .forceOff])
+        #expect(s.facts.first == APIFact(label: "Processors", value: "1× Intel Xeon Silver 4210"))
+    }
+
+    @Test func vendorAndModelNames() {
+        #expect(RedfishParsers.vendorModel(apiJSON(#"{"Manufacturer": "Lenovo", "Model": "ThinkSystem SR650"}"#)) == "Lenovo ThinkSystem SR650")
+        #expect(RedfishParsers.vendorModel(apiJSON(#"{"Manufacturer": "Supermicro", "Model": "Supermicro X11DPi-NT"}"#)) == "Supermicro X11DPi-NT")
+        #expect(RedfishParsers.vendorModel(apiJSON(#"{"Model": "Super Server"}"#)) == "Super Server")
+        #expect(RedfishParsers.bmcVersion(apiJSON(#"{"FirmwareVersion": "7.00.00.172"}"#), name: "iDRAC") == "7.00.00.172")
+        #expect(RedfishParsers.bmcVersion(apiJSON(#"{"FirmwareVersion": "v1.10"}"#), name: "BMC") == "1.10")
+        #expect(RedfishParsers.bmcName(apiJSON(#"{"Model": "XClarity Controller"}"#)) == "XClarity Controller")
+    }
+
+    @Test func platformNaming() {
+        #expect(Platform.redfish.kinds == [.server])
+        #expect(Platform.redfish.connections == [.api])
+        #expect(Platform.redfish.isAppliance)
+        #expect(Platform.redfish.changeTraits == .readOnly)
+        #expect(!Platform.redfish.namesVendor && !Platform.unknown.namesVendor && Platform.dellIDRAC.namesVendor)
+        #expect(DriverFactory.supports(.redfish, over: .api))
+        #expect(!DriverFactory.supports(.redfish, over: .ssh))
+        // Without a model the summary falls back to the platform name, never "Redfish" alone.
+        #expect(Detection(platform: .redfish, osVersion: "iLO 5 2.72").summary == "Redfish BMC · iLO 5 2.72")
+        #expect(Detection(platform: .dellIDRAC, model: "PowerEdge R740", osVersion: "iDRAC 7.00.00.172").summary
+                == "Dell PowerEdge R740 · iDRAC 7.00.00.172")
+    }
 }
 
 // MARK: - Synology DSM

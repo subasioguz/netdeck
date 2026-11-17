@@ -36,7 +36,7 @@ enum VendorDrivers {
              (.ciscoIOS, .serial), (.ciscoIOS, .ssh),
              (.ubiquitiEdgeOS, .serial), (.ubiquitiEdgeOS, .ssh):
             return true
-        case (.dellIDRAC, .api), (.synologyDSM, .api), (.truenas, .api), (.unknown, .api):
+        case (.dellIDRAC, .api), (.redfish, .api), (.synologyDSM, .api), (.truenas, .api), (.unknown, .api):
             return true
         default:
             return false
@@ -52,7 +52,7 @@ enum VendorDrivers {
             return profile.makeTransport(password: password).map { CiscoDriver(transport: $0) }
         case .ubiquitiEdgeOS:
             return profile.makeTransport(password: password).map { EdgeOSDriver(transport: $0) }
-        case .dellIDRAC, .synologyDSM, .truenas, .unknown:
+        case .dellIDRAC, .redfish, .synologyDSM, .truenas, .unknown:
             guard case let .api(url) = profile.connection else { return nil }
             return APIDriver(url: url, platform: platform)
         case .juniperJunos:

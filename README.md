@@ -43,6 +43,7 @@ Netdeck keeps the device's own safety net in place and puts a clear picture on t
 | Device auto-detection (vendor, model, OS) | Done |
 | Front panels drawn per model (68 known panels, generic layout for the rest) | Done |
 | Health, storage, sensors and interfaces of servers and NAS (read only) | Done |
+| Server power actions over Redfish (shut down, restart, force off...), each after a confirmation | Done |
 | Multiple devices grouped by location, global "awaiting confirmation" banner | Done |
 | English and Turkish interface | Done |
 
@@ -54,7 +55,8 @@ Netdeck keeps the device's own safety net in place and puts a clear picture on t
 | Cisco IOS / IOS-XE | Catalyst switches | `configure terminal revert timer` (turns the config archive on if needed), `write memory` only after you confirm | Not yet |
 | MikroTik RouterOS 7 | CRS switches, CCR / RB / hEX routers (bridge VLAN filtering) | An undo script and a scheduler on the router run unless you confirm | Not yet |
 | Ubiquiti EdgeOS | EdgeRouter | `commit-confirm` (the router restarts with its saved configuration if not confirmed), `save` only after you confirm | Not yet |
-| Dell iDRAC (Redfish) | PowerEdge servers | Read only | Not yet |
+| Dell iDRAC (Redfish) | PowerEdge servers | Read only, power actions after confirmation | Not yet |
+| Redfish BMC (HPE iLO, Supermicro, Lenovo XCC) | Servers | Read only, power actions after confirmation | Not yet |
 | Synology DSM, TrueNAS | NAS | Read only | Not yet |
 
 Other devices are recognised when possible and shown with basic information. HTTPS devices with a

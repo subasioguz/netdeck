@@ -1,0 +1,14 @@
+{
+  "@odata.id": "/redfish/v1/Systems/1/LogServices/IML/Entries/",
+  "@odata.type": "#LogEntryCollection.LogEntryCollection",
+  "Members": [
+    { "@odata.id": "/redfish/v1/Systems/1/LogServices/IML/Entries/1/", "Created": "2026-10-02T09:14:00Z", "EntryType": "Oem",
+      "Id": "1", "Message": "System Power Supply: General Failure (Power Supply 2)", "Severity": "Critical" },
+    { "@odata.id": "/redfish/v1/Systems/1/LogServices/IML/Entries/2/", "Created": "2026-11-12T06:40:00Z", "EntryType": "Oem",
+      "Id": "2", "Message": "Network Adapter Link Down (Slot 0, Port 2)", "Severity": "Warning" },
+    { "@odata.id": "/redfish/v1/Systems/1/LogServices/IML/Entries/3/", "Created": "2026-11-15T11:02:00Z", "EntryType": "Oem",
+      "Id": "3", "Message": "Firmware flashed (iLO 5 2.72)", "Severity": "OK" }
+  ],
+  "Members@odata.count": 3,
+  "Name": "Integrated Management Log Entries"
+}

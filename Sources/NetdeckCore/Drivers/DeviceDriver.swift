@@ -36,6 +36,8 @@ public protocol DeviceDriver: Actor {
     func discardCandidate() async throws
     /// Diff between two versions from the device's history (0 = the active configuration).
     func compare(rollback older: Int, to newer: Int) async throws -> String
+    /// Server power command (Redfish `ComputerSystem.Reset`). Only called after the user confirmed it.
+    func power(_ action: ApplianceSnapshot.PowerAction) async throws
 }
 
 extension DeviceDriver {
@@ -47,6 +49,7 @@ extension DeviceDriver {
     public func rollback(to index: Int, confirmMinutes: Int, comment: String) async throws -> ApplyResult { throw DriverError.notSupported }
     public func discardCandidate() async throws { throw DriverError.notSupported }
     public func compare(rollback older: Int, to newer: Int) async throws -> String { throw DriverError.notSupported }
+    public func power(_ action: ApplianceSnapshot.PowerAction) async throws { throw DriverError.notSupported }
 }
 
 /// How a platform handles changes, for the review sheet, the countdown banner and History & backups.
@@ -105,7 +108,7 @@ extension Platform {
             return ChangeTraits(canChange: true, commandsTitle: t("RouterOS commands"), devicePreview: false,
                                 timeoutNote: t("If you don't confirm, a scheduled script on the router puts the previous settings back."),
                                 history: .localOnly, canRollback: false)
-        case .dellIDRAC, .synologyDSM, .truenas, .unknown:
+        case .dellIDRAC, .redfish, .synologyDSM, .truenas, .unknown:
             return .readOnly
         }
     }

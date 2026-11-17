@@ -17,7 +17,8 @@ Juniper Junos (EX series, ELS).
   - `Drivers/`: `DeviceDriver` protocol, `DriverFactory`, `ChangeTraits` (how each platform applies changes)
   - `CLI/CLISession`: text CLI session for every platform except Junos; prompts and quirks come from a `CLIDialect`
   - `Cisco/`, `MikroTik/`, `EdgeOS/`: dialect, parsers, planner and driver per platform
-  - `API/`: HTTPS (TOFU certificate pinning in `APIPins`), Redfish/iDRAC, Synology DSM, TrueNAS; read only
+  - `API/`: HTTPS (TOFU certificate pinning in `APIPins`), Redfish (Dell iDRAC; HPE iLO, Supermicro, Lenovo XCC as
+    `.redfish`), Synology DSM, TrueNAS; read only apart from Redfish server power actions
   - `Junos/JunosCLI`: text CLI session: login (console/shell/cli), prompt detection, command framing
   - `Junos/OutputParsers`, `JunosConfig`: `show ...` output and `display set` config → models
   - `Junos/ChangePlanner`: staged edits → `set`/`delete` commands (splits interface ranges)
@@ -48,7 +49,8 @@ Juniper Junos (EX series, ELS).
   `commit-confirm`, RouterOS undo script + scheduler); it only becomes permanent through a separate `confirm()`.
   Never save to the startup/boot config before the user confirms.
 - EX4300 rear QSFP+ role changes are operational commands outside the timer: only with the explicit tick.
-- HTTPS devices (iDRAC, Synology, TrueNAS) are read only.
+- HTTPS devices (Redfish BMCs, Synology, TrueNAS) are read only, except server power actions (Redfish
+  `ComputerSystem.Reset`), which always need an explicit confirmation in the UI.
 - No "Coming soon" in the UI: unsupported options are disabled without a promise.
 - Back up the configuration before applying. Stop if the candidate holds someone else's uncommitted changes.
 - Log out of serial consoles when done.

@@ -1,0 +1,26 @@
+{
+  "@odata.id": "/redfish/v1/Systems/1",
+  "@odata.type": "#ComputerSystem.v1_10_0.ComputerSystem",
+  "Actions": {
+    "#ComputerSystem.Reset": {
+      "@Redfish.ActionInfo": "/redfish/v1/Systems/1/ResetActionInfo",
+      "target": "/redfish/v1/Systems/1/Actions/ComputerSystem.Reset"
+    }
+  },
+  "BiosVersion": "3.4",
+  "HostName": "",
+  "Id": "1",
+  "Links": {
+    "Chassis": [{ "@odata.id": "/redfish/v1/Chassis/1" }],
+    "ManagedBy": [{ "@odata.id": "/redfish/v1/Managers/1" }]
+  },
+  "Manufacturer": "Supermicro",
+  "MemorySummary": { "TotalSystemMemoryGiB": 128 },
+  "Model": "SYS-1029P-WTR ",
+  "Name": "System",
+  "PowerState": "Off",
+  "ProcessorSummary": { "Count": 1, "Model": "Intel(R) Xeon(R) Silver 4210 CPU @ 2.20GHz" },
+  "SKU": "TEST0000005",
+  "SerialNumber": " ",
+  "Status": { "Health": "OK", "HealthRollup": "OK", "State": "Enabled" }
+}

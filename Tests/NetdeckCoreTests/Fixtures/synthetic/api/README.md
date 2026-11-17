@@ -1,6 +1,6 @@
 # API fixtures (synthetic)
 
-These JSON files are **synthetic**. No iDRAC, Synology or TrueNAS hardware was available when the API
+These JSON files are **synthetic**. No iDRAC, iLO, Supermicro, Synology or TrueNAS hardware was available when the API
 module was written. They were built from vendor documentation and public captures (Dell iDRAC9 Redfish
 API guide, dell/iDRAC-Redfish-Scripting, bmclib fixtures, Synology DSM Login Web API guide,
 py-synologydsm-api, truenas/middleware) and should be replaced by real, anonymized captures when
@@ -17,9 +17,17 @@ files: those are JSON arrays of the collection members the driver fetches one by
 | File | Request |
 | --- | --- |
 | `redfish-root-dell.json` | `GET /redfish/v1/` on iDRAC9 (no login) |
-| `redfish-root-hpe.json` | `GET /redfish/v1/` on an HPE iLO 5 (not supported) |
+| `redfish-root-hpe.json` | `GET /redfish/v1/` on an HPE iLO 5 (read as a generic Redfish BMC) |
+| `redfish-hpe-system.json` | `GET /redfish/v1/Systems/1/` on iLO 5 (`Links.ManagedBy`/`Chassis`, reset types listed) |
+| `redfish-hpe-manager.json` | `GET /redfish/v1/Managers/1/` (`Model` "iLO 5", firmware "iLO 5 v2.72") |
+| `redfish-hpe-manager-nic.json` | `GET /redfish/v1/Managers/1/EthernetInterfaces/1/` (iLO dedicated port) |
+| `redfish-hpe-ethernet-members.json` | members of `Systems/1/EthernetInterfaces` (one port down) |
+| `redfish-hpe-thermal.json` | `GET /redfish/v1/Chassis/1/Thermal/` (fans in percent, absent DIMM sensor and fan) |
+| `redfish-hpe-power.json` | `GET /redfish/v1/Chassis/1/Power/` |
+| `redfish-hpe-iml.json` | `GET /redfish/v1/Systems/1/LogServices/IML/Entries/` (old critical, recent warning, OK) |
+| `redfish-supermicro-system.json` | `GET /redfish/v1/Systems/1` on a Supermicro BMC (blank `SerialNumber`, reset types only via `ActionInfo`, powered off) |
 | `redfish-root-legacy.json` | `GET /redfish/v1/` on old iDRAC 8 firmware (no vendor, `/redfish/v1/Sessions`) |
-| `redfish-system.json` | `GET /redfish/v1/Systems/System.Embedded.1` (iDRAC9, `Oem.Dell.DellSystem`, PSU rollup warning) |
+| `redfish-system.json` | `GET /redfish/v1/Systems/System.Embedded.1` (iDRAC9, `Oem.Dell.DellSystem`, PSU rollup warning, reset types) |
 | `redfish-system-idrac8.json` | same on iDRAC 8: no Oem block, Service Tag only in `SKU`, powered off, memory in Dell's "GiB" |
 | `redfish-manager.json` | `GET /redfish/v1/Managers/iDRAC.Embedded.1` |
 | `redfish-manager-nic.json` | `GET /redfish/v1/Managers/iDRAC.Embedded.1/EthernetInterfaces/NIC.1` |

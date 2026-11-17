@@ -61,6 +61,9 @@ public actor CiscoDriver: DeviceDriver {
             o.macTable = try await cli.run("show mac-address-table", idle: .seconds(30))
         }
         step(5); o.lldp = try await cli.run("show lldp neighbors", idle: .seconds(30))
+        if CiscoParsers.lldpNeighbors(o.lldp).isEmpty {
+            o.cdp = try await cli.run("show cdp neighbors", idle: .seconds(30))
+        }
         return .network(CiscoSnapshotBuilder.build(o))
     }
 

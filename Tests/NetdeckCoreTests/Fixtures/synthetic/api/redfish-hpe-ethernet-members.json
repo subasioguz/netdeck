@@ -1,0 +1,22 @@
+[
+  {
+    "@odata.id": "/redfish/v1/Systems/1/EthernetInterfaces/1/",
+    "Id": "1",
+    "IPv4Addresses": [],
+    "LinkStatus": "LinkUp",
+    "MACAddress": "94:40:c9:00:00:21",
+    "Name": "",
+    "SpeedMbps": 10000,
+    "Status": { "Health": "OK", "State": "Enabled" }
+  },
+  {
+    "@odata.id": "/redfish/v1/Systems/1/EthernetInterfaces/2/",
+    "Id": "2",
+    "IPv4Addresses": [],
+    "LinkStatus": "LinkDown",
+    "MACAddress": "94:40:c9:00:00:22",
+    "Name": "",
+    "SpeedMbps": 0,
+    "Status": { "Health": null, "State": "Enabled" }
+  }
+]

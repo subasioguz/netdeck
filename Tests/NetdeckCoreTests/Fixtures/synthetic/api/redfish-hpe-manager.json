@@ -1,0 +1,13 @@
+{
+  "@odata.id": "/redfish/v1/Managers/1/",
+  "@odata.type": "#Manager.v1_5_1.Manager",
+  "EthernetInterfaces": {
+    "@odata.id": "/redfish/v1/Managers/1/EthernetInterfaces/"
+  },
+  "FirmwareVersion": "iLO 5 v2.72",
+  "Id": "1",
+  "ManagerType": "BMC",
+  "Model": "iLO 5",
+  "Name": "Manager",
+  "Status": { "Health": "OK", "State": "Enabled" }
+}

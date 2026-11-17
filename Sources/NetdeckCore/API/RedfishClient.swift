@@ -1,10 +1,13 @@
 import Foundation
 
-/// Dell iDRAC over Redfish (iDRAC 8 from firmware 2.30.30.30, iDRAC 9).
+/// A server BMC over Redfish: Dell iDRAC (iDRAC 8 from firmware 2.30.30.30, iDRAC 9) and other vendors'
+/// BMCs (HPE iLO, Supermicro, Lenovo XCC). The system, manager and chassis are found through the
+/// service's collections; Dell-only resources (SEL, `NIC.1`, Service Tag) are read only on a Dell.
 actor RedfishClient: APIBackend {
-    static let systemPath = "/redfish/v1/Systems/System.Embedded.1"
-    static let managerPath = "/redfish/v1/Managers/iDRAC.Embedded.1"
-    static let chassisPath = "/redfish/v1/Chassis/System.Embedded.1"
+    /// Dell's fixed resources, used when the collections don't answer (very old iDRAC firmware).
+    static let dellSystemPath = "/redfish/v1/Systems/System.Embedded.1"
+    static let dellManagerPath = "/redfish/v1/Managers/iDRAC.Embedded.1"
+    static let dellChassisPath = "/redfish/v1/Chassis/System.Embedded.1"
     /// BMCs answer slowly; drive and log requests can take several seconds on iDRAC 8.
     static let timeout: TimeInterval = 20
     /// Requests in flight at once. More only makes the BMC slower.
@@ -12,6 +15,11 @@ actor RedfishClient: APIBackend {
 
     private let http: APIHTTP
     private let root: Data
+    /// From the service root; nil when it doesn't say (old iDRAC firmware), settled after login.
+    private var dell: Bool?
+    private var paths: RedfishParsers.Paths?
+    /// `ComputerSystem.Reset` target, from the last read of the system.
+    private var resetTarget: String?
     private var token: String?
     private var sessionURL: String?
     private var basic: String?
@@ -19,15 +27,13 @@ actor RedfishClient: APIBackend {
     init(http: APIHTTP, root: Data) {
         self.http = http
         self.root = root
+        self.dell = RedfishParsers.isDell(root: APIJSON(data: root))
     }
 
-    /// A client when the address serves a Dell Redfish service root (which needs no login), nil when it
-    /// isn't Redfish. Another vendor's BMC throws `DriverError.notSupported`.
+    /// A client when the address serves a Redfish service root (which needs no login), nil when it isn't Redfish.
     static func probe(_ http: APIHTTP) async throws -> RedfishClient? {
         let r = try await http.send("GET", "/redfish/v1/")
-        let json = r.json
-        guard r.status == 200, RedfishParsers.isRedfish(json) else { return nil }
-        if RedfishParsers.isDell(root: json) == false { throw DriverError.notSupported }
+        guard r.status == 200, RedfishParsers.isRedfish(r.json) else { return nil }
         return RedfishClient(http: http, root: r.data)
     }
 
@@ -55,7 +61,7 @@ actor RedfishClient: APIBackend {
         case 404, 405:
             // No session service (very old firmware): HTTP Basic on every request.
             basic = APIHTTP.basicAuth(username, password)
-            let check = try await http.send("GET", Self.systemPath, headers: headers, timeout: Self.timeout)
+            let check = try await http.send("GET", RedfishParsers.collectionPath(rootJSON, "Systems"), headers: headers, timeout: Self.timeout)
             guard check.isSuccess else {
                 basic = nil
                 throw check.status == 401 || check.status == 403 ? APIError.unauthorized : APIError.http(check.status)
@@ -64,12 +70,9 @@ actor RedfishClient: APIBackend {
             throw APIError.badResponse(RedfishParsers.errorMessage(r.json) ?? "HTTP \(r.status)")
         }
         // A root that didn't name its vendor: an iDRAC has this manager.
-        if RedfishParsers.isDell(root: rootJSON) == nil {
-            let manager = try? await http.send("GET", Self.managerPath, headers: headers, timeout: Self.timeout)
-            if manager?.isSuccess != true {
-                await logout()
-                throw DriverError.notSupported
-            }
+        if dell == nil {
+            let manager = try? await http.send("GET", Self.dellManagerPath, headers: headers, timeout: Self.timeout)
+            dell = manager?.isSuccess == true
         }
     }
 
@@ -94,56 +97,134 @@ actor RedfishClient: APIBackend {
             t("Reading the event log"),
         ]
         func step(_ i: Int) { progress(LoadStep(index: i, total: steps.count, title: steps[i])) }
+        let isDell = dell ?? false
 
         step(0)
-        let system = try await get(Self.systemPath)
+        let systemPath = try await resolveSystemPath()
+        let system = try await get(systemPath)
+        let p = try await resolvePaths(system: system, systemPath: systemPath)
         var r = RedfishParsers.Reading(system: system)
-        r.manager = await tryGet(Self.managerPath)
+        r.isDell = isDell
+        if let manager = p.manager { r.manager = await tryGet(manager) }
+        resetTarget = RedfishParsers.resetTarget(system)
 
+        // Without a chassis there are no sensors or power supplies to read.
         step(1)
         try Task.checkCancellation()
-        r.thermal = await tryGet(Self.chassisPath + "/Thermal")
-        if !r.thermal.exists {
-            let sub = await tryGet(Self.chassisPath + "/ThermalSubsystem")
-            if let fans = sub["Fans"].odataID {
-                r.subsystemFans = await members(RedfishParsers.memberLinks(await tryGet(fans)), limit: 64)
+        if let chassis = p.chassis {
+            r.thermal = await tryGet(chassis + "/Thermal")
+            if !r.thermal.exists {
+                let sub = await tryGet(chassis + "/ThermalSubsystem")
+                if let fans = sub["Fans"].odataID {
+                    r.subsystemFans = await members(RedfishParsers.memberLinks(await tryGet(fans)), limit: 64)
+                }
+                if let metrics = sub["ThermalMetrics"].odataID { r.thermalMetrics = await tryGet(metrics) }
             }
-            if let metrics = sub["ThermalMetrics"].odataID { r.thermalMetrics = await tryGet(metrics) }
         }
 
         step(2)
         try Task.checkCancellation()
-        r.power = await tryGet(Self.chassisPath + "/Power")
-        if !r.power.exists {
-            let sub = await tryGet(Self.chassisPath + "/PowerSubsystem")
-            if let supplies = sub["PowerSupplies"].odataID {
-                r.subsystemPowerSupplies = await members(RedfishParsers.memberLinks(await tryGet(supplies)), limit: 16)
+        if let chassis = p.chassis {
+            r.power = await tryGet(chassis + "/Power")
+            if !r.power.exists {
+                let sub = await tryGet(chassis + "/PowerSubsystem")
+                if let supplies = sub["PowerSupplies"].odataID {
+                    r.subsystemPowerSupplies = await members(RedfishParsers.memberLinks(await tryGet(supplies)), limit: 16)
+                }
+                r.environment = await tryGet(chassis + "/EnvironmentMetrics")
             }
-            r.environment = await tryGet(Self.chassisPath + "/EnvironmentMetrics")
         }
 
         step(3)
         try Task.checkCancellation()
-        r.ethernet = await members(RedfishParsers.memberLinks(await tryGet(Self.systemPath + "/EthernetInterfaces")), limit: 64)
-        r.managerNIC = await tryGet(Self.managerPath + "/EthernetInterfaces/NIC.1")
+        let ethernet = system["EthernetInterfaces"].odataID ?? p.system + "/EthernetInterfaces"
+        r.ethernet = await members(RedfishParsers.memberLinks(await tryGet(ethernet)), limit: 64)
+        if isDell, let manager = p.manager {
+            r.managerNIC = await tryGet(manager + "/EthernetInterfaces/NIC.1")
+        } else if let manager = p.manager {
+            let nics = r.manager["EthernetInterfaces"].odataID ?? manager + "/EthernetInterfaces"
+            if let first = RedfishParsers.memberLinks(await tryGet(nics)).first { r.managerNIC = await tryGet(first) }
+        }
 
         step(4)
         try Task.checkCancellation()
-        r.controllers = await members(RedfishParsers.memberLinks(await tryGet(Self.systemPath + "/Storage")), limit: 16)
+        let storage = system["Storage"].odataID ?? p.system + "/Storage"
+        r.controllers = await members(RedfishParsers.memberLinks(await tryGet(storage)), limit: 16)
         r.drives = await members(r.controllers.flatMap(RedfishParsers.driveLinks), limit: 64)
         let volumeCollections = await members(r.controllers.compactMap { $0["Volumes"].odataID }, limit: 16)
         r.volumes = await members(volumeCollections.flatMap(RedfishParsers.memberLinks), limit: 64)
 
         step(5)
         try Task.checkCancellation()
-        let selPath = Self.managerPath + "/LogServices/Sel/Entries"
-        r.sel = await tryGet(selPath)
-        if let skip = RedfishParsers.selSkipToNewest(r.sel) {
-            let newest = await tryGet(selPath + "?$skip=\(skip)")
-            if newest.exists { r.sel = newest }
+        if let entries = await logEntriesPath(system: system, paths: p, isDell: isDell) {
+            r.sel = await tryGet(entries)
+            if let skip = RedfishParsers.selSkipToNewest(r.sel) {
+                let newest = await tryGet(entries + "?$skip=\(skip)")
+                if newest.exists { r.sel = newest }
+            }
         }
 
         return RedfishParsers.snapshot(r)
+    }
+
+    /// The system's resource: the first member of the Systems collection (a Dell's fixed path when
+    /// the collection doesn't answer).
+    private func resolveSystemPath() async throws -> String {
+        if let paths { return paths.system }
+        let systems = await tryGet(RedfishParsers.collectionPath(APIJSON(data: root), "Systems"))
+        if let first = RedfishParsers.memberLinks(systems).first { return RedfishParsers.trimmed(first) }
+        if dell == true { return Self.dellSystemPath }
+        // A Redfish service without a computer system (a chassis or switch manager).
+        throw DriverError.notSupported
+    }
+
+    /// Manager and chassis: the system's own links, else the first member of each collection.
+    private func resolvePaths(system: APIJSON, systemPath: String) async throws -> RedfishParsers.Paths {
+        if let paths { return paths }
+        let rootJSON = APIJSON(data: root)
+        var manager = RedfishParsers.managerLink(system)
+        if manager == nil { manager = RedfishParsers.memberLinks(await tryGet(RedfishParsers.collectionPath(rootJSON, "Managers"))).first }
+        var chassis = RedfishParsers.chassisLink(system)
+        if chassis == nil { chassis = RedfishParsers.memberLinks(await tryGet(RedfishParsers.collectionPath(rootJSON, "Chassis"))).first }
+        let found = RedfishParsers.Paths(
+            system: systemPath,
+            manager: manager.map(RedfishParsers.trimmed) ?? (dell == true ? Self.dellManagerPath : nil),
+            chassis: chassis.map(RedfishParsers.trimmed) ?? (dell == true ? Self.dellChassisPath : nil))
+        paths = found
+        return found
+    }
+
+    /// Dell: the iDRAC's SEL. Others: the first log service under the system that has entries (HPE IML).
+    private func logEntriesPath(system: APIJSON, paths p: RedfishParsers.Paths, isDell: Bool) async -> String? {
+        if isDell { return p.manager.map { $0 + "/LogServices/Sel/Entries" } }
+        let services = system["LogServices"].odataID ?? p.system + "/LogServices"
+        let links = RedfishParsers.memberLinks(await tryGet(services))
+        for link in links.prefix(4) {
+            if let entries = await tryGet(link)["Entries"].odataID { return entries }
+        }
+        return nil
+    }
+
+    // MARK: Power
+
+    /// POSTs `ComputerSystem.Reset`. The BMC accepts or refuses at once; the host changes state later.
+    func power(_ action: ApplianceSnapshot.PowerAction) async throws {
+        let target: String
+        if let resetTarget {
+            target = resetTarget
+        } else {
+            guard let found = RedfishParsers.resetTarget(try await get(try await resolveSystemPath())) else {
+                throw DriverError.notSupported
+            }
+            target = found
+        }
+        let body = try JSONSerialization.data(withJSONObject: ["ResetType": action.rawValue])
+        let r = try await http.send("POST", target, headers: headers, body: body, timeout: 30)
+        switch r.status {
+        case 200, 202, 204: return
+        case 401, 403: throw APIError.unauthorized
+        default: throw APIError.badResponse(RedfishParsers.errorMessage(r.json) ?? "HTTP \(r.status)")
+        }
     }
 
     // MARK: Requests

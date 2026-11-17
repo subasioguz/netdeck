@@ -785,3 +785,27 @@
 "The undo script did not finish on the router." = "Geri alma betiği router'da tamamlanmadı.";
 "Undo runs at %@ (router time)" = "Geri alma %@ zamanında çalışır (router saati)";
 "Another session applied these changes and they still wait for confirmation. Discarding runs their undo script now, so the router goes back to the settings from before them. This can't be undone." = "Bu değişiklikleri başka bir oturum uyguladı ve hâlâ onay bekliyorlar. Atmak, geri alma betiklerini şimdi çalıştırır; router bu değişikliklerden önceki ayarlara döner. Bu geri alınamaz.";
+
+/* Server power commands (Redfish) */
+"Sending the power command" = "Güç komutu gönderiliyor";
+"Power" = "Güç";
+"Turn on" = "Aç";
+"Shut down" = "Kapat";
+"Restart" = "Yeniden başlat";
+"Force restart" = "Zorla yeniden başlat";
+"Force off" = "Zorla kapat";
+"Power cycle" = "Gücü kesip yeniden aç";
+"Turn on %@?" = "%@ açılsın mı?";
+"Shut down %@?" = "%@ kapatılsın mı?";
+"Restart %@?" = "%@ yeniden başlatılsın mı?";
+"Force restart %@?" = "%@ zorla yeniden başlatılsın mı?";
+"Force off %@?" = "%@ zorla kapatılsın mı?";
+"Power cycle %@?" = "%@ için güç kesilip yeniden verilsin mi?";
+"The server powers on and starts its operating system." = "Sunucu açılır ve işletim sistemini başlatır.";
+"The operating system is asked to shut down. Everything running on the server stops." = "İşletim sisteminden kapanması istenir. Sunucuda çalışan her şey durur.";
+"The operating system is asked to restart. Everything running on the server stops until it is back." = "İşletim sisteminden yeniden başlaması istenir. Sunucuda çalışan her şey, sunucu geri gelene kadar durur.";
+"The server restarts at once, without shutting down the operating system. Unsaved data is lost." = "Sunucu, işletim sistemi kapatılmadan hemen yeniden başlar. Kaydedilmemiş veriler kaybolur.";
+"The server turns off at once, like pulling the power cord. Unsaved data is lost." = "Sunucu, güç kablosu çekilmiş gibi hemen kapanır. Kaydedilmemiş veriler kaybolur.";
+"The server turns off at once and back on, like pulling the power cord and plugging it in again. Unsaved data is lost." = "Sunucu, güç kablosu çekilip yeniden takılmış gibi hemen kapanıp yeniden açılır. Kaydedilmemiş veriler kaybolur.";
+"The server accepted the power command. Its power state can take a minute to change; read again to see it." = "Sunucu güç komutunu kabul etti. Güç durumunun değişmesi bir dakika kadar sürebilir; görmek için yeniden okuyun.";
+"Netdeck reads this device over its API and never changes its settings. Power commands go out only after you confirm them." = "Netdeck bu cihazı API üzerinden okur ve ayarlarını hiçbir zaman değiştirmez. Güç komutları yalnızca siz onayladıktan sonra gönderilir.";

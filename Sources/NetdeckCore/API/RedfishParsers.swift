@@ -1,6 +1,7 @@
 import Foundation
 
-/// Dell iDRAC Redfish resources → `ApplianceSnapshot`. Pure functions over decoded JSON.
+/// Redfish resources (Dell iDRAC, HPE iLO, Supermicro, Lenovo XCC) → `ApplianceSnapshot`. Pure functions
+/// over decoded JSON.
 ///
 /// Field notes: `SKU` is the Service Tag on Dell (`SerialNumber` is the board serial), the newest
 /// spelling is `Oem.Dell.DellSystem.ChassisServiceTag`. iDRAC 8 names fans `FanName`. DMTF deprecated
@@ -11,6 +12,8 @@ enum RedfishParsers {
     /// Everything one read collected. Resources the BMC didn't answer stay empty.
     struct Reading {
         var system: APIJSON
+        /// A Dell iDRAC: Service Tag, iDRAC naming and the Oem rollups. Another vendor's BMC otherwise.
+        var isDell = true
         var manager = APIJSON(nil)
         var thermal = APIJSON(nil)
         /// `ThermalSubsystem/Fans` members, when `Thermal` is gone.
@@ -23,15 +26,22 @@ enum RedfishParsers {
         /// `Chassis/.../EnvironmentMetrics` (power draw), when `Power` is gone.
         var environment = APIJSON(nil)
         var ethernet: [APIJSON] = []
-        /// The iDRAC's own network port.
+        /// The BMC's own network port.
         var managerNIC = APIJSON(nil)
         var controllers: [APIJSON] = []
         var drives: [APIJSON] = []
         var volumes: [APIJSON] = []
-        /// One page of the system event log.
+        /// One page of the system event log (Dell SEL; another vendor's first system log, e.g. HPE IML).
         var sel = APIJSON(nil)
 
         init(system: APIJSON) { self.system = system }
+    }
+
+    /// The resources one server is read from. A service may not expose a manager or a chassis.
+    struct Paths: Equatable, Sendable {
+        var system: String
+        var manager: String?
+        var chassis: String?
     }
 
     // MARK: Service root
@@ -59,6 +69,42 @@ enum RedfishParsers {
         collection["Members"].array.compactMap(\.odataID)
     }
 
+    /// A top-level collection ("Systems", "Managers", "Chassis") as the root links it.
+    static func collectionPath(_ root: APIJSON, _ name: String) -> String {
+        root[name].odataID ?? "/redfish/v1/" + name
+    }
+
+    /// Without the trailing slash HPE puts on every link, so sub-resources can be appended.
+    static func trimmed(_ path: String) -> String {
+        var p = path
+        while p.count > 1, p.hasSuffix("/") { p.removeLast() }
+        return p
+    }
+
+    /// The manager (BMC) of a system: `Links.ManagedBy[0]`.
+    static func managerLink(_ system: APIJSON) -> String? { system["Links"]["ManagedBy"][0].odataID }
+
+    /// The chassis a system sits in: `Links.Chassis[0]`.
+    static func chassisLink(_ system: APIJSON) -> String? { system["Links"]["Chassis"][0].odataID }
+
+    // MARK: Power actions
+
+    /// Where `ComputerSystem.Reset` is posted.
+    static func resetTarget(_ system: APIJSON) -> String? {
+        system["Actions"]["#ComputerSystem.Reset"]["target"].string
+    }
+
+    /// The reset types the system allows, in menu order. A BMC that lists none (some link an
+    /// `ActionInfo` instead) gets the four every Redfish service supports.
+    static func powerActions(_ system: APIJSON) -> [ApplianceSnapshot.PowerAction] {
+        let reset = system["Actions"]["#ComputerSystem.Reset"]
+        guard reset["target"].string != nil else { return [] }
+        let list = reset["ResetType@Redfish.AllowableValues"]
+        guard list.exists else { return [.on, .gracefulShutdown, .gracefulRestart, .forceOff] }
+        let allowed = Set(list.array.compactMap(\.string))
+        return ApplianceSnapshot.PowerAction.allCases.filter { allowed.contains($0.rawValue) }
+    }
+
     /// The message of a Redfish error body.
     static func errorMessage(_ body: APIJSON) -> String? {
         body["error"]["@Message.ExtendedInfo"][0]["Message"].string ?? body["error"]["message"].string
@@ -67,18 +113,20 @@ enum RedfishParsers {
     // MARK: Snapshot
 
     static func snapshot(_ r: Reading, now: Date = .now) -> ApplianceSnapshot {
-        var s = ApplianceSnapshot(takenAt: now, platform: .dellIDRAC, kind: .server)
+        var s = ApplianceSnapshot(takenAt: now, platform: r.isDell ? .dellIDRAC : .redfish, kind: .server)
         let sys = r.system
-        s.model = sys["Model"].string
-        s.serial = serviceTag(sys)
-        s.hostname = sys["HostName"].string
+        s.model = r.isDell ? sys["Model"].string : vendorModel(sys)
+        s.serial = r.isDell ? serviceTag(sys) : serialNumber(sys)
+        s.hostname = nonEmpty(sys["HostName"].string)
         s.power = powerState(sys["PowerState"].string)
         s.health = Health(redfish: sys["Status"]["HealthRollup"].string ?? sys["Status"]["Health"].string)
         s.facts = systemFacts(sys)
-        if let bios = sys["BiosVersion"].string { s.firmware.append(.init(label: "BIOS", value: bios)) }
-        if let fw = r.manager["FirmwareVersion"].string {
-            s.osVersion = "iDRAC " + fw
-            s.firmware.append(.init(label: "iDRAC", value: fw))
+        s.powerActions = powerActions(sys)
+        let bmc = r.isDell ? "iDRAC" : bmcName(r.manager)
+        if let bios = nonEmpty(sys["BiosVersion"].string) { s.firmware.append(.init(label: "BIOS", value: bios)) }
+        if let fw = bmcVersion(r.manager, name: bmc) {
+            s.osVersion = bmc + " " + fw
+            s.firmware.append(.init(label: bmc, value: fw))
         }
 
         s.sensors = r.thermal.exists ? sensors(thermal: r.thermal) : sensors(fans: r.subsystemFans, metrics: r.thermalMetrics)
@@ -99,7 +147,7 @@ enum RedfishParsers {
         s.disks = r.drives.compactMap { drive in disk(drive, pool: drive.odataID.flatMap { membership[$0] }) }
 
         var nics = r.ethernet.compactMap { interface($0) }
-        if let own = interface(r.managerNIC, name: "iDRAC") { nics.insert(own, at: 0) }
+        if let own = interface(r.managerNIC, name: bmc) { nics.insert(own, at: 0) }
         s.interfaces = nics
 
         s.alerts = rollupAlerts(sys) + selAlerts(r.sel, now: now)
@@ -113,6 +161,39 @@ enum RedfishParsers {
     }
 
     // MARK: System
+
+    private static func nonEmpty(_ text: String?) -> String? {
+        guard let t = text?.trimmingCharacters(in: .whitespaces), !t.isEmpty else { return nil }
+        return t
+    }
+
+    /// "HPE ProLiant DL360 Gen10": manufacturer and model, the maker once.
+    static func vendorModel(_ sys: APIJSON) -> String? {
+        let maker = nonEmpty(sys["Manufacturer"].string), model = nonEmpty(sys["Model"].string)
+        guard let model else { return maker }
+        guard let maker, !model.lowercased().hasPrefix(maker.lowercased()) else { return model }
+        return maker + " " + model
+    }
+
+    /// Another vendor's serial: `SerialNumber`, else `SKU`.
+    static func serialNumber(_ sys: APIJSON) -> String? {
+        nonEmpty(sys["SerialNumber"].string) ?? nonEmpty(sys["SKU"].string)
+    }
+
+    /// The BMC's product name for labels ("iLO 5"), "BMC" when the manager has no model.
+    static func bmcName(_ manager: APIJSON) -> String {
+        nonEmpty(manager["Model"].string) ?? "BMC"
+    }
+
+    /// The BMC firmware version without the product name some put in front ("iLO 5 v2.72" → "2.72").
+    static func bmcVersion(_ manager: APIJSON, name: String) -> String? {
+        guard var fw = nonEmpty(manager["FirmwareVersion"].string) else { return nil }
+        if fw.count > name.count, fw.lowercased().hasPrefix(name.lowercased() + " ") {
+            fw = String(fw.dropFirst(name.count + 1)).trimmingCharacters(in: .whitespaces)
+        }
+        if fw.count > 1, fw.first == "v" || fw.first == "V", fw.dropFirst().first?.isNumber == true { fw.removeFirst() }
+        return fw
+    }
 
     /// Service Tag: `Oem.Dell.DellSystem.ChassisServiceTag`, else `SKU`. Never `SerialNumber` (board serial).
     static func serviceTag(_ sys: APIJSON) -> String? {

@@ -102,7 +102,8 @@ extension DemoData {
                     .init(name: "Disk 1 in Backplane 1", model: "MZ7KH480HAHQ0D3", sizeBytes: 480_103_981_056, type: "SSD", health: .ok)],
             interfaces: [.init(name: "NIC.Integrated.1-1-1", mac: "B0:7B:25:00:00:21", linkUp: true, speedMbps: 10_000),
                          .init(name: "NIC.Integrated.1-2-1", mac: "B0:7B:25:00:00:22", linkUp: false, speedMbps: nil)],
-            alerts: ["The power input for power supply 2 is lost."])
+            alerts: ["The power input for power supply 2 is lost."],
+            powerActions: [.gracefulShutdown, .gracefulRestart, .forceRestart, .forceOff])
     }
 
     /// A Synology NAS read over its Web API, for renders.

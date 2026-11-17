@@ -345,6 +345,13 @@ public final class DeviceSession {
         await withDevice { await self.discardForeignCandidateNow() }
     }
 
+    /// Sends a server power command, then reads again. The UI calls this only after the user confirmed
+    /// the action. Sessions without a device (the samples, renders) do nothing.
+    public func power(_ action: ApplianceSnapshot.PowerAction) async {
+        guard !isOffline else { return }
+        await withDevice { await self.powerNow(action) }
+    }
+
     public func compare(rollback index: Int) async -> String {
         var out = ""
         await withDevice { out = await self.compareNow(rollback: index) }
@@ -553,6 +560,22 @@ public final class DeviceSession {
         } catch { fail(error) }
     }
 
+    private func powerNow(_ action: ApplianceSnapshot.PowerAction) async {
+        guard let d = driver else { return }
+        lastError = nil
+        phase = .working(t("Sending the power command"))
+        do {
+            try await d.power(action)
+        } catch {
+            report(error)
+            return
+        }
+        do {
+            try await load(reason: "after power command")
+            phase = .ready
+        } catch { report(error) }
+    }
+
     public func backupText(_ b: BackupStore.Backup) -> String { (try? backupStore.read(b)) ?? "" }
 
     // MARK: Trial end (UI state only; nothing here talks to the device)
@@ -705,6 +728,18 @@ public final class DeviceSession {
         profile.detected = found
         if let kind = found.kind, profile.platform == nil { profile.kind = kind }
         onProfileChange(profile)
+    }
+
+    /// An operation on an open session failed: shows the message and keeps the session, without
+    /// the connection error cards (the device answered).
+    private func report(_ error: Error) {
+        if error is CancellationError || Task.isCancelled {
+            phase = driver == nil ? .disconnected : .ready
+            return
+        }
+        lastError = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
+        failure = nil
+        phase = driver == nil ? .failed(lastError ?? "") : .ready
     }
 
     private func fail(_ error: Error) {

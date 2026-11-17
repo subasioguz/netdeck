@@ -1,13 +1,18 @@
 import NetdeckCore
 import SwiftUI
 
-/// Overview of a device read over an HTTPS API: a server BMC (iDRAC) or a NAS (Synology, TrueNAS).
-/// Read only. Same card language as the basic-support screen: a stage with the type tile on top,
-/// what was read below, connection facts on the right.
+/// Overview of a device read over an HTTPS API: a server BMC (Redfish) or a NAS (Synology, TrueNAS).
+/// Read only, apart from server power commands behind a confirmation. Same card language as the
+/// basic-support screen: a stage with the type tile on top, what was read below, connection facts on the right.
 struct ApplianceScreen: View {
+    @Environment(AppModel.self) private var model
     var device: DeviceProfile
     var session: DeviceSession
     var appliance: ApplianceSnapshot
+    /// The power command waiting for the user's confirmation.
+    @State private var asking: ApplianceSnapshot.PowerAction?
+    /// The last power command sent from here, for the "accepted" note.
+    @State private var sent: ApplianceSnapshot.PowerAction?
 
     var body: some View {
         VStack(spacing: 0) {
@@ -27,6 +32,16 @@ struct ApplianceScreen: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .card()
+        .alert(asking.map { $0.question(device.name) } ?? "", isPresented: Binding(get: { asking != nil }, set: { if !$0 { asking = nil } }),
+               presenting: asking) { action in
+            Button(action.title, role: .destructive) {
+                sent = action
+                model.power(device.id, action)
+            }
+            Button(t("Cancel"), role: .cancel) {}.keyboardShortcut(.defaultAction)
+        } message: { action in
+            Text(action.consequence)
+        }
     }
 
     private var header: some View {
@@ -36,10 +51,40 @@ struct ApplianceScreen: View {
                 Text(t("Read over the device's API · %@", Format.time(appliance.takenAt))).font(Typo.caption).foregroundStyle(Theme.text3)
             }
             Spacer()
+            if case let .working(step) = session.phase {
+                HStack(spacing: 6) {
+                    ProgressView().controlSize(.small)
+                    Text(step).font(Typo.caption).foregroundStyle(Theme.text3)
+                }
+            }
             HealthPill(health: appliance.worstHealth)
             if appliance.power != .unknown {
                 Pill(text: appliance.power == .on ? t("Powered on") : t("Powered off"), kind: appliance.power == .on ? .good : .outline,
                      dot: appliance.power == .on)
+            }
+            let choices = powerChoices
+            if !choices.isEmpty, !model.isSample(device.id) {
+                Menu {
+                    let gentle = choices.filter { !$0.isForced }, forced = choices.filter(\.isForced)
+                    ForEach(gentle, id: \.self) { a in Button(a.title) { asking = a } }
+                    if !gentle.isEmpty, !forced.isEmpty { Divider() }
+                    ForEach(forced, id: \.self) { a in Button(a.title) { asking = a } }
+                } label: {
+                    Label(t("Power"), systemImage: "power")
+                }
+                .menuStyle(.button).menuIndicator(.hidden).buttonStyle(SecondaryButtonStyle()).fixedSize()
+                .disabled(session.isBusy)
+            }
+        }
+    }
+
+    /// The commands that make sense in the current state: "Turn on" only while off, the rest only while on.
+    private var powerChoices: [ApplianceSnapshot.PowerAction] {
+        appliance.powerActions.filter { a in
+            switch appliance.power {
+            case .on: return a != .on
+            case .off: return a == .on
+            case .unknown: return true
             }
         }
     }
@@ -62,7 +107,7 @@ struct ApplianceScreen: View {
     }
 
     private var title: String {
-        let parts = [appliance.platform == .unknown ? nil : appliance.platform.vendor, appliance.model].compactMap { $0 }
+        let parts = [appliance.platform.namesVendor ? appliance.platform.vendor : nil, appliance.model].compactMap { $0 }
         return parts.isEmpty ? device.name : parts.joined(separator: " ")
     }
 
@@ -79,6 +124,13 @@ struct ApplianceScreen: View {
     @ViewBuilder
     private var content: some View {
         VStack(alignment: .leading, spacing: 20) {
+            if let error = session.lastError, !session.isBusy {
+                notice(error, icon: "exclamationmark.octagon.fill", tint: Theme.danger, ink: Theme.dangerInk,
+                       fill: Theme.dangerSoft, line: Theme.dangerLine) { session.clearError() }
+            } else if sent != nil, !session.isBusy {
+                notice(t("The server accepted the power command. Its power state can take a minute to change; read again to see it."),
+                       icon: "power", tint: Theme.accent, ink: Theme.accentInk, fill: Theme.accentSoft, line: Theme.border) { sent = nil }
+            }
             if !appliance.alerts.isEmpty { alerts }
             section(t("Summary")) {
                 let tiles = summaryTiles
@@ -173,7 +225,9 @@ struct ApplianceScreen: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .top, spacing: 10) {
                 Image(systemName: "checkmark.shield").font(.system(size: 14, weight: .medium)).foregroundStyle(Theme.goodInk).padding(.top, 1)
-                Text(t("Netdeck only reads this device over its API. It never changes settings or power."))
+                Text(appliance.powerActions.isEmpty
+                     ? t("Netdeck only reads this device over its API. It never changes settings or power.")
+                     : t("Netdeck reads this device over its API and never changes its settings. Power commands go out only after you confirm them."))
                     .font(Typo.callout).foregroundStyle(Theme.text1).lineSpacing(2.5).fixedSize(horizontal: false, vertical: true)
             }
             .padding(14).frame(maxWidth: .infinity, alignment: .leading)
@@ -185,6 +239,21 @@ struct ApplianceScreen: View {
     }
 
     // MARK: Pieces
+
+    /// One dismissable line above the content: a failed power command, or one the server accepted.
+    private func notice(_ text: String, icon: String, tint: Color, ink: Color, fill: Color, line: Color,
+                        dismiss: @escaping () -> Void) -> some View {
+        HStack(alignment: .top, spacing: 8) {
+            Image(systemName: icon).foregroundStyle(tint).padding(.top, 1)
+            Text(text).font(Typo.callout).foregroundStyle(ink).fixedSize(horizontal: false, vertical: true)   // device text when an error
+            Spacer(minLength: 8)
+            Button(action: dismiss) { Image(systemName: "xmark").font(.system(size: 10, weight: .semibold)) }
+                .buttonStyle(.plain).foregroundStyle(Theme.text3).help(t("Close"))
+        }
+        .padding(12).frame(maxWidth: .infinity, alignment: .leading)
+        .background(RoundedRectangle(cornerRadius: 10, style: .continuous).fill(fill))
+        .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(line, lineWidth: 1))
+    }
 
     private func section<C: View>(_ title: String, @ViewBuilder _ content: () -> C) -> some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -296,6 +365,45 @@ struct HealthPill: View {
         case .warning: return Theme.warn
         case .critical: return Theme.danger
         case .unknown: return Theme.text4
+        }
+    }
+}
+
+/// Plain names and the one-sentence consequence for the confirmation.
+extension ApplianceSnapshot.PowerAction {
+    var title: String {
+        switch self {
+        case .on: return t("Turn on")
+        case .gracefulShutdown: return t("Shut down")
+        case .gracefulRestart: return t("Restart")
+        case .forceRestart: return t("Force restart")
+        case .forceOff: return t("Force off")
+        case .powerCycle: return t("Power cycle")
+        }
+    }
+
+    /// Cuts the power or resets without asking the operating system.
+    var isForced: Bool { self == .forceRestart || self == .forceOff || self == .powerCycle }
+
+    func question(_ name: String) -> String {
+        switch self {
+        case .on: return t("Turn on %@?", name)
+        case .gracefulShutdown: return t("Shut down %@?", name)
+        case .gracefulRestart: return t("Restart %@?", name)
+        case .forceRestart: return t("Force restart %@?", name)
+        case .forceOff: return t("Force off %@?", name)
+        case .powerCycle: return t("Power cycle %@?", name)
+        }
+    }
+
+    var consequence: String {
+        switch self {
+        case .on: return t("The server powers on and starts its operating system.")
+        case .gracefulShutdown: return t("The operating system is asked to shut down. Everything running on the server stops.")
+        case .gracefulRestart: return t("The operating system is asked to restart. Everything running on the server stops until it is back.")
+        case .forceRestart: return t("The server restarts at once, without shutting down the operating system. Unsaved data is lost.")
+        case .forceOff: return t("The server turns off at once, like pulling the power cord. Unsaved data is lost.")
+        case .powerCycle: return t("The server turns off at once and back on, like pulling the power cord and plugging it in again. Unsaved data is lost.")
         }
     }
 }

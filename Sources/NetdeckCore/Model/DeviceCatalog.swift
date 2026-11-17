@@ -70,6 +70,8 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
     case ciscoIOS = "cisco-ios"
     case ubiquitiEdgeOS = "ubiquiti-edgeos"
     case dellIDRAC = "dell-idrac"
+    /// Any other server BMC over standard Redfish (HPE iLO, Supermicro, Lenovo XCC).
+    case redfish = "redfish"
     case synologyDSM = "synology-dsm"
     case truenas = "truenas"
     case unknown
@@ -85,6 +87,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .ciscoIOS: return "Cisco"
         case .ubiquitiEdgeOS: return "Ubiquiti"
         case .dellIDRAC: return "Dell"
+        case .redfish: return "Redfish"
         case .synologyDSM: return "Synology"
         case .truenas: return "TrueNAS"
         case .unknown: return t("Unknown")
@@ -98,6 +101,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .ciscoIOS: return "IOS"
         case .ubiquitiEdgeOS: return "EdgeOS"
         case .dellIDRAC: return "iDRAC"
+        case .redfish: return "BMC"
         case .synologyDSM: return "DSM"
         case .truenas: return "TrueNAS"
         case .unknown: return "—"
@@ -115,7 +119,11 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
     }
 
     /// Reached over an HTTPS API and shown as an information screen (health, storage, sensors).
-    public var isAppliance: Bool { self == .dellIDRAC || self == .synologyDSM || self == .truenas }
+    public var isAppliance: Bool { self == .dellIDRAC || self == .redfish || self == .synologyDSM || self == .truenas }
+
+    /// The vendor names the maker. Not for a generic Redfish BMC, whose model string carries the
+    /// manufacturer ("HPE ProLiant DL360 Gen10"), nor for an unknown device.
+    public var namesVendor: Bool { self != .redfish && self != .unknown }
 
     /// Second line of a brand tile in the manual picker.
     public var products: String {
@@ -125,6 +133,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .ciscoIOS: return "IOS / IOS-XE"
         case .ubiquitiEdgeOS: return "EdgeOS"
         case .dellIDRAC: return "iDRAC"
+        case .redfish: return "iLO, Supermicro, Lenovo"
         case .synologyDSM: return "DSM"
         case .truenas: return "TrueNAS"
         case .unknown: return t("Basic info only")
@@ -167,7 +176,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .mikrotikRouterOS: return [.router, .switchDevice, .wireless]
         case .ciscoIOS: return [.switchDevice, .router]
         case .ubiquitiEdgeOS: return [.router]
-        case .dellIDRAC: return [.server]
+        case .dellIDRAC, .redfish: return [.server]
         case .synologyDSM, .truenas: return [.storage]
         case .unknown: return DeviceKind.allCases
         }
@@ -175,7 +184,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
 
     public var connections: [ConnectionType] {
         switch self {
-        case .dellIDRAC: return [.api]
+        case .dellIDRAC, .redfish: return [.api]
         case .synologyDSM, .truenas: return [.ssh, .api]
         default: return [.serial, .ssh]
         }
@@ -245,9 +254,10 @@ public struct Detection: Codable, Sendable, Equatable, Hashable {
         return platform.support
     }
 
-    /// "Juniper EX4300-48T · Junos 21.2R3.8"
+    /// "Juniper EX4300-48T · Junos 21.2R3.8"; "HPE ProLiant DL360 Gen10 · iLO 5 2.72" for a generic
+    /// Redfish BMC, whose model already names the maker.
     public var summary: String {
-        var parts = [platform.vendor + (model.map { " " + $0 } ?? "")]
+        var parts = [platform.namesVendor ? platform.vendor + (model.map { " " + $0 } ?? "") : model ?? platform.displayName]
         if let osLine { parts.append(osLine) }
         return parts.joined(separator: " · ")
     }
@@ -255,7 +265,7 @@ public struct Detection: Codable, Sendable, Equatable, Hashable {
     /// "Junos 21.2R3.8"; API drivers already put the product name in the version ("iDRAC 7.00").
     public var osLine: String? {
         guard let osVersion else { return nil }
-        return osVersion.hasPrefix(platform.osName) || platform == .unknown ? osVersion : "\(platform.osName) \(osVersion)"
+        return osVersion.hasPrefix(platform.osName) || platform == .unknown || platform == .redfish ? osVersion : "\(platform.osName) \(osVersion)"
     }
 }
 

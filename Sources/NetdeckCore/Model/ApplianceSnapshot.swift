@@ -1,7 +1,7 @@
 import Foundation
 
 /// What Netdeck shows about a device reached over an HTTPS API: a server BMC (iDRAC) or a NAS
-/// (Synology DSM, TrueNAS). Read-only; Netdeck never changes these devices.
+/// (Synology DSM, TrueNAS). Read-only, except server power commands the user confirmed.
 public struct ApplianceSnapshot: Equatable, Sendable {
     public enum Health: String, Sendable, Equatable, Comparable {
         case ok, warning, critical, unknown
@@ -28,6 +28,16 @@ public struct ApplianceSnapshot: Equatable, Sendable {
     }
 
     public enum PowerState: String, Sendable, Equatable { case on, off, unknown }
+
+    /// A server power command (Redfish `ComputerSystem.Reset` `ResetType`), in menu order.
+    public enum PowerAction: String, Sendable, CaseIterable {
+        case on = "On"
+        case gracefulShutdown = "GracefulShutdown"
+        case gracefulRestart = "GracefulRestart"
+        case forceRestart = "ForceRestart"
+        case forceOff = "ForceOff"
+        case powerCycle = "PowerCycle"
+    }
 
     /// A label and a value for the summary grid ("Processors" → "2× Intel Xeon Silver 4214").
     public struct Fact: Equatable, Sendable, Identifiable {
@@ -127,12 +137,14 @@ public struct ApplianceSnapshot: Equatable, Sendable {
     public var interfaces: [NetInterface]
     /// Current problems the device lists (active alerts, failed checks), newest first.
     public var alerts: [String]
+    /// Power commands the server accepts (Redfish BMCs only); empty when Netdeck can't send any.
+    public var powerActions: [PowerAction] = []
 
     public init(takenAt: Date = .now, platform: Platform, kind: DeviceKind, hostname: String? = nil, model: String? = nil,
                 serial: String? = nil, osVersion: String? = nil, uptimeSeconds: Int? = nil, power: PowerState = .unknown,
                 health: Health = .unknown, facts: [Fact] = [], firmware: [Fact] = [], sensors: [Sensor] = [],
                 components: [Component] = [], pools: [StoragePool] = [], disks: [Disk] = [], interfaces: [NetInterface] = [],
-                alerts: [String] = []) {
+                alerts: [String] = [], powerActions: [PowerAction] = []) {
         self.takenAt = takenAt
         self.platform = platform
         self.kind = kind
@@ -151,6 +163,7 @@ public struct ApplianceSnapshot: Equatable, Sendable {
         self.disks = disks
         self.interfaces = interfaces
         self.alerts = alerts
+        self.powerActions = powerActions
     }
 
     /// What the add-device sheet and the device list learn from this reading.

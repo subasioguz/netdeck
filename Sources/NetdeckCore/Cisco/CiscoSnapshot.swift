@@ -12,6 +12,8 @@ enum CiscoSnapshotBuilder {
         var vlanBrief = ""
         var macTable = ""
         var lldp = ""
+        /// `show cdp neighbors`, read when LLDP found nobody (Cisco networks often run only CDP).
+        var cdp = ""
         var archive = ""
     }
 
@@ -98,10 +100,17 @@ enum CiscoSnapshotBuilder {
         let macs: [MACEntry] = CiscoParsers.macTable(o.macTable).map { m in
             MACEntry(vlan: Int(m.vlan).flatMap { vlanNames[$0] } ?? m.vlan, mac: m.mac, flags: m.type, interface: full(m.port))
         }
-        let lldp: [LLDPNeighbor] = CiscoParsers.lldpNeighbors(o.lldp).map { neighbor in
+        var lldp: [LLDPNeighbor] = CiscoParsers.lldpNeighbors(o.lldp).map { neighbor in
             var n = neighbor
             n.localInterface = full(n.localInterface)
             return n
+        }
+        // CDP fills in the ports LLDP said nothing about.
+        let lldpPorts = Set(lldp.map(\.localInterface))
+        for neighbor in CiscoParsers.cdpNeighbors(o.cdp) {
+            var n = neighbor
+            n.localInterface = full(n.localInterface)
+            if !lldpPorts.contains(n.localInterface) { lldp.append(n) }
         }
         var transceivers: [String: HardwareInfo.Transceiver] = [:]
         for item in inventory {

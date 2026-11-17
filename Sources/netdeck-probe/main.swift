@@ -28,7 +28,7 @@ struct Options {
 
 let platformNames: [String: Platform] = [
     "junos": .juniperJunos, "mikrotik": .mikrotikRouterOS, "routeros": .mikrotikRouterOS, "cisco": .ciscoIOS, "ios": .ciscoIOS,
-    "edgeos": .ubiquitiEdgeOS, "idrac": .dellIDRAC, "redfish": .dellIDRAC, "synology": .synologyDSM, "truenas": .truenas,
+    "edgeos": .ubiquitiEdgeOS, "idrac": .dellIDRAC, "redfish": .redfish, "synology": .synologyDSM, "truenas": .truenas,
 ]
 
 func parseOptions() -> Options {
@@ -68,7 +68,7 @@ if let path = opts.serial {
 } else {
     FileHandle.standardError.write(Data("""
     usage: netdeck-probe (--serial PATH [--baud N] | --ssh HOST [--port N] | --api URL) [--user U]
-                         [--platform junos|mikrotik|cisco|edgeos|idrac|synology|truenas] [--keep-session]
+                         [--platform junos|mikrotik|cisco|edgeos|idrac|redfish|synology|truenas] [--keep-session]
                          [snapshot | session | preview "cmd; cmd" | compare N]
     password: NETDECK_PASSWORD environment variable
 
@@ -109,6 +109,7 @@ func printAppliance(_ a: ApplianceSnapshot) {
     for c in a.components { print("  \(pad(c.name, 22)) \(c.detail ?? "") \(c.health.rawValue)") }
     for i in a.interfaces { print("  if \(pad(i.name, 22)) \(i.mac ?? "") \(i.linkUp.map { $0 ? "up" : "down" } ?? "?") \(i.addresses.joined(separator: ","))") }
     for alert in a.alerts { print("  ⚠︎ \(alert)") }
+    if !a.powerActions.isEmpty { print("  power actions: \(a.powerActions.map(\.rawValue).joined(separator: ", ")) (never sent by the probe)") }
 }
 
 @MainActor

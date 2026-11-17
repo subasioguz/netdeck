@@ -513,6 +513,20 @@ final class AppModel {
         }
     }
 
+    /// A server power command the user confirmed, then a read. Connects first when the session was
+    /// closed. Not cancellable once started, like a re-read.
+    func power(_ id: String, _ action: ApplianceSnapshot.PowerAction) {
+        guard let s = session(for: id), !isSample(id), !s.isBusy else { return }
+        let password = s.isConnected ? nil : Keychain.password(for: id)
+        refreshing.insert(id)
+        readTasks[id] = Task { [weak self] in
+            if !s.isConnected { await s.connect(password: password) }
+            if s.isConnected, s.phase == .ready { await s.power(action) }
+            self?.readTasks[id] = nil
+            self?.refreshing.remove(id)
+        }
+    }
+
     /// A read can be cancelled while it connects. A re-read of an open session can't: stopping it
     /// mid-command would leave the command's output arriving on the session that stays open, and the
     /// next command would be paired with the wrong output.

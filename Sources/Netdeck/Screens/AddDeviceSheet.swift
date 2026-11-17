@@ -624,7 +624,10 @@ struct AddDeviceSheet: View {
     }
 
     /// "Juniper EX4300-48T", "MikroTik RB5009UG+S+".
-    private func vendorModel(_ d: Detection) -> String { d.platform.vendor + (d.model.map { " " + $0 } ?? "") }
+    /// "Juniper EX4300-48T"; a generic Redfish BMC's model already names the maker ("HPE ProLiant DL360 Gen10").
+    private func vendorModel(_ d: Detection) -> String {
+        d.platform.namesVendor ? d.platform.vendor + (d.model.map { " " + $0 } ?? "") : d.model ?? d.platform.displayName
+    }
 
     /// "Junos 21.2R3.8", "RouterOS 7.16".
     private func osLine(_ d: Detection) -> String { d.osLine ?? d.platform.osName }
