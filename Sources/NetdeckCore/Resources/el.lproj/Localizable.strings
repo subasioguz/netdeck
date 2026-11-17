@@ -819,3 +819,5 @@
 "The device refused the SSH shell: %@" = "Η συσκευή απέρριψε το shell SSH: %@";
 "The device refused to start an SSH shell." = "Η συσκευή αρνήθηκε να ξεκινήσει shell SSH.";
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Οι αλγόριθμοι SSH της συσκευής δεν υποστηρίζονται από τον ενσωματωμένο πελάτη SSH: %@";
+"SSH algorithms: %@" = "Αλγόριθμοι SSH: %@";
+"SSH, older algorithms" = "SSH, παλαιότεροι αλγόριθμοι";

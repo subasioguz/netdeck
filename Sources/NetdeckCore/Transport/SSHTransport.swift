@@ -21,6 +21,36 @@ public final class SSHTransport: Transport, @unchecked Sendable {
 
     public var displayName: String { "\(username)@\(host)" + (port == 22 ? "" : ":\(port)") }
 
+    /// The legacy algorithms older devices need, appended after OpenSSH's defaults ("+") like the embedded
+    /// client does. Only names this ssh knows (`ssh -Q`): an unknown one would make ssh refuse to start.
+    static let legacyAlgorithmOptions: [String] = {
+        let wanted: [(option: String, query: String, names: [String])] = [
+            ("KexAlgorithms", "kex", ["diffie-hellman-group14-sha1", "diffie-hellman-group1-sha1"]),
+            ("HostKeyAlgorithms", "key", ["ssh-rsa"]),
+            ("Ciphers", "cipher", ["aes256-cbc", "aes192-cbc", "aes128-cbc", "3des-cbc"]),
+        ]
+        return wanted.flatMap { item -> [String] in
+            let known = Set(querySSH(item.query))
+            let names = item.names.filter(known.contains)
+            return names.isEmpty ? [] : ["-o", "\(item.option)=+" + names.joined(separator: ",")]
+        }
+    }()
+
+    /// `ssh -Q <what>`: one supported name per line.
+    private static func querySSH(_ what: String) -> [String] {
+        let p = Process()
+        p.executableURL = URL(fileURLWithPath: "/usr/bin/ssh")
+        p.arguments = ["-Q", what]
+        let out = Pipe()
+        p.standardOutput = out
+        p.standardError = FileHandle.nullDevice
+        guard (try? p.run()) != nil else { return [] }
+        // Reading to the end is enough: the output closes when ssh exits. (`waitUntilExit` can hang when
+        // called from a Swift concurrency thread.)
+        let data = out.fileHandleForReading.readDataToEndOfFile()
+        return String(decoding: data, as: UTF8.self).split(whereSeparator: \.isNewline).map(String.init)
+    }
+
     public func open(
         onData: @escaping @Sendable (Data) -> Void,
         onClose: @escaping @Sendable (String?) -> Void
@@ -39,7 +69,7 @@ public final class SSHTransport: Transport, @unchecked Sendable {
             "-o", "ServerAliveInterval=15",
             "-o", "NumberOfPasswordPrompts=1",
             "-o", "LogLevel=ERROR",
-        ]
+        ] + Self.legacyAlgorithmOptions
         var env = ProcessInfo.processInfo.environment
         if let password, !password.isEmpty {
             let helper = try Self.askpassHelper(in: support)

@@ -4,3 +4,5 @@ build/
 *.xcodeproj
 
 __pycache__/
+# Created by editors that open the vendored package on its own
+Vendor/*/Package.resolved

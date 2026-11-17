@@ -819,3 +819,5 @@
 "The device refused the SSH shell: %@" = "डिवाइस ने SSH शेल अस्वीकार कर दिया: %@";
 "The device refused to start an SSH shell." = "डिवाइस ने SSH शेल शुरू करने से इनकार कर दिया।";
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "डिवाइस के SSH एल्गोरिद्म बिल्ट-इन SSH क्लाइंट द्वारा समर्थित नहीं हैं: %@";
+"SSH algorithms: %@" = "SSH एल्गोरिदम: %@";
+"SSH, older algorithms" = "SSH, पुराने एल्गोरिदम";

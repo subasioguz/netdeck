@@ -12,7 +12,8 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-nio.git", from: "2.99.0"),
-        .package(url: "https://github.com/apple/swift-nio-ssh.git", from: "0.15.1"),
+        // SwiftNIO SSH with legacy algorithms for older network gear (see Vendor/swift-nio-ssh/PATCHES.md).
+        .package(path: "Vendor/swift-nio-ssh"),
     ],
     targets: [
         .target(

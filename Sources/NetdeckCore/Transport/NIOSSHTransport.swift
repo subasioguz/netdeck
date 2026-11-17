@@ -6,7 +6,9 @@ import NIOSSH
 /// Interactive SSH session with the embedded client (SwiftNIO SSH), so it works inside the App Sandbox.
 ///
 /// Password authentication only: NIOSSH has no keyboard-interactive method. Host keys are trusted on first
-/// use and pinned per "host:port" in `SSHKnownHosts`. `open` returns at once; connecting, authenticating and
+/// use and pinned per "host:port" in `SSHKnownHosts`. Older devices are reached with the legacy algorithms of
+/// the vendored NIOSSH (Diffie-Hellman group 14/1, ssh-rsa, AES-CBC/CTR, 3DES, HMAC-SHA1), offered after the
+/// modern ones so a device that supports better never gets them. `open` returns at once; connecting, authenticating and
 /// starting the shell happen in the background. Data sent before the shell is up is queued, and every
 /// failure arrives through `onClose` with a message in OpenSSH's words ("Permission denied",
 /// "Host key verification failed"...) so `ConnectionFailure.classify` treats both SSH clients alike.
@@ -28,6 +30,7 @@ public final class NIOSSHTransport: Transport, @unchecked Sendable {
     /// The first error seen on the connection; it becomes the `onClose` reason.
     private var failure: String?
     private var onClose: (@Sendable (String?) -> Void)?
+    private var negotiated: SSHAlgorithms?
 
     private enum State { case idle, connecting, ready, closed }
 
@@ -45,6 +48,11 @@ public final class NIOSSHTransport: Transport, @unchecked Sendable {
 
     public var displayName: String { "\(username)@\(host)" + (port == 22 ? "" : ":\(port)") }
 
+    public var sshAlgorithms: SSHAlgorithms? {
+        lock.lock(); defer { lock.unlock() }
+        return negotiated
+    }
+
     public func open(
         onData: @escaping @Sendable (Data) -> Void,
         onClose: @escaping @Sendable (String?) -> Void
@@ -57,14 +65,17 @@ public final class NIOSSHTransport: Transport, @unchecked Sendable {
 
         let user = username, pass = password ?? "", host = host, port = port, dir = knownHostsDirectory
         let fail: @Sendable (String) -> Void = { [weak self] in self?.record($0) }
+        let negotiated: @Sendable (NIOSSHNegotiatedAlgorithms) -> Void = { [weak self] in self?.remember($0) }
         let bootstrap = ClientBootstrap(group: MultiThreadedEventLoopGroup.singleton)
             .connectTimeout(connectTimeout)
             .channelOption(ChannelOptions.socketOption(.so_keepalive), value: 1)
             .channelInitializer { channel in
                 channel.eventLoop.makeCompletedFuture {
-                    let config = SSHClientConfiguration(
+                    var config = SSHClientConfiguration(
                         userAuthDelegate: PasswordAuthDelegate(username: user, password: pass, onReject: fail),
-                        serverAuthDelegate: HostKeyDelegate(host: host, port: port, directory: dir, onReject: fail))
+                        serverAuthDelegate: HostKeyDelegate(host: host, port: port, directory: dir, onReject: fail),
+                        transportProtectionSchemes: NIOSSHAlgorithms.clientTransportProtectionSchemes)
+                    config.algorithmsNegotiated = negotiated
                     let ssh = NIOSSHHandler(role: .client(config), allocator: channel.allocator, inboundChildChannelInitializer: nil)
                     try channel.pipeline.syncOperations.addHandlers([ssh, ErrorRecorder(onError: fail)])
                 }
@@ -164,6 +175,12 @@ public final class NIOSSHTransport: Transport, @unchecked Sendable {
         // When the shell ends, take the connection down so `onClose` fires.
         let connection = connection
         child.closeFuture.whenComplete { _ in connection?.close(promise: nil) }
+    }
+
+    private func remember(_ algorithms: NIOSSHNegotiatedAlgorithms) {
+        lock.lock(); defer { lock.unlock() }
+        negotiated = SSHAlgorithms(keyExchange: algorithms.keyExchange, hostKey: algorithms.hostKey, cipher: algorithms.cipher,
+                                   mac: algorithms.mac, legacy: algorithms.legacyAlgorithms)
     }
 
     private func record(_ message: String) {
@@ -299,7 +316,10 @@ private final class ErrorRecorder: ChannelInboundHandler {
         if let ssh = error as? NIOSSHError {
             switch ssh.type {
             case .keyExchangeNegotiationFailure, .unsupportedVersion:
-                return t("The device's SSH algorithms aren't supported by the built-in SSH client: %@", String(describing: ssh))
+                // "NIOSSHError.keyExchangeNegotiationFailure: no matching cipher found. Their offer: ..." → the detail.
+                let text = String(describing: ssh)
+                let detail = text.range(of: ": ").map { String(text[$0.upperBound...]) } ?? text
+                return t("The device's SSH algorithms aren't supported by the built-in SSH client: %@", detail)
             default:
                 return "ssh: " + String(describing: ssh)
             }

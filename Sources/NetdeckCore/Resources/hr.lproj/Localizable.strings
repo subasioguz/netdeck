@@ -819,3 +819,5 @@
 "The device refused the SSH shell: %@" = "Uređaj je odbio SSH ljusku: %@";
 "The device refused to start an SSH shell." = "Uređaj je odbio pokrenuti SSH ljusku.";
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Ugrađeni SSH klijent ne podržava SSH algoritme uređaja: %@";
+"SSH algorithms: %@" = "SSH algoritmi: %@";
+"SSH, older algorithms" = "SSH, stariji algoritmi";

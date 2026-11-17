@@ -138,7 +138,8 @@ func run() async -> Int32 {
     }
 
     let platform = opts.platform ?? DriverFactory.fallbackPlatform(for: connection.type)
-    guard let driver = DriverFactory.make(platform: platform, profile: profile, password: password) else {
+    var transport: Transport?
+    guard let driver = DriverFactory.make(platform: platform, profile: profile, password: password, madeTransport: { transport = $0 }) else {
         print("✗ no driver for \(platform.displayName) over \(connection.type.rawValue)")
         return 2
     }
@@ -146,6 +147,9 @@ func run() async -> Int32 {
         print("→ connecting: \(profile.connectionLabel) as \(platform.displayName)")
         try await driver.connect(username: opts.user, password: password)
         print("✓ logged in (\(elapsed()))")
+        if let ssh = transport?.sshAlgorithms {
+            print("  ssh: \(ssh.list)" + (ssh.legacy.isEmpty ? "" : "  (legacy: \(ssh.legacy.joined(separator: ", ")))"))
+        }
         switch command {
         case "preview":
             let cmds = (opts.rest.dropFirst().first ?? "").split(separator: ";").map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }

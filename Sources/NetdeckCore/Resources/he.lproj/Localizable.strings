@@ -819,3 +819,5 @@
 "The device refused the SSH shell: %@" = "ההתקן דחה את מעטפת ה-SSH: %@";
 "The device refused to start an SSH shell." = "ההתקן סירב להפעיל מעטפת SSH.";
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "האלגוריתמים של SSH בהתקן אינם נתמכים על ידי לקוח ה-SSH המובנה: %@";
+"SSH algorithms: %@" = "אלגוריתמי SSH: %@";
+"SSH, older algorithms" = "SSH, אלגוריתמים ישנים";

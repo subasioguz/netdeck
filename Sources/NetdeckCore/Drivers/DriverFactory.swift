@@ -17,13 +17,15 @@ public enum DriverFactory {
         }
     }
 
-    /// A new, unconnected driver, or nil when the platform has none for this connection.
-    public static func make(platform: Platform, profile: DeviceProfile, password: String?) -> (any DeviceDriver)? {
+    /// A new, unconnected driver, or nil when the platform has none for this connection. `madeTransport`
+    /// receives the byte stream a CLI driver will use (the session reads the SSH algorithms from it).
+    public static func make(platform: Platform, profile: DeviceProfile, password: String?,
+                            madeTransport: (Transport) -> Void = { _ in }) -> (any DeviceDriver)? {
         switch (platform, profile.connection) {
         case (.juniperJunos, .serial), (.juniperJunos, .ssh):
-            return profile.makeTransport(password: password).map { JunosDriver(transport: $0) }
+            return profile.makeTransport(password: password).map { madeTransport($0); return JunosDriver(transport: $0) }
         default:
-            return VendorDrivers.make(platform: platform, profile: profile, password: password)
+            return VendorDrivers.make(platform: platform, profile: profile, password: password, madeTransport: madeTransport)
         }
     }
 }
@@ -43,15 +45,17 @@ enum VendorDrivers {
         }
     }
 
-    static func make(platform: Platform, profile: DeviceProfile, password: String?) -> (any DeviceDriver)? {
+    static func make(platform: Platform, profile: DeviceProfile, password: String?,
+                     madeTransport: (Transport) -> Void = { _ in }) -> (any DeviceDriver)? {
         guard supports(platform, over: profile.connection.type) else { return nil }
         switch platform {
         case .mikrotikRouterOS:
-            return profile.makeTransport(password: password, username: MikroTikDialect.loginName(profile.username)).map { MikroTikDriver(transport: $0) }
+            return profile.makeTransport(password: password, username: MikroTikDialect.loginName(profile.username))
+                .map { madeTransport($0); return MikroTikDriver(transport: $0) }
         case .ciscoIOS:
-            return profile.makeTransport(password: password).map { CiscoDriver(transport: $0) }
+            return profile.makeTransport(password: password).map { madeTransport($0); return CiscoDriver(transport: $0) }
         case .ubiquitiEdgeOS:
-            return profile.makeTransport(password: password).map { EdgeOSDriver(transport: $0) }
+            return profile.makeTransport(password: password).map { madeTransport($0); return EdgeOSDriver(transport: $0) }
         case .dellIDRAC, .redfish, .synologyDSM, .truenas, .unknown:
             guard case let .api(url) = profile.connection else { return nil }
             return APIDriver(url: url, platform: platform)

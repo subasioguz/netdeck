@@ -819,3 +819,5 @@
 "The device refused the SSH shell: %@" = "Cihaz SSH kabuğunu reddetti: %@";
 "The device refused to start an SSH shell." = "Cihaz bir SSH kabuğu başlatmayı reddetti.";
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Cihazın SSH algoritmaları yerleşik SSH istemcisi tarafından desteklenmiyor: %@";
+"SSH algorithms: %@" = "SSH algoritmaları: %@";
+"SSH, older algorithms" = "SSH, eski algoritmalar";

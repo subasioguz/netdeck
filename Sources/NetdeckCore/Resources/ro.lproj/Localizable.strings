@@ -819,3 +819,5 @@
 "The device refused the SSH shell: %@" = "Dispozitivul a refuzat shell-ul SSH: %@";
 "The device refused to start an SSH shell." = "Dispozitivul a refuzat să pornească un shell SSH.";
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Algoritmii SSH ai dispozitivului nu sunt acceptați de clientul SSH integrat: %@";
+"SSH algorithms: %@" = "Algoritmi SSH: %@";
+"SSH, older algorithms" = "SSH, algoritmi mai vechi";

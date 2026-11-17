@@ -819,3 +819,5 @@
 "The device refused the SSH shell: %@" = "Устройство отклонило оболочку SSH: %@";
 "The device refused to start an SSH shell." = "Устройство отказалось запускать оболочку SSH.";
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Алгоритмы SSH устройства не поддерживаются встроенным клиентом SSH: %@";
+"SSH algorithms: %@" = "Алгоритмы SSH: %@";
+"SSH, older algorithms" = "SSH, устаревшие алгоритмы";

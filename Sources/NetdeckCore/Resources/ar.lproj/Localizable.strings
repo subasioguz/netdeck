@@ -819,3 +819,5 @@
 "The device refused the SSH shell: %@" = "رفض الجهاز غلاف SSH: %@";
 "The device refused to start an SSH shell." = "رفض الجهاز بدء غلاف SSH.";
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "خوارزميات SSH في الجهاز غير مدعومة من عميل SSH المدمج: %@";
+"SSH algorithms: %@" = "خوارزميات SSH: %@";
+"SSH, older algorithms" = "SSH، خوارزميات أقدم";

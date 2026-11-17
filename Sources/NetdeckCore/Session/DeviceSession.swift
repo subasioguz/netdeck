@@ -72,6 +72,8 @@ public final class DeviceSession {
     public private(set) var pending: PendingCommit?
     public private(set) var backups: [BackupStore.Backup] = []
     public private(set) var lastError: String?
+    /// What the embedded SSH client negotiated with the device (nil over serial, HTTPS or the system ssh).
+    public private(set) var sshAlgorithms: SSHAlgorithms?
     /// Set when the switch reports uncommitted candidate changes left by someone else.
     public private(set) var foreignCandidateDiff: String?
     /// Brand/model/OS learned on the last connect.
@@ -177,13 +179,15 @@ public final class DeviceSession {
     /// Logs in with the platform's driver and reads. When the device turns out to be another platform
     /// Netdeck has a driver for, logs out and starts again with that driver (`handoffs` times at most).
     private func connect(platform: Platform, password: String?, handoffs: Int) async {
-        guard let d = DriverFactory.make(platform: platform, profile: profile, password: password) else {
+        var transport: Transport?
+        guard let d = DriverFactory.make(platform: platform, profile: profile, password: password, madeTransport: { transport = $0 }) else {
             fail(CLIError.closed(t("Netdeck can't connect to this device over %@.", profile.connection.type.title)))
             return
         }
         do {
             phase = .connecting(step: t("Logging in"), fraction: 0.05)
             try await d.connect(username: profile.username, password: password)
+            sshAlgorithms = transport?.sshAlgorithms
             driver = d
             driverPlatform = platform
             rememberedPassword = password
@@ -286,12 +290,15 @@ public final class DeviceSession {
     }
 
     private func relogin() async -> Bool {
-        guard let d = DriverFactory.make(platform: driverPlatform ?? preferredPlatform, profile: profile, password: rememberedPassword) else {
+        var transport: Transport?
+        guard let d = DriverFactory.make(platform: driverPlatform ?? preferredPlatform, profile: profile, password: rememberedPassword,
+                                         madeTransport: { transport = $0 }) else {
             return false
         }
         phase = .working(t("Logging in"))
         do {
             try await d.connect(username: profile.username, password: rememberedPassword)
+            sshAlgorithms = transport?.sshAlgorithms
             driver = d
             phase = .ready
             return true

@@ -204,7 +204,9 @@ struct DeviceStatusPill: View {
             Pill(text: t("Sample switch"), kind: .accent, icon: "eye")
         } else {
             switch session?.phase ?? .disconnected {
-            case .ready, .working: Pill(text: t("Connected · %@", connectionWord), kind: .good, dot: true)
+            case .ready, .working:
+                Pill(text: t("Connected · %@", connectionWord), kind: .good, dot: true)
+                    .help(session?.sshAlgorithms.map { t("SSH algorithms: %@", $0.list) } ?? "")
             case .connecting: Pill(text: t("Connecting · %@", connectionWord), kind: .accent, dot: true)
             case .failed: Pill(text: t("Couldn't connect"), kind: .danger, dot: true)
             case .unsupported: Pill(text: t("Basic support"), kind: .accent)
@@ -214,7 +216,12 @@ struct DeviceStatusPill: View {
     }
 
     private var connectionWord: String {
-        switch device.connection.type { case .serial: return t("serial console"); case .ssh: return t("SSH"); case .api: return t("API (HTTPS)") }
+        switch device.connection.type {
+        case .serial: return t("serial console")
+        // Part of the link uses a legacy algorithm because the device offered nothing newer (older Cisco IOS).
+        case .ssh: return session?.sshAlgorithms?.legacy.isEmpty == false ? t("SSH, older algorithms") : t("SSH")
+        case .api: return t("API (HTTPS)")
+        }
     }
 }
 

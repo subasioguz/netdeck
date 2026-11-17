@@ -819,3 +819,5 @@
 "The device refused the SSH shell: %@" = "Az eszköz elutasította az SSH-parancsértelmezőt: %@";
 "The device refused to start an SSH shell." = "Az eszköz megtagadta az SSH-parancsértelmező elindítását.";
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Az eszköz SSH-algoritmusait a beépített SSH-kliens nem támogatja: %@";
+"SSH algorithms: %@" = "SSH-algoritmusok: %@";
+"SSH, older algorithms" = "SSH, régebbi algoritmusok";

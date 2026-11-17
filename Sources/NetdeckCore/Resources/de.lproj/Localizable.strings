@@ -819,3 +819,5 @@
 "The device refused the SSH shell: %@" = "Das Gerät hat die SSH-Shell abgelehnt: %@";
 "The device refused to start an SSH shell." = "Das Gerät hat sich geweigert, eine SSH-Shell zu starten.";
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Die SSH-Algorithmen des Geräts werden vom integrierten SSH-Client nicht unterstützt: %@";
+"SSH algorithms: %@" = "SSH-Algorithmen: %@";
+"SSH, older algorithms" = "SSH, ältere Algorithmen";

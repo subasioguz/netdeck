@@ -819,3 +819,5 @@
 "The device refused the SSH shell: %@" = "장치가 SSH 셸을 거부했습니다: %@";
 "The device refused to start an SSH shell." = "장치가 SSH 셸 시작을 거부했습니다.";
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "장치의 SSH 알고리즘을 내장 SSH 클라이언트에서 지원하지 않습니다: %@";
+"SSH algorithms: %@" = "SSH 알고리즘: %@";
+"SSH, older algorithms" = "SSH, 구형 알고리즘";

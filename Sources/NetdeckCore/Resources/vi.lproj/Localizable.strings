@@ -819,3 +819,5 @@
 "The device refused the SSH shell: %@" = "Thiết bị từ chối shell SSH: %@";
 "The device refused to start an SSH shell." = "Thiết bị từ chối khởi động shell SSH.";
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Thuật toán SSH của thiết bị không được ứng dụng khách SSH tích hợp hỗ trợ: %@";
+"SSH algorithms: %@" = "Thuật toán SSH: %@";
+"SSH, older algorithms" = "SSH, thuật toán cũ";

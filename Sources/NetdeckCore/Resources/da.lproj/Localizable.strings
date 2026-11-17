@@ -819,3 +819,5 @@
 "The device refused the SSH shell: %@" = "Enheden afviste SSH-shellen: %@";
 "The device refused to start an SSH shell." = "Enheden afviste at starte en SSH-shell.";
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Enhedens SSH-algoritmer understøttes ikke af den indbyggede SSH-klient: %@";
+"SSH algorithms: %@" = "SSH-algoritmer: %@";
+"SSH, older algorithms" = "SSH, ældre algoritmer";

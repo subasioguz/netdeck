@@ -819,3 +819,5 @@
 "The device refused the SSH shell: %@" = "Perangkat menolak shell SSH: %@";
 "The device refused to start an SSH shell." = "Perangkat menolak memulai shell SSH.";
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Algoritma SSH perangkat tidak didukung oleh klien SSH bawaan: %@";
+"SSH algorithms: %@" = "Algoritma SSH: %@";
+"SSH, older algorithms" = "SSH, algoritma lama";

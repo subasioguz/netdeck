@@ -819,3 +819,5 @@
 "The device refused the SSH shell: %@" = "裝置拒絕了 SSH shell:%@";
 "The device refused to start an SSH shell." = "裝置拒絕啟動 SSH shell。";
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "內建 SSH 用戶端不支援此裝置的 SSH 演算法:%@";
+"SSH algorithms: %@" = "SSH 演算法:%@";
+"SSH, older algorithms" = "SSH(舊版演算法)";

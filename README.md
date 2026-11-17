@@ -81,9 +81,10 @@ Netdeck is built so that a mistake costs you minutes, never a site visit.
 - macOS 15 or later
 - Xcode 16 or later (Swift 6 toolchain) to build from source
 - A USB serial console cable, or SSH access to the device's management interface (password login).
-  The built-in SSH client speaks modern algorithms (Ed25519/ECDSA host keys, AES-GCM); for older devices
-  that only offer RSA host keys or older ciphers, turn on Settings → Devices → "Use the system ssh
-  command" (not available in the Mac App Store build)
+  The built-in SSH client prefers modern algorithms (Curve25519/ECDH, Ed25519/ECDSA host keys, AES-GCM) and
+  falls back to the older ones that devices such as Catalyst IOS 12.2/15.x still offer (Diffie-Hellman
+  group 14/1, RSA host keys, AES-CTR/CBC, 3DES, HMAC-SHA1). The connection badge then reads "SSH, older
+  algorithms" and its tooltip lists what was negotiated.
 
 ## Build and run
 
@@ -129,6 +130,8 @@ Sources/
     Support/              Backups, device list, Keychain, localization
   Netdeck/                SwiftUI app
   netdeck-probe/          Command-line field tool
+Vendor/
+  swift-nio-ssh/          SwiftNIO SSH with legacy algorithms for older devices (changes in PATCHES.md)
 Tests/
   NetdeckCoreTests/       Parser, planner, session and detection tests
     Fixtures/             Real console captures (anonymized); synthetic/ holds captures written

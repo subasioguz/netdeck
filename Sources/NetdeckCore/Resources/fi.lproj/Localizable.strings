@@ -819,3 +819,5 @@
 "The device refused the SSH shell: %@" = "Laite hylkäsi SSH-kuoren: %@";
 "The device refused to start an SSH shell." = "Laite kieltäytyi käynnistämästä SSH-kuorta.";
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Sisäänrakennettu SSH-asiakas ei tue laitteen SSH-algoritmeja: %@";
+"SSH algorithms: %@" = "SSH-algoritmit: %@";
+"SSH, older algorithms" = "SSH, vanhemmat algoritmit";

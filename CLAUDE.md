@@ -15,7 +15,8 @@ Juniper Junos (EX series, ELS).
 - `Sources/NetdeckCore`: UI-independent core
   - `Transport/`: serial console (termios, IOKit port discovery) and SSH: `NIOSSHTransport` (embedded
     swift-nio-ssh, password auth, host keys pinned in `ssh_known_hosts.json`) by default; `SSHTransport`
-    (`/usr/bin/ssh -tt` + one-shot `SSH_ASKPASS`) when `netdeck.useSystemSSH` is on, never in the sandbox
+    (`/usr/bin/ssh -tt` + one-shot `SSH_ASKPASS`) when `netdeck.useSystemSSH` is on, never in the sandbox.
+    Both offer legacy algorithms (DH group 14/1, ssh-rsa, CBC, 3DES) last, for older gear.
   - `Drivers/`: `DeviceDriver` protocol, `DriverFactory`, `ChangeTraits` (how each platform applies changes)
   - `CLI/CLISession`: text CLI session for every platform except Junos; prompts and quirks come from a `CLIDialect`
   - `Cisco/`, `MikroTik/`, `EdgeOS/`: dialect, parsers, planner and driver per platform
@@ -31,6 +32,8 @@ Juniper Junos (EX series, ELS).
   - `Session/DeviceSession`: `@Observable` per-device state the UI binds to
   - `Support/`: backups, device store, Keychain, localization
 - `Sources/Netdeck`: SwiftUI app
+- `Vendor/swift-nio-ssh`: SwiftNIO SSH 0.15.1 with legacy key exchange, RSA host keys and CBC/CTR ciphers
+  (`Sources/NIOSSH/Legacy/`, every change marked `Netdeck patch`, listed in `PATCHES.md`)
 - `Sources/netdeck-probe`: CLI field tool for testing against real hardware (never commits)
 - `Tests/NetdeckCoreTests/Fixtures`: real console captures, anonymized (serials, MACs, users, hashes);
   `Fixtures/synthetic/<platform>` holds captures written from vendor docs until real ones replace them
