@@ -149,6 +149,10 @@ scripts/make-app.sh --open     # build build/Netdeck.app and open it
 scripts/make-app.sh --sandbox  # same, signed with Resources/Netdeck.entitlements (App Sandbox)
 ```
 
+`scripts/make-app.sh --notarize` builds the release download. It signs the app with a Developer ID certificate
+from the keychain, has Apple notarize it and staples the ticket. Before the first run, create a notarytool
+profile once with `xcrun notarytool store-credentials netdeck`.
+
 ### Field tool
 
 `netdeck-probe` exercises the same core from the terminal. It is useful for checking a new device or
@@ -200,7 +204,7 @@ every change is visible as the exact commands the device received.
 - Device passwords are stored in the macOS Keychain, never on disk.
 - Netdeck only connects to the devices you add. There is no telemetry and no account.
 - Backups, device settings and trusted SSH host keys stay in `~/Library/Application Support/Netdeck`
-  (inside the app's container, `~/Library/Containers/tech.odbs.netdeck/Data/...`, for the sandboxed build).
+  (inside the app's container, `~/Library/Containers/io.github.subasioguz.netdeck/Data/...`, for the sandboxed build).
 
 ## Localization
 
@@ -224,6 +228,15 @@ Copyright 2026 Oğuzhan Subaşı.
 Licensed under the [Apache License, Version 2.0](LICENSE). You may use, modify and distribute Netdeck,
 including commercially, under the terms of that license. The license does not grant rights to the
 Netdeck name or logo.
+
+Netdeck changes the configuration of live network equipment. It is provided "as is", without warranty of
+any kind (sections 7 and 8 of the license). Try it on a lab or non-critical device first, and keep your own
+backups.
+
+Juniper, Junos, Cisco, IOS, HPE, Aruba, ProCurve, iLO, MikroTik, RouterOS, Ubiquiti, EdgeOS, Dell, iDRAC, Redfish,
+Supermicro, Lenovo, Synology and TrueNAS are trademarks of their respective owners. Netdeck is an independent
+project, not affiliated with or endorsed by any of them; the names are used only to say which devices it
+works with.
 
 `Vendor/swift-nio-ssh` is [SwiftNIO SSH](https://github.com/apple/swift-nio-ssh) by Apple and the SwiftNIO
 project authors, also under the Apache License 2.0, with the changes listed in its `PATCHES.md`.

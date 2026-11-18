@@ -145,6 +145,18 @@ final class AppModel {
         static let locations = "netdeck.locations", group = "netdeck.groupByLocation", timer = "netdeck.defaultTimer"
         static let language = "netdeck.language", appearance = "netdeck.appearance", colors = "netdeck.vlanColors."
         static let notify = "netdeck.notifyBeforeTimeout"
+        static let legacyMoved = "netdeck.legacySettingsMoved"
+    }
+
+    /// 0.1.0 had the bundle identifier tech.odbs.netdeck; its settings move over once. Inside the sandbox the
+    /// old domain can't be read and nothing happens.
+    private static func moveLegacySettings(into d: UserDefaults) {
+        guard !d.bool(forKey: Keys.legacyMoved) else { return }
+        d.set(true, forKey: Keys.legacyMoved)
+        guard let old = UserDefaults(suiteName: "tech.odbs.netdeck") else { return }
+        for (key, value) in old.dictionaryRepresentation() where key.hasPrefix("netdeck.") && d.object(forKey: key) == nil {
+            d.set(value, forKey: key)
+        }
     }
 
     /// `persists: false` gives an in-memory model (renders, previews).
@@ -152,6 +164,7 @@ final class AppModel {
         self.persists = persists
         self.defaults = persists ? defaults : UserDefaults(suiteName: "netdeck.ephemeral.\(UUID().uuidString)")!
         let d = self.defaults
+        if persists { Self.moveLegacySettings(into: d) }
         locations = d.stringArray(forKey: Keys.locations) ?? [t("Home"), t("Data center")]
         groupByLocation = d.object(forKey: Keys.group) as? Bool ?? true
         defaultTimerMinutes = d.object(forKey: Keys.timer) as? Int ?? 5

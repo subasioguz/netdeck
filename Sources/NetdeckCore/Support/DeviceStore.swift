@@ -119,7 +119,9 @@ public struct DeviceStore: Sendable {
 
 /// Passwords live in the login keychain, never on disk.
 public enum Keychain {
-    static let service = "tech.odbs.netdeck"
+    static let service = "io.github.subasioguz.netdeck"
+    /// The service 0.1.0 used (its old bundle identifier). A password found there moves over on first read.
+    static let legacyService = "tech.odbs.netdeck"
 
     public static func setPassword(_ password: String, for deviceID: String) throws {
         let base: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
@@ -137,6 +139,18 @@ public enum Keychain {
     }
 
     public static func password(for deviceID: String) -> String? {
+        if let p = read(service, deviceID) { return p }
+        guard let old = read(legacyService, deviceID) else { return nil }
+        if (try? setPassword(old, for: deviceID)) != nil { delete(legacyService, deviceID) }
+        return old
+    }
+
+    public static func deletePassword(for deviceID: String) {
+        delete(service, deviceID)
+        delete(legacyService, deviceID)
+    }
+
+    private static func read(_ service: String, _ deviceID: String) -> String? {
         let q: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
                                 kSecAttrService as String: service,
                                 kSecAttrAccount as String: deviceID,
@@ -147,7 +161,7 @@ public enum Keychain {
         return String(data: d, encoding: .utf8)
     }
 
-    public static func deletePassword(for deviceID: String) {
+    private static func delete(_ service: String, _ deviceID: String) {
         let q: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
                                 kSecAttrService as String: service,
                                 kSecAttrAccount as String: deviceID]

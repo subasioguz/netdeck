@@ -40,7 +40,9 @@ Juniper Junos (EX series, ELS).
 
 ## Commands
 - Tests: `swift test` (run alone, not in parallel with other heavy jobs)
-- App bundle: `scripts/make-app.sh --open` → `build/Netdeck.app` (`--sandbox`: signed with `Resources/Netdeck.entitlements`)
+- App bundle: `scripts/make-app.sh --open` → `build/Netdeck.app` (`--sandbox`: signed with `Resources/Netdeck.entitlements`;
+  `--notarize`: Developer ID + hardened runtime, notarized with the notarytool profile `netdeck`, stapled,
+  → `build/Netdeck-<version>-macOS-arm64.zip` for the GitHub release)
 - Field test: `NETDECK_PASSWORD=... .build/debug/netdeck-probe --serial /dev/cu.usbserial-XXXX --user root snapshot`
   (`--ssh HOST`, `--api URL`, `--platform junos|cisco|mikrotik|edgeos|aoss|aoscx|idrac|synology|truenas`; `preview "cmd; cmd"`
   shows the device's diff where it has a candidate config and never applies anything)
