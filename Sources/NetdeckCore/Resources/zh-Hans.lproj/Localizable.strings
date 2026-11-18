@@ -853,3 +853,7 @@
 "%@: port descriptions on this switch are at most 16 characters, without quotes, brackets or < > , \\ &." = "%@:这台交换机上的端口描述最多 16 个字符,不能包含引号、括号或 < > , \\ &。";
 "%@ has a VLAN setup Netdeck can't show as access or trunk (%@). Change it on the switch." = "%@ 的 VLAN 设置无法在 Netdeck 中显示为 access 或 trunk(%@)。请在交换机上更改。";
 "'%@': VLAN names on this switch are 1–16 characters and can't contain \" < > , \\ or &." = "'%@':这台交换机上的 VLAN 名称为 1–16 个字符,不能包含 \" < > , \\ 或 &。";
+
+/* FortiGate (read only) */
+"Hostname %@ · serial %@ · front panel, ports and history, read only" = "主机名 %@ · 序列号 %@ · 前面板、端口和历史记录,只读";
+"Netdeck only reads this device. Make changes on the device itself." = "Netdeck 只读取此设备。请在设备上直接进行更改。";

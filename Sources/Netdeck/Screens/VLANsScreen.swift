@@ -121,6 +121,7 @@ struct VLANsHeader: View {
                 Label(t("New VLAN"), systemImage: "plus")
             }
             .buttonStyle(PrimaryButtonStyle())
+            .disabled(!session.canStage)
         }
     }
 }

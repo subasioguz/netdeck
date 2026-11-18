@@ -853,3 +853,7 @@
 "%@: port descriptions on this switch are at most 16 characters, without quotes, brackets or < > , \\ &." = "%@: 이 스위치의 포트 설명은 최대 16자이며 따옴표, 괄호, < > , \\ &를 쓸 수 없어요.";
 "%@ has a VLAN setup Netdeck can't show as access or trunk (%@). Change it on the switch." = "%@의 VLAN 설정은 Netdeck에서 access나 trunk로 표시할 수 없어요(%@). 스위치에서 변경해 주세요.";
 "'%@': VLAN names on this switch are 1–16 characters and can't contain \" < > , \\ or &." = "'%@': 이 스위치의 VLAN 이름은 1–16자이며 \" < > , \\ &를 포함할 수 없어요.";
+
+/* FortiGate (read only) */
+"Hostname %@ · serial %@ · front panel, ports and history, read only" = "호스트 이름 %@ · 시리얼 %@ · 전면 패널, 포트, 기록, 읽기 전용";
+"Netdeck only reads this device. Make changes on the device itself." = "Netdeck은 이 장치를 읽기만 합니다. 변경은 장치에서 직접 하세요.";

@@ -853,3 +853,7 @@
 "%@: port descriptions on this switch are at most 16 characters, without quotes, brackets or < > , \\ &." = "%@: tämän kytkimen porttikuvaukset ovat enintään 16 merkkiä, ilman lainausmerkkejä, sulkeita tai merkkejä < > , \\ &.";
 "%@ has a VLAN setup Netdeck can't show as access or trunk (%@). Change it on the switch." = "Portin %@ VLAN-asetusta Netdeck ei voi näyttää access- tai trunk-tilana (%@). Muuta se kytkimessä.";
 "'%@': VLAN names on this switch are 1–16 characters and can't contain \" < > , \\ or &." = "'%@': tämän kytkimen VLAN-nimet ovat 1–16 merkkiä eivätkä voi sisältää merkkejä \" < > , \\ tai &.";
+
+/* FortiGate (read only) */
+"Hostname %@ · serial %@ · front panel, ports and history, read only" = "Hostname %@ · sarjanumero %@ · etupaneeli, portit ja historia, vain luku";
+"Netdeck only reads this device. Make changes on the device itself." = "Netdeck vain lukee tätä laitetta. Tee muutokset itse laitteessa.";

@@ -853,3 +853,7 @@
 "%@: port descriptions on this switch are at most 16 characters, without quotes, brackets or < > , \\ &." = "%@: οι περιγραφές θυρών σε αυτό το switch έχουν έως 16 χαρακτήρες, χωρίς εισαγωγικά, παρενθέσεις ή < > , \\ &.";
 "%@ has a VLAN setup Netdeck can't show as access or trunk (%@). Change it on the switch." = "Το %@ έχει ρύθμιση VLAN που το Netdeck δεν μπορεί να δείξει ως access ή trunk (%@). Αλλάξτε την στο switch.";
 "'%@': VLAN names on this switch are 1–16 characters and can't contain \" < > , \\ or &." = "'%@': τα ονόματα VLAN σε αυτό το switch έχουν 1–16 χαρακτήρες και δεν μπορούν να περιέχουν \" < > , \\ ή &.";
+
+/* FortiGate (read only) */
+"Hostname %@ · serial %@ · front panel, ports and history, read only" = "Hostname %@ · σειριακός %@ · μπροστινό πάνελ, θύρες και ιστορικό, μόνο ανάγνωση";
+"Netdeck only reads this device. Make changes on the device itself." = "Το Netdeck μόνο διαβάζει αυτή τη συσκευή. Κάντε τις αλλαγές στην ίδια τη συσκευή.";

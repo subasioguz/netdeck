@@ -117,4 +117,80 @@ extension DemoData {
             interfaces: [.init(name: "LAN 1", mac: "00:11:32:00:00:01", linkUp: true, speedMbps: 1000, addresses: ["192.0.2.20/24"]),
                          .init(name: "LAN 2", mac: "00:11:32:00:00:02", linkUp: false)])
     }
+
+    /// A FortiGate read over SSH (read only), for renders.
+    public static func sampleFirewall() -> SwitchSnapshot {
+        func block(_ name: String, up: Bool, speed: String = "1000Mbps (Duplex: full)") -> String {
+            "    ==[\(name)]\n        status: \(up ? "up" : "down")\n        speed: \(up ? speed : "n/a")"
+        }
+        var o = FortiOSSnapshot.Outputs()
+        o.status = """
+        Version: FortiGate-60F v7.4.8,build2795,250523 (GA.M)
+        Serial-Number: FGT60FTEST000001
+        Hostname: fw-01
+        Virtual domain configuration: disable
+        Current HA mode: standalone
+        """
+        o.physical = (["== [onboard]", block("dmz", up: false), block("wan1", up: true), block("wan2", up: false)]
+            + (1...5).map { block("internal\($0)", up: $0 != 3 && $0 != 4, speed: $0 == 2 ? "100Mbps (Duplex: full)" : "1000Mbps (Duplex: full)") }
+            + [block("a", up: true), block("b", up: false)]).joined(separator: "\n")
+        o.config = """
+        config system interface
+            edit "dmz"
+                set ip 192.0.2.129 255.255.255.192
+                set type physical
+            next
+            edit "wan1"
+                set mode dhcp
+                set type physical
+                set alias "ISP A"
+            next
+            edit "wan2"
+                set status down
+                set type physical
+            next
+            edit "internal1"
+                set type physical
+                set alias "pve-01"
+            next
+            edit "internal"
+                set ip 192.0.2.1 255.255.255.192
+                set type hard-switch
+            next
+            edit "fortilink"
+                set ip 192.0.2.193 255.255.255.192
+                set type aggregate
+                set member "a" "b"
+            next
+            edit "servers"
+                set ip 192.0.2.65 255.255.255.192
+                set interface "internal"
+                set vlanid 20
+            next
+        end
+        config system virtual-switch
+            edit "internal"
+                config port
+                    edit "internal1"
+                    next
+                    edit "internal2"
+                    next
+                    edit "internal3"
+                    next
+                    edit "internal4"
+                    next
+                    edit "internal5"
+                    next
+                end
+            next
+        end
+        config system zone
+            edit "LAN"
+                set interface "internal" "servers"
+            next
+        end
+        """
+        o.arp = "198.51.100.1      0          00:00:5e:00:53:01 wan1"
+        return FortiOSSnapshot.build(o)
+    }
 }

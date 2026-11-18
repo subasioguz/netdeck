@@ -1,0 +1,92 @@
+FW-BRANCH-01 # get system interface physical
+== [onboard]
+        ==[dmz]
+                mode: static
+                ip: 192.0.2.129 255.255.255.192
+                ipv6: ::/0
+                status: down
+                speed: n/a
+                FEC: none
+                FEC_cap: none
+        ==[wan1]
+                mode: dhcp
+                ip: 198.51.100.20 255.255.255.0
+                ipv6: ::/0
+                status: up
+                speed: 1000Mbps (Duplex: full)
+                FEC: none
+                FEC_cap: none
+        ==[wan2]
+                mode: static
+                ip: 0.0.0.0 0.0.0.0
+                ipv6: ::/0
+                status: down
+                speed: n/a
+                FEC: none
+                FEC_cap: none
+        ==[internal1]
+                mode: static
+                ip: 0.0.0.0 0.0.0.0
+                ipv6: ::/0
+                status: up
+                speed: 1000Mbps (Duplex: full)
+                FEC: none
+                FEC_cap: none
+        ==[internal2]
+                mode: static
+                ip: 0.0.0.0 0.0.0.0
+                ipv6: ::/0
+                status: up
+                speed: 100Mbps (Duplex: full)
+                FEC: none
+                FEC_cap: none
+        ==[internal3]
+                mode: static
+                ip: 0.0.0.0 0.0.0.0
+                ipv6: ::/0
+                status: down
+                speed: n/a
+                FEC: none
+                FEC_cap: none
+        ==[internal4]
+                mode: static
+                ip: 0.0.0.0 0.0.0.0
+                ipv6: ::/0
+                status: down
+                speed: n/a
+                FEC: none
+                FEC_cap: none
+        ==[internal5]
+                mode: static
+                ip: 0.0.0.0 0.0.0.0
+                ipv6: ::/0
+                status: up
+                speed: 1000Mbps (Duplex: full)
+                FEC: none
+                FEC_cap: none
+        ==[a]
+                mode: static
+                ip: 0.0.0.0 0.0.0.0
+                ipv6: ::/0
+                status: up
+                speed: 1000Mbps (Duplex: full)
+                FEC: none
+                FEC_cap: none
+        ==[b]
+                mode: static
+                ip: 0.0.0.0 0.0.0.0
+                ipv6: ::/0
+                status: down
+                speed: n/a
+                FEC: none
+                FEC_cap: none
+        ==[npu0_vlink0]
+                mode: static
+                ip: 0.0.0.0 0.0.0.0
+                ipv6: ::/0
+                status: up
+                speed: 10000Mbps (Duplex: full)
+                FEC: none
+                FEC_cap: none
+
+FW-BRANCH-01 # 

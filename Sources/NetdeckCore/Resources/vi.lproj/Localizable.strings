@@ -853,3 +853,7 @@
 "%@: port descriptions on this switch are at most 16 characters, without quotes, brackets or < > , \\ &." = "%@: mô tả cổng trên switch này dài tối đa 16 ký tự, không có dấu ngoặc kép, dấu ngoặc đơn hay < > , \\ &.";
 "%@ has a VLAN setup Netdeck can't show as access or trunk (%@). Change it on the switch." = "%@ có thiết lập VLAN mà Netdeck không thể hiển thị dưới dạng access hay trunk (%@). Hãy thay đổi trên switch.";
 "'%@': VLAN names on this switch are 1–16 characters and can't contain \" < > , \\ or &." = "'%@': tên VLAN trên switch này dài 1–16 ký tự và không được chứa \" < > , \\ hay &.";
+
+/* FortiGate (read only) */
+"Hostname %@ · serial %@ · front panel, ports and history, read only" = "Hostname %@ · serial %@ · mặt trước, cổng và lịch sử, chỉ đọc";
+"Netdeck only reads this device. Make changes on the device itself." = "Netdeck chỉ đọc thiết bị này. Hãy thay đổi trực tiếp trên thiết bị.";

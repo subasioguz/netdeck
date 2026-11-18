@@ -49,6 +49,8 @@ struct PortInspector: View {
                 }
                 Spacer(minLength: 8)
                 NDSwitch(isOn: Binding(get: { enabled }, set: { session.stage(PortEdit(port: port.name, enabled: $0)) }))
+                    .disabled(!session.canStage)
+                    .opacity(session.canStage ? 1 : 0.45)
             }
             .padding(10)
             .background(RoundedRectangle(cornerRadius: 10, style: .continuous).fill(edit?.enabled != nil ? Theme.accentSoft.opacity(0.55) : Theme.surface2))
@@ -83,7 +85,29 @@ struct PortInspector: View {
                              : t("Port %@ · block %@, bottom row · copper", String(port.number), block)
     }
 
+    @ViewBuilder
     private var settings: some View {
+        if session.canStage { editableSettings } else { readOnlySettings }
+    }
+
+    /// A platform Netdeck only reads (FortiGate): what the port carries, without edit controls.
+    private var readOnlySettings: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            VStack(spacing: 0) {
+                ValueRow(label: t("Description"), value: port.description ?? "—")
+                if port.addresses.isEmpty {
+                    ValueRow(label: t("Address"), value: "—")
+                } else {
+                    ForEach(port.addresses, id: \.self) { a in ValueRow(label: t("Address"), value: a == "dhcp" ? t("Automatic (DHCP)") : a, mono: a != "dhcp") }
+                }
+                if !port.vlans.isEmpty { ValueRow(label: t("VLAN (room)"), value: port.vlans.joined(separator: ", ")) }
+            }
+            Text(t("Netdeck only reads this device. Make changes on the device itself."))
+                .font(Typo.micro).foregroundStyle(Theme.text3).fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    private var editableSettings: some View {
         VStack(alignment: .leading, spacing: 14) {
             VStack(alignment: .leading, spacing: 6) {
                 FieldLabel(text: t("Description"))

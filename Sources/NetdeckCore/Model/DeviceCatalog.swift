@@ -72,6 +72,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
     case arubaAOSCX = "aruba-aos-cx"
     case arubaAOSS = "aruba-aos-s"
     case tplinkOmada = "tplink-omada"
+    case fortinetFortiOS = "fortinet-fortios"
     case dellIDRAC = "dell-idrac"
     /// Any other server BMC over standard Redfish (HPE iLO, Supermicro, Lenovo XCC).
     case redfish = "redfish"
@@ -91,6 +92,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .ubiquitiEdgeOS: return "Ubiquiti"
         case .arubaAOSCX, .arubaAOSS: return "Aruba"
         case .tplinkOmada: return "TP-Link"
+        case .fortinetFortiOS: return "Fortinet"
         case .dellIDRAC: return "Dell"
         case .redfish: return "Redfish"
         case .synologyDSM: return "Synology"
@@ -108,6 +110,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .arubaAOSCX: return "AOS-CX"
         case .arubaAOSS: return "AOS-S"
         case .tplinkOmada: return "Omada"
+        case .fortinetFortiOS: return "FortiOS"
         case .dellIDRAC: return "iDRAC"
         case .redfish: return "BMC"
         case .synologyDSM: return "DSM"
@@ -143,6 +146,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .arubaAOSCX: return "AOS-CX (6000–10000)"
         case .arubaAOSS: return "AOS-S, ProCurve (2530–5400R)"
         case .tplinkOmada: return "Omada, JetStream (SG, SX, T)"
+        case .fortinetFortiOS: return "FortiGate, FortiWiFi"
         case .dellIDRAC: return "iDRAC"
         case .redfish: return "iLO, Supermicro, Lenovo"
         case .synologyDSM: return "DSM"
@@ -175,7 +179,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
     /// Netdeck can read and keep this platform's configuration (drives History & backups).
     public var exportsConfig: Bool {
         switch self {
-        case .juniperJunos, .mikrotikRouterOS, .ciscoIOS, .ubiquitiEdgeOS, .arubaAOSCX, .arubaAOSS, .tplinkOmada: return true
+        case .juniperJunos, .mikrotikRouterOS, .ciscoIOS, .ubiquitiEdgeOS, .arubaAOSCX, .arubaAOSS, .tplinkOmada, .fortinetFortiOS: return true
         default: return false
         }
     }
@@ -188,6 +192,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .ciscoIOS: return [.switchDevice, .router]
         case .ubiquitiEdgeOS: return [.router]
         case .arubaAOSCX, .arubaAOSS, .tplinkOmada: return [.switchDevice]
+        case .fortinetFortiOS: return [.firewall]
         case .dellIDRAC, .redfish: return [.server]
         case .synologyDSM, .truenas: return [.storage]
         case .unknown: return DeviceKind.allCases
@@ -331,6 +336,12 @@ public enum DeviceDetector {
             return Detection(platform: .tplinkOmada, model: info.model, osVersion: info.firmware, hostname: info.name,
                              kind: .switchDevice, uptime: info.uptime, serial: info.serial)
         }
+        // FortiGate / FortiWiFi: `get system status` ("Version: FortiGate-60F v7.4.8,build2795,...") or the console login.
+        if FortiOSParsers.isFortiGate(s) || FortiOSParsers.isLoginBanner(s) {
+            let st = FortiOSParsers.status(s)
+            return Detection(platform: .fortinetFortiOS, model: st.model, osVersion: st.version, hostname: st.hostname,
+                             kind: .firewall, serial: st.serial)
+        }
         if s.contains("EdgeOS") || s.contains("EdgeRouter") {
             return Detection(platform: .ubiquitiEdgeOS, kind: .router)
         }
@@ -363,6 +374,8 @@ public enum DeviceDetector {
         if l.hasSuffix("Login:"), l.contains("MikroTik") { return .mikrotikRouterOS }
         // ubnt@edge:~$   admin@nas:/$   root@host:~#
         if l.range(of: #"^[\w.\-]+@[\w.\-]+:[^\s]*[$#]$"#, options: .regularExpression) != nil { return .unknown }
+        // FGT60F #   FGT60F (global) #   fw-01 $   (FortiOS: a blank before the # or $)
+        if l.range(of: FortiOSDialect.promptPattern, options: .regularExpression) != nil { return .fortinetFortiOS }
         // Switch>   Switch#   Switch(config-if)#   (no "@": Junos prompts always have one)
         if l.range(of: #"^[A-Za-z0-9][\w.\-]*(\([\w\-]+\))?[>#]$"#, options: .regularExpression) != nil { return .ciscoIOS }
         if l.hasSuffix("Username:") { return .ciscoIOS }

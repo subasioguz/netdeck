@@ -393,6 +393,13 @@ enum RenderCatalog {
             }
             .padding(20).background(Theme.stageMid)), CGSize(width: 1100, height: 2900)))
 
+        // A FortiGate: read only, ports with what rides on them and no edit controls.
+        let fw = DeviceProfile(id: "render-fw-01", name: "fw-01", kind: .firewall, location: "Home",
+                               connection: .ssh(host: "192.0.2.1", port: 22), username: "admin")
+        let fwModel = deviceModel(fw, snapshot: DemoData.sampleFirewall()) { _ in }
+        fwModel.portsState[fw.id] = PortsViewState(selected: "internal1")
+        out.append(("ports-fortigate", root(fwModel), window))
+
         // Appliances over HTTPS: a Dell server and a Synology NAS.
         for (name, sample, kind, url) in [("appliance-server", DemoData.sampleServer(), DeviceKind.server, "https://192.0.2.30"),
                                           ("appliance-nas", DemoData.sampleNAS(), DeviceKind.storage, "https://192.0.2.20:5001")] {

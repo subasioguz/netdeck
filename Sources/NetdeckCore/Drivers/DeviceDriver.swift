@@ -120,7 +120,8 @@ extension Platform {
             return ChangeTraits(canChange: true, commandsTitle: t("RouterOS commands"), devicePreview: false,
                                 timeoutNote: t("If you don't confirm, a scheduled script on the router puts the previous settings back."),
                                 history: .localOnly, canRollback: false)
-        case .dellIDRAC, .redfish, .synologyDSM, .truenas, .unknown:
+        // FortiOS: read only (see `FortiOSDriver`).
+        case .fortinetFortiOS, .dellIDRAC, .redfish, .synologyDSM, .truenas, .unknown:
             return .readOnly
         }
     }

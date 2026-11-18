@@ -559,6 +559,9 @@ struct AddDeviceSheet: View {
                     Text(found.platform.isAppliance
                          ? t("Hostname %@ · serial %@ · health, storage and sensors, read only",
                              found.hostname ?? "—", found.serial ?? "—")
+                         : !found.platform.changeTraits.canChange
+                         ? t("Hostname %@ · serial %@ · front panel, ports and history, read only",
+                             found.hostname ?? "—", found.serial ?? form.session?.snapshot?.hardware.serial ?? "—")
                          : t("Hostname %@ · serial %@ · full support: front panel, ports, VLANs, history",
                              found.hostname ?? "—", found.serial ?? form.session?.snapshot?.hardware.serial ?? "—"))
                         .font(Typo.caption).foregroundStyle(Theme.text2)

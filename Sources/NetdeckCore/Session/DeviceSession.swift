@@ -146,6 +146,10 @@ public final class DeviceSession {
         return (detection?.platform ?? profile.effectivePlatform ?? DriverFactory.fallbackPlatform(for: profile.connection.type)).changeTraits
     }
 
+    /// Netdeck can change this device, so edits may be staged. False for read-only platforms (FortiGate),
+    /// whose screens show the settings without letting them be edited.
+    public var canStage: Bool { changeTraits.canChange }
+
     /// The staged role for a rear QSFP+ port, if one is staged.
     public func rearEdit(pic: Int, port: Int) -> RearPortEdit? { rearEdits.first { $0.pic == pic && $0.port == port } }
     public var isConnected: Bool { (driver != nil || parked) && phase != .disconnected }
@@ -376,6 +380,7 @@ public final class DeviceSession {
 
     /// Merges an edit into the staged set. Fields left nil keep any earlier staged value.
     public func stage(_ edit: PortEdit) {
+        guard canStage else { return }
         var merged = portEdits[edit.port] ?? PortEdit(port: edit.port)
         if let v = edit.description { merged.description = v }
         if let v = edit.enabled { merged.enabled = v }
@@ -388,6 +393,7 @@ public final class DeviceSession {
     }
 
     public func stage(_ edit: VLANEdit) {
+        guard canStage else { return }
         vlanEdits.append(edit)
         preview = nil
     }
@@ -399,6 +405,7 @@ public final class DeviceSession {
 
     /// Stages a rear QSFP+ role; staging the current role again removes the staged change.
     public func stage(_ edit: RearPortEdit) {
+        guard canStage else { return }
         rearEdits.removeAll { $0.pic == edit.pic && $0.port == edit.port }
         if snapshot?.rearPorts.first(where: { $0.pic == edit.pic && $0.port == edit.port })?.role != edit.role {
             rearEdits.append(edit)

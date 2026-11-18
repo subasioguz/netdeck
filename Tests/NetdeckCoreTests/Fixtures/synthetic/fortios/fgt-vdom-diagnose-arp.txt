@@ -1,0 +1,8 @@
+FW-BRANCH-01 (global) # diagnose ip arp list
+index=5 ifname=wan1 198.51.100.1 00:00:5e:00:53:01 state=00000002 use=4277 confirm=4277 update=1797 ref=3
+index=12 ifname=internal 192.0.2.10 00:00:5e:00:53:10 state=00000002 use=125 confirm=1125 update=125 ref=2
+index=14 ifname=isp-mgmt 203.0.113.1 00:00:5e:00:53:07 state=00000002 use=3 confirm=703 update=203 ref=1
+index=12 ifname=internal 192.0.2.12 00:00:00:00:00:00 state=00000020 use=12 confirm=1012 update=12 ref=0
+index=2 ifname=root 0.0.0.0 00:00:00:00:00:00 state=00000040 use=7742 confirm=13742 update=7742 ref=1
+
+FW-BRANCH-01 (global) # 

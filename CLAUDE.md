@@ -20,7 +20,7 @@ Juniper Junos (EX series, ELS).
   - `Drivers/`: `DeviceDriver` protocol, `DriverFactory`, `ChangeTraits` (how each platform applies changes)
   - `CLI/CLISession`: text CLI session for every platform except Junos; prompts and quirks come from a `CLIDialect`
   - `Cisco/`, `MikroTik/`, `EdgeOS/`, `Aruba/` (AOS-S, AOS-CX), `TPLink/` (Omada / JetStream): dialect, parsers, planner and
-    driver per platform
+    driver per platform; `Fortinet/` (FortiGate): dialect, parsers and a read-only driver
   - `API/`: HTTPS (TOFU certificate pinning in `APIPins`), Redfish (Dell iDRAC; HPE iLO, Supermicro, Lenovo XCC as
     `.redfish`), Synology DSM, TrueNAS; read only apart from Redfish server power actions
   - `Junos/JunosCLI`: text CLI session: login (console/shell/cli), prompt detection, command framing
@@ -45,7 +45,7 @@ Juniper Junos (EX series, ELS).
   `--notarize`: Developer ID + hardened runtime, notarized with the notarytool profile `netdeck`, stapled,
   → `build/Netdeck-<version>-macOS-arm64.zip` for the GitHub release)
 - Field test: `NETDECK_PASSWORD=... .build/debug/netdeck-probe --serial /dev/cu.usbserial-XXXX --user root snapshot`
-  (`--ssh HOST`, `--api URL`, `--platform junos|cisco|mikrotik|edgeos|aoss|aoscx|tplink|idrac|synology|truenas`; `preview "cmd; cmd"`
+  (`--ssh HOST`, `--api URL`, `--platform junos|cisco|mikrotik|edgeos|aoss|aoscx|tplink|fortigate|idrac|synology|truenas`; `preview "cmd; cmd"`
   shows the device's diff where it has a candidate config and never applies anything)
 - Renders for visual checks: `.build/debug/Netdeck --render DIR [--only name,...] [dark] [tr]`
   (`faceplate-models` draws known model panels; `appliance-*` the server/NAS screen)
@@ -56,7 +56,8 @@ Juniper Junos (EX series, ELS).
 - Every apply arms a device-side timer first (Junos `commit confirmed N`, IOS `revert timer`, EdgeOS
   `commit-confirm`, RouterOS undo script + scheduler, AOS-CX `checkpoint auto N`, AOS-S `cfg-backup` + a one-shot
   `job` running `cfg-restore`, TP-Link `reboot-schedule in N`); it only becomes permanent through a separate
-  `confirm()`. AOS-S before 16.05, AOS-CX before 10.06 and controller-managed TP-Link switches are read only.
+  `confirm()`. AOS-S before 16.05, AOS-CX before 10.06, controller-managed TP-Link switches and FortiGates are read only
+  (`ChangeTraits.readOnly`: `DeviceSession.stage` ignores edits and the inspector shows values, not controls).
 - TP-Link applies only when running == startup (the restart would drop anyone's unsaved work too); a refused command
   or undo puts the startup settings back with commands and cancels the restart once they match again.
 - AOS-S logout asks "save current configuration?": always answer "n" (`AOSSDialect.logout(from:line:)`).
@@ -85,5 +86,9 @@ Juniper Junos (EX series, ELS).
 - TP-Link: no `show version` (CiscoDriver hands over from `show system-info`); the pager erases itself with CR NUL and
   is answered, not turned off (`no clipaging` is a config line); `exit` from `#` keeps the session, only `logout` ends
   it, and abandoned sessions fill the switch's small session table. Commands go out with CR LF.
+- FortiOS: the prompt has a blank before `#` (`FGT60F # `, `FGT60F (global) # `); the `--More--` pager is answered, never
+  turned off (`config system console` is a configuration change). Netdeck only sends `get`/`show`/`diagnose ... list`; with
+  VDOMs it reads inside `config global` and leaves with `end`; it never `edit`s (that creates missing objects). A context
+  left on a console is left with `abort` (`end` would save someone's edits).
 - IOS console log lines (`%LINK-3-UPDOWN`) may follow the prompt; `CLIDialect.isAsyncMessage` keeps them from
   hiding it. RouterOS logins use `user+ct511w4098h` (no colors, wide terminal).

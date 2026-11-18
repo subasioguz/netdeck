@@ -17,7 +17,7 @@
   <img alt="macOS 15 or later" src="https://img.shields.io/badge/macOS-15%2B-111114?logo=apple&logoColor=white">
   <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-F05138?logo=swift&logoColor=white">
   <img alt="SwiftUI" src="https://img.shields.io/badge/SwiftUI-native-2F6BFF">
-  <img alt="Platforms" src="https://img.shields.io/badge/devices-Junos%20%C2%B7%20IOS%20%C2%B7%20RouterOS%20%C2%B7%20EdgeOS%20%C2%B7%20AOS--S%20%C2%B7%20AOS--CX%20%C2%B7%20TP--Link-2F6BFF">
+  <img alt="Platforms" src="https://img.shields.io/badge/devices-Junos%20%C2%B7%20IOS%20%C2%B7%20RouterOS%20%C2%B7%20EdgeOS%20%C2%B7%20AOS--S%20%C2%B7%20AOS--CX%20%C2%B7%20TP--Link%20%C2%B7%20FortiOS-2F6BFF">
   <img alt="34 languages" src="https://img.shields.io/badge/languages-34-2F6BFF">
   <img alt="Apache 2.0" src="https://img.shields.io/badge/license-Apache%202.0-111114">
 </p>
@@ -102,6 +102,7 @@ Netdeck keeps the device's own safety net in place and puts a clear picture on t
 | HPE Aruba AOS-S (ProCurve) 16.05+ | 2530, 2540, 2920, 2930F/M, 3810M, 5400R (older firmware read only) | `cfg-backup` to flash, then a one-shot job runs `cfg-restore` after N minutes without a reboot (HPE's automatic-rollback recipe), `write memory` only after you confirm | Not yet |
 | TP-Link Omada / JetStream | SG2xxx, SG3xxx, SX3xxx and T-series managed switches in standalone mode (controller-managed switches read only) | `reboot-schedule in N` without saving: if you don't confirm, the switch restarts with its saved configuration (offline for a few minutes). A refused command or *Undo now* puts the old settings back with commands, without a restart. Applies only when nothing else is unsaved; `copy running-config startup-config` only after you confirm | Not yet |
 | HPE Aruba AOS-CX 10.06+ | 6000–10000 series switches | `checkpoint auto N` (the switch restores its previous configuration if not confirmed; Netdeck also keeps its own checkpoint to undo at once), `write memory` only after you confirm | Not yet |
+| Fortinet FortiOS | FortiGate and FortiWiFi firewalls (ports with their addresses, VLAN interfaces, zones and ARP neighbours; configuration kept in History & backups) | Read only: a firewall mistake can cut off the connection (often a VPN through it) that would undo it, and FortiOS has no rollback timer without a restart | Not yet |
 | Dell iDRAC (Redfish) | PowerEdge servers | Read only, power actions after confirmation | Not yet |
 | Redfish BMC (HPE iLO, Supermicro, Lenovo XCC) | Servers | Read only, power actions after confirmation | Not yet |
 | Synology DSM, TrueNAS | NAS | Read only | Not yet |
@@ -121,7 +122,8 @@ Netdeck is built so that a mistake costs you minutes, never a site visit.
    `commit confirmed`, IOS `revert timer`, AOS-CX `checkpoint auto`, an AOS-S restore job, a RouterOS undo
    script, EdgeOS `commit-confirm`, a TP-Link scheduled restart. Until you press *Confirm*, the device undoes
    the change on its own when the timer runs out, even if Netdeck or your connection dies. Where a platform
-   can't do this (AOS-S before 16.05, AOS-CX before 10.06, TP-Link switches managed by an Omada controller),
+   can't do this (AOS-S before 16.05, AOS-CX before 10.06, TP-Link switches managed by an Omada controller,
+   FortiGate firewalls),
    Netdeck only reads. EdgeOS and TP-Link undo by restarting with the saved configuration; the review says so
    before you apply.
 4. **Saved only after you confirm.** The startup configuration is written after *Confirm*, never before;
@@ -184,6 +186,7 @@ Sources/
     Drivers/              DeviceDriver protocol, driver factory, per-platform change traits
     Junos/                CLI session, output parsers, config model, change planner, driver
     Cisco/ MikroTik/ EdgeOS/ Aruba/ TPLink/  Dialect, parsers, change planner and driver per platform
+    Fortinet/             FortiOS dialect, parsers and a read-only driver
     API/                  HTTPS client with certificate pinning; Redfish, Synology and TrueNAS readers
     Model/                Snapshots, ports, device kinds and platforms, auto-detection, faceplate catalog
     Session/              Observable per-device state for the UI
@@ -237,7 +240,7 @@ any kind (sections 7 and 8 of the license). Try it on a lab or non-critical devi
 backups.
 
 Juniper, Junos, Cisco, IOS, HPE, Aruba, ProCurve, iLO, MikroTik, RouterOS, Ubiquiti, EdgeOS, TP-Link, Omada,
-JetStream, Dell, iDRAC, Redfish,
+JetStream, Fortinet, FortiGate, FortiWiFi, FortiOS, Dell, iDRAC, Redfish,
 Supermicro, Lenovo, Synology and TrueNAS are trademarks of their respective owners. Netdeck is an independent
 project, not affiliated with or endorsed by any of them; the names are used only to say which devices it
 works with.

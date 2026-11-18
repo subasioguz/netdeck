@@ -853,3 +853,7 @@
 "%@: port descriptions on this switch are at most 16 characters, without quotes, brackets or < > , \\ &." = "%@: opisi portova na ovom switchu imaju najviše 16 znakova, bez navodnika, zagrada i znakova < > , \\ &.";
 "%@ has a VLAN setup Netdeck can't show as access or trunk (%@). Change it on the switch." = "%@ ima VLAN postavke koje Netdeck ne može prikazati kao access ili trunk (%@). Promijenite ih na switchu.";
 "'%@': VLAN names on this switch are 1–16 characters and can't contain \" < > , \\ or &." = "'%@': nazivi VLAN-ova na ovom switchu imaju 1–16 znakova i ne smiju sadržavati \" < > , \\ ni &.";
+
+/* FortiGate (read only) */
+"Hostname %@ · serial %@ · front panel, ports and history, read only" = "Hostname %@ · serijski %@ · prednja ploča, portovi i povijest, samo čitanje";
+"Netdeck only reads this device. Make changes on the device itself." = "Netdeck ovaj uređaj samo čita. Promjene napravite na samom uređaju.";

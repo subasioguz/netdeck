@@ -853,3 +853,7 @@
 "%@: port descriptions on this switch are at most 16 characters, without quotes, brackets or < > , \\ &." = "%@: ezen a switchen a portleírás legfeljebb 16 karakter, idézőjel, zárójel és < > , \\ & nélkül.";
 "%@ has a VLAN setup Netdeck can't show as access or trunk (%@). Change it on the switch." = "%@ VLAN-beállítását a Netdeck nem tudja access vagy trunk módként megjeleníteni (%@). Módosítsa a switchen.";
 "'%@': VLAN names on this switch are 1–16 characters and can't contain \" < > , \\ or &." = "'%@': ezen a switchen a VLAN-nevek 1–16 karakteresek, és nem tartalmazhatnak \" < > , \\ vagy & karaktert.";
+
+/* FortiGate (read only) */
+"Hostname %@ · serial %@ · front panel, ports and history, read only" = "Hosztnév: %@ · sorozatszám: %@ · előlap, portok és előzmények, csak olvasás";
+"Netdeck only reads this device. Make changes on the device itself." = "A Netdeck ezt az eszközt csak olvassa. A módosításokat magán az eszközön végezd.";

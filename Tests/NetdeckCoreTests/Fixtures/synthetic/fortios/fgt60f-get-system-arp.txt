@@ -1,0 +1,11 @@
+FW-BRANCH-01 # get system arp
+Address           Age(min)   Hardware Addr      Interface
+198.51.100.1      0          00:00:5e:00:53:01 wan1
+192.0.2.10        0          00:00:5e:00:53:10 internal
+192.0.2.11        3          00:00:5e:00:53:11 internal
+192.0.2.70        1          00:00:5e:00:53:20 vlan20
+192.0.2.200       0          00:00:5e:00:53:30 fortilink
+203.0.113.1       0          00:00:5e:00:53:07 isp-mgmt
+192.0.2.99        12         00:00:00:00:00:00 internal
+
+FW-BRANCH-01 # 
