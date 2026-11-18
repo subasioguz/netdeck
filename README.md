@@ -1,11 +1,35 @@
-# Netdeck
+<p align="center">
+  <img src="docs/brand/netdeck-app-logo.svg" width="96" height="96" alt="Netdeck logo">
+</p>
 
-**See your network gear the way it looks on the rack, and change it without fear.**
+<h1 align="center">Netdeck</h1>
 
-Netdeck is a native macOS app for managing switches and other network devices. It connects over a
-serial console or SSH, draws the device's real front and rear panels, shows what is plugged into every
-port, and turns your edits into a reviewed, time-boxed change that the device rolls back on its own if
-you don't confirm it.
+<p align="center">
+  <strong>See your network gear the way it looks on the rack, and change it without fear.</strong>
+</p>
+
+<p align="center">
+  A native macOS app for switches, routers, servers and NAS. Real front panels, plain-language changes,
+  and a safety timer on the device itself for every change you apply.
+</p>
+
+<p align="center">
+  <img alt="macOS 15 or later" src="https://img.shields.io/badge/macOS-15%2B-111114?logo=apple&logoColor=white">
+  <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-F05138?logo=swift&logoColor=white">
+  <img alt="SwiftUI" src="https://img.shields.io/badge/SwiftUI-native-2F6BFF">
+  <img alt="Platforms" src="https://img.shields.io/badge/devices-Junos%20%C2%B7%20IOS%20%C2%B7%20RouterOS%20%C2%B7%20EdgeOS%20%C2%B7%20AOS--S%20%C2%B7%20AOS--CX-2F6BFF">
+  <img alt="34 languages" src="https://img.shields.io/badge/languages-34-2F6BFF">
+  <img alt="Apache 2.0" src="https://img.shields.io/badge/license-Apache%202.0-111114">
+</p>
+
+<p align="center">
+  <img src="docs/images/netdeck-ports.png" width="100%"
+       alt="Netdeck showing a Juniper EX4300-48T: the drawn front panel with what is plugged into each port, the port inspector with a staged description change, and the bar of changes waiting to be reviewed">
+</p>
+
+Netdeck connects over a serial console, SSH or HTTPS, draws the device's real front and rear panels, shows
+what is plugged into every port, and turns your edits into a reviewed, time-boxed change that the device
+rolls back on its own if you don't confirm it.
 
 > **Status: early development.** The Junos core is tested against real hardware (EX4300-48T). The drivers
 > for the other platforms are written from vendor documentation and covered by unit tests on synthetic
@@ -49,6 +73,23 @@ Netdeck keeps the device's own safety net in place and puts a clear picture on t
 | Multiple devices grouped by location, global "awaiting confirmation" banner | Done |
 | Built-in SSH client that also reaches older devices (legacy key exchange, RSA host keys, CBC ciphers), App Sandbox ready | Done |
 | Interface in 34 languages | Done |
+
+## A closer look
+
+<table>
+  <tr>
+    <td width="55%" valign="top">
+      <img src="docs/images/netdeck-confirm.png" alt="All devices, with a banner counting down the confirmation time of a change">
+      <br><sub><b>Every change runs on a timer.</b> Until you confirm, the device keeps the way back; the banner
+      counts down and one click confirms or rolls back.</sub>
+    </td>
+    <td width="45%" valign="top">
+      <img src="docs/images/netdeck-review.png" alt="The review sheet: the changes in plain language, the safety timer, checks before applying and the exact commands">
+      <br><sub><b>Review before you apply.</b> Changes in plain words, checks run first, and the exact commands
+      the device receives.</sub>
+    </td>
+  </tr>
+</table>
 
 ## Supported devices
 
