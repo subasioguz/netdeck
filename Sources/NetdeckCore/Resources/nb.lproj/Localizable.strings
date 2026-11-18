@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Switchen kan ikke endre nummeret på et VLAN. Legg til et VLAN med det nye nummeret og flytt portene dit.";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Switchen har ingen kandidatkonfigurasjon som kan kontrolleres på forhånd. Den bruker hver kommando med en gang; hvis en blir avvist, eller hvis du ikke bekrefter i tide, gjenoppretter den konfigurasjonen fra før endringen.";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Denne switchen kan ikke angre endringer av seg selv (ingen auto checkpoint). Netdeck bruker ikke endringer uten det.";
+"%@: a description can't contain '\"'." = "%@: en beskrivelse kan ikke inneholde '\"'.";
+"%@: the port must stay a member of at least one VLAN." = "%@: porten må fortsatt være medlem av minst ett VLAN.";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "'%@': VLAN-navn på denne switchen har 1–32 tegn og kan ikke inneholde '\"'.";
+"AOS-S commands" = "AOS-S-kommandoer";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "En annen endring venter allerede på bekreftelse på denne switchen (Netdecks gjenopprettingsjobb er planlagt). Netdeck bruker ikke endringer før den er ferdig.";
+"Netdeck couldn't set up the job that restores the configuration:" = "Netdeck kunne ikke sette opp jobben som gjenoppretter konfigurasjonen:";
+"This switch's VLANs have no description. Leave it empty." = "VLAN på denne switchen har ingen beskrivelse. La den stå tom.";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "Fastvaren på denne switchen (%@) kan ikke gjenopprette en konfigurasjon uten omstart; det krever 16.05 eller nyere. Netdeck leser den, men endrer den ikke.";

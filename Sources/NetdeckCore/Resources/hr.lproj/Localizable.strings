@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Switch ne može promijeniti broj VLAN-a. Dodajte VLAN s novim brojem i premjestite portove na njega.";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Switch nema kandidatnu konfiguraciju koja bi se unaprijed provjerila. Svaku naredbu primjenjuje odmah; ako neku odbije ili ako ne potvrdite na vrijeme, vraća konfiguraciju koju je imao prije promjene.";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Ovaj switch ne može sam poništiti promjene (nema auto checkpointa). Netdeck bez toga ne primjenjuje promjene.";
+"%@: a description can't contain '\"'." = "%@: opis ne može sadržavati '\"'.";
+"%@: the port must stay a member of at least one VLAN." = "%@: port mora ostati član barem jednog VLAN-a.";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "'%@': nazivi VLAN-ova na ovom switchu imaju 1–32 znaka i ne mogu sadržavati '\"'.";
+"AOS-S commands" = "AOS-S naredbe";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "Na ovom switchu već jedna druga promjena čeka potvrdu (zakazan je Netdeckov posao vraćanja). Netdeck ne primjenjuje promjene dok to ne završi.";
+"Netdeck couldn't set up the job that restores the configuration:" = "Netdeck nije mogao postaviti posao koji vraća konfiguraciju:";
+"This switch's VLANs have no description. Leave it empty." = "VLAN-ovi na ovom switchu nemaju opis. Ostavite ga praznim.";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "Firmware ovog switcha (%@) ne može vratiti konfiguraciju bez ponovnog pokretanja; za to treba 16.05 ili noviji. Netdeck ga čita, ali ga ne mijenja.";

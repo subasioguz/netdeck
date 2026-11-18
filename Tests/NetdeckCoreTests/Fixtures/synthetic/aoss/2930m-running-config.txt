@@ -1,0 +1,62 @@
+show running-config
+Running configuration:
+
+; JL322A Configuration Editor; Created on release #WC.16.11.0028
+; Ver #14:67.6f.f8.1d.fb.7f.bf.bb.ff.7c.59.fc.7b.ff.ff.fc.ff.ff.3f.ef:44
+
+hostname "SW-ACCESS-01"
+module 1 type jl322a
+flexible-module A type JL083A
+trunk A3-A4 trk1 lacp
+interface 1
+   name "srv-01"
+   exit
+interface 3
+   name "phone desk 3"
+   exit
+interface 4
+   disable
+   exit
+interface 45
+   name "ap-lobby"
+   exit
+interface 47
+   name "printer"
+   exit
+interface 48
+   disable
+   exit
+interface A1
+   name "nas-01"
+   exit
+vlan 1
+   name "DEFAULT_VLAN"
+   no untagged 1-4,45,47,A1
+   untagged 5-44,46,48,A2,Trk1
+   ip address 192.0.2.20 255.255.255.0
+   exit
+vlan 10
+   name "Servers"
+   untagged 1-2,A1
+   tagged 45,Trk1
+   no ip address
+   exit
+vlan 20
+   name "Voice"
+   untagged 47
+   tagged 3,45,Trk1
+   no ip address
+   exit
+vlan 30
+   name "Guests"
+   untagged 3,45
+   tagged Trk1
+   no ip address
+   exit
+vlan 99
+   name "Lab VLAN"
+   untagged 4
+   no ip address
+   exit
+ip default-gateway 192.0.2.1
+SW-ACCESS-01# 

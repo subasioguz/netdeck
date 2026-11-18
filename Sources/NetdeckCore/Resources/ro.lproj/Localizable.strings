@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Switch-ul nu poate schimba numărul unui VLAN. Adaugă un VLAN cu noul număr și mută porturile în el.";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Switch-ul nu are o configurație candidată de verificat dinainte. Aplică fiecare comandă imediat; dacă una e respinsă sau dacă nu confirmi la timp, restaurează configurația pe care o avea înainte de modificare.";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Acest switch nu poate anula singur modificările (fără auto checkpoint). Netdeck nu aplică modificări fără el.";
+"%@: a description can't contain '\"'." = "%@: o descriere nu poate conține '\"'.";
+"%@: the port must stay a member of at least one VLAN." = "%@: portul trebuie să rămână membru în cel puțin un VLAN.";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "'%@': numele VLAN de pe acest switch au 1–32 de caractere și nu pot conține '\"'.";
+"AOS-S commands" = "Comenzi AOS-S";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "Pe acest switch o altă modificare așteaptă deja confirmarea (sarcina de restaurare Netdeck e programată). Netdeck nu aplică modificări până nu se termină.";
+"Netdeck couldn't set up the job that restores the configuration:" = "Netdeck nu a putut configura sarcina care restaurează configurația:";
+"This switch's VLANs have no description. Leave it empty." = "VLAN-urile de pe acest switch nu au descriere. Las-o goală.";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "Firmware-ul acestui switch (%@) nu poate restaura o configurație fără repornire; e nevoie de 16.05 sau mai nou. Netdeck îl citește, dar nu îl modifică.";

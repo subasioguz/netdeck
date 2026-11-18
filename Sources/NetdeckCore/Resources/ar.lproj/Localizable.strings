@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "لا يستطيع السويتش تغيير رقم VLAN. أضف VLAN بالرقم الجديد وانقل المنافذ إليه.";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "لا توجد في السويتش إعدادات مرشّحة لفحصها مسبقًا. يطبّق كل أمر فورًا؛ وإن رُفض أحدها أو لم تؤكد في الوقت المحدد، يستعيد الإعدادات التي كانت لديه قبل التغيير.";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "لا يستطيع هذا السويتش التراجع عن التغييرات بنفسه (لا auto checkpoint). لا يطبّق Netdeck التغييرات بدونه.";
+"%@: a description can't contain '\"'." = "%@: لا يمكن أن يحتوي الوصف على '\"'.";
+"%@: the port must stay a member of at least one VLAN." = "%@: يجب أن يبقى المنفذ عضوًا في VLAN واحدة على الأقل.";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "'%@': أسماء VLAN على هذا السويتش من 1 إلى 32 حرفًا ولا يمكن أن تحتوي على '\"'.";
+"AOS-S commands" = "أوامر AOS-S";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "هناك تغيير آخر ينتظر التأكيد على هذا السويتش (مهمة الاستعادة الخاصة بـ Netdeck مجدولة). لا يطبّق Netdeck التغييرات حتى تنتهي.";
+"Netdeck couldn't set up the job that restores the configuration:" = "تعذّر على Netdeck إعداد المهمة التي تستعيد الإعدادات:";
+"This switch's VLANs have no description. Leave it empty." = "لا يوجد وصف لشبكات VLAN على هذا السويتش. اتركه فارغًا.";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "لا تستطيع البرمجية الثابتة لهذا السويتش (%@) استعادة الإعدادات دون إعادة تشغيل؛ يلزم الإصدار 16.05 أو أحدث. يقرأ Netdeck السويتش لكنه لا يغيّره.";

@@ -1,0 +1,10 @@
+show modules
+ Status and Counters - Module Information
+
+  Chassis: 2930M-48G-PoE+  JL322A         Serial Number:   TEST0AS001
+
+
+  Slot  Module Description                         Serial Number    Status
+  ----- ------------------------------------------ ---------------- ----------
+  A     Aruba JL083A 4p 10GbE SFP+ Module          TEST0AS0MA       Up
+SW-ACCESS-01# 

@@ -1,0 +1,9 @@
+show lldp info remote-device
+ LLDP Remote Devices Information
+
+  LocalPort | ChassisId          PortId             PortDescr SysName
+  --------- + ------------------ ------------------ --------- ------------------
+  3         | 48 a9 8a 00 30 03  48 a9 8a 00 30 03  LAN Port  SEP48A98A003003
+  A3        | 48a98a-00fe01      1/1/12             1/1/12    core-sw-01
+  A4        | 48a98a-00fe01      1/1/13             1/1/13    core-sw-01
+SW-ACCESS-01# 

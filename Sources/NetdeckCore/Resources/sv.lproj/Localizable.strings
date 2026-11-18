@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Switchen kan inte ändra ett VLAN:s nummer. Lägg till ett VLAN med det nya numret och flytta portarna dit.";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Switchen har ingen kandidatkonfiguration att kontrollera i förväg. Den tillämpar varje kommando direkt; om något avvisas, eller om du inte bekräftar i tid, återställer den konfigurationen från före ändringen.";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Den här switchen kan inte ångra ändringar på egen hand (ingen auto checkpoint). Netdeck tillämpar inte ändringar utan den.";
+"%@: a description can't contain '\"'." = "%@: en beskrivning får inte innehålla '\"'.";
+"%@: the port must stay a member of at least one VLAN." = "%@: porten måste förbli medlem i minst ett VLAN.";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "'%@': VLAN-namn på den här switchen har 1–32 tecken och får inte innehålla '\"'.";
+"AOS-S commands" = "AOS-S-kommandon";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "En annan ändring väntar redan på bekräftelse på den här switchen (Netdecks återställningsjobb är schemalagt). Netdeck tillämpar inte ändringar förrän det är klart.";
+"Netdeck couldn't set up the job that restores the configuration:" = "Netdeck kunde inte skapa jobbet som återställer konfigurationen:";
+"This switch's VLANs have no description. Leave it empty." = "VLAN på den här switchen har ingen beskrivning. Lämna den tom.";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "Den här switchens firmware (%@) kan inte återställa en konfiguration utan omstart; det kräver 16.05 eller senare. Netdeck läser den men ändrar den inte.";

@@ -108,6 +108,10 @@ extension Platform {
             return ChangeTraits(canChange: true, commandsTitle: t("AOS-CX commands"), devicePreview: false,
                                 timeoutNote: t("If you don't confirm, the switch restores the configuration it had before the change."),
                                 history: .localOnly, canRollback: false)
+        case .arubaAOSS:
+            return ChangeTraits(canChange: true, commandsTitle: t("AOS-S commands"), devicePreview: false,
+                                timeoutNote: t("If you don't confirm, the switch restores the configuration it had before the change."),
+                                history: .localOnly, canRollback: false)
         case .mikrotikRouterOS:
             return ChangeTraits(canChange: true, commandsTitle: t("RouterOS commands"), devicePreview: false,
                                 timeoutNote: t("If you don't confirm, a scheduled script on the router puts the previous settings back."),

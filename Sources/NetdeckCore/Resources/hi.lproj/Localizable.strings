@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "स्विच किसी VLAN की संख्या नहीं बदल सकता। नई संख्या का VLAN जोड़ें और पोर्ट उसमें ले जाएँ।";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "स्विच में पहले से जाँचने के लिए कोई कैंडिडेट कॉन्फ़िगरेशन नहीं है। वह हर कमांड तुरंत लागू करता है; कोई अस्वीकार हो या आप समय पर पुष्टि न करें, तो वह बदलाव से पहले वाला कॉन्फ़िगरेशन वापस ले आता है।";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "यह स्विच बदलाव खुद वापस नहीं ले सकता (auto checkpoint नहीं है)। उसके बिना Netdeck बदलाव लागू नहीं करता।";
+"%@: a description can't contain '\"'." = "%@: विवरण में '\"' नहीं हो सकता।";
+"%@: the port must stay a member of at least one VLAN." = "%@: पोर्ट को कम से कम एक VLAN का सदस्य बने रहना चाहिए।";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "'%@': इस स्विच पर VLAN नाम 1–32 वर्णों के होते हैं और उनमें '\"' नहीं हो सकता।";
+"AOS-S commands" = "AOS-S कमांड";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "इस स्विच पर एक और बदलाव पहले से पुष्टि का इंतज़ार कर रहा है (Netdeck का रीस्टोर जॉब शेड्यूल है)। उसके ख़त्म होने तक Netdeck बदलाव लागू नहीं करता।";
+"Netdeck couldn't set up the job that restores the configuration:" = "Netdeck कॉन्फ़िगरेशन वापस लाने वाला जॉब सेट नहीं कर सका:";
+"This switch's VLANs have no description. Leave it empty." = "इस स्विच पर VLAN का विवरण नहीं होता। इसे ख़ाली छोड़ें।";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "इस स्विच का फ़र्मवेयर (%@) रीस्टार्ट किए बिना कॉन्फ़िगरेशन वापस नहीं ला सकता; इसके लिए 16.05 या नया चाहिए। Netdeck इसे पढ़ता है पर बदलता नहीं।";

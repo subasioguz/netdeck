@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "スイッチではVLANの番号を変更できません。新しい番号のVLANを追加して、ポートをそちらに移してください。";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "スイッチには事前に確認できる候補設定がありません。コマンドはすぐに適用されます。拒否されたコマンドがある場合や、時間内に確認しなかった場合は、変更前の設定に戻します。";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "このスイッチは、変更を自力で元に戻せません(auto checkpointなし)。Netdeckはそれなしでは変更を適用しません。";
+"%@: a description can't contain '\"'." = "%@: 説明に「\"」は使えません。";
+"%@: the port must stay a member of at least one VLAN." = "%@: ポートは少なくとも1つのVLANのメンバーである必要があります。";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "'%@': このスイッチのVLAN名は1〜32文字で、「\"」は使えません。";
+"AOS-S commands" = "AOS-Sコマンド";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "このスイッチでは、別の変更がすでに確認待ちです(Netdeckの復元ジョブがスケジュール済み)。それが終わるまでNetdeckは変更を適用しません。";
+"Netdeck couldn't set up the job that restores the configuration:" = "Netdeckは設定を復元するジョブを設定できませんでした:";
+"This switch's VLANs have no description. Leave it empty." = "このスイッチのVLANには説明がありません。空欄のままにしてください。";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "このスイッチのファームウェア(%@)は、再起動なしで設定を復元できません。16.05以降が必要です。Netdeckは読み取りのみ行い、変更しません。";

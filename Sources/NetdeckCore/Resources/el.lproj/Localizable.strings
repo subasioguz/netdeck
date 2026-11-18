@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Το switch δεν μπορεί να αλλάξει τον αριθμό ενός VLAN. Προσθέστε VLAN με τον νέο αριθμό και μετακινήστε τις θύρες σε αυτό.";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Το switch δεν έχει υποψήφια διαμόρφωση για έλεγχο εκ των προτέρων. Εφαρμόζει κάθε εντολή αμέσως· αν κάποια απορριφθεί ή αν δεν επιβεβαιώσετε εγκαίρως, επαναφέρει τη διαμόρφωση που είχε πριν την αλλαγή.";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Αυτό το switch δεν μπορεί να αναιρέσει μόνο του αλλαγές (δεν υπάρχει auto checkpoint). Το Netdeck δεν εφαρμόζει αλλαγές χωρίς αυτό.";
+"%@: a description can't contain '\"'." = "%@: μια περιγραφή δεν μπορεί να περιέχει '\"'.";
+"%@: the port must stay a member of at least one VLAN." = "%@: η θύρα πρέπει να παραμείνει μέλος τουλάχιστον ενός VLAN.";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "'%@': τα ονόματα VLAN σε αυτό το switch έχουν 1–32 χαρακτήρες και δεν μπορούν να περιέχουν '\"'.";
+"AOS-S commands" = "Εντολές AOS-S";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "Μια άλλη αλλαγή περιμένει ήδη επιβεβαίωση σε αυτό το switch (έχει προγραμματιστεί η εργασία επαναφοράς του Netdeck). Το Netdeck δεν εφαρμόζει αλλαγές μέχρι να τελειώσει.";
+"Netdeck couldn't set up the job that restores the configuration:" = "Το Netdeck δεν μπόρεσε να ρυθμίσει την εργασία που επαναφέρει τη διαμόρφωση:";
+"This switch's VLANs have no description. Leave it empty." = "Τα VLAN σε αυτό το switch δεν έχουν περιγραφή. Αφήστε την κενή.";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "Το firmware αυτού του switch (%@) δεν μπορεί να επαναφέρει διαμόρφωση χωρίς επανεκκίνηση· χρειάζεται 16.05 ή νεότερο. Το Netdeck το διαβάζει αλλά δεν το αλλάζει.";

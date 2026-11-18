@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Switch không thể đổi số VLAN. Hãy thêm VLAN với số mới và chuyển các cổng sang đó.";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Switch không có cấu hình ứng viên để kiểm tra trước. Nó áp dụng từng lệnh ngay lập tức; nếu một lệnh bị từ chối, hoặc bạn không xác nhận kịp, nó khôi phục cấu hình có trước thay đổi.";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Switch này không thể tự hoàn tác thay đổi (không có auto checkpoint). Netdeck không áp dụng thay đổi nếu thiếu nó.";
+"%@: a description can't contain '\"'." = "%@: mô tả không được chứa '\"'.";
+"%@: the port must stay a member of at least one VLAN." = "%@: cổng phải vẫn là thành viên của ít nhất một VLAN.";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "'%@': tên VLAN trên switch này dài 1–32 ký tự và không được chứa '\"'.";
+"AOS-S commands" = "Lệnh AOS-S";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "Đã có một thay đổi khác đang chờ xác nhận trên switch này (tác vụ khôi phục của Netdeck đã được lên lịch). Netdeck không áp dụng thay đổi cho đến khi nó kết thúc.";
+"Netdeck couldn't set up the job that restores the configuration:" = "Netdeck không thiết lập được tác vụ khôi phục cấu hình:";
+"This switch's VLANs have no description. Leave it empty." = "VLAN trên switch này không có mô tả. Hãy để trống.";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "Firmware của switch này (%@) không thể khôi phục cấu hình mà không khởi động lại; cần 16.05 trở lên. Netdeck đọc nhưng không thay đổi nó.";

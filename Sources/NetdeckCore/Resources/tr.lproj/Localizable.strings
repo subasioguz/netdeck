@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Switch bir VLAN'ın numarasını değiştiremez. Yeni numarayla bir VLAN ekleyip portları ona taşı.";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Switch'te önceden denetlenecek bir aday yapılandırma yok. Her komutu anında uygular; biri reddedilirse ya da zamanında onaylamazsan değişiklikten önceki yapılandırmasını geri yükler.";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Bu switch değişiklikleri kendiliğinden geri alamıyor (auto checkpoint yok). Netdeck bu olmadan değişiklik uygulamaz.";
+"%@: a description can't contain '\"'." = "%@: Açıklama '\"' içeremez.";
+"%@: the port must stay a member of at least one VLAN." = "%@: Port en az bir VLAN'ın üyesi olarak kalmalı.";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "'%@': Bu switch'te VLAN adları 1–32 karakterdir ve '\"' içeremez.";
+"AOS-S commands" = "AOS-S komutları";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "Bu switch'te onay bekleyen başka bir değişiklik var (Netdeck'in geri yükleme işi zamanlanmış). O bitene kadar Netdeck değişiklik uygulamaz.";
+"Netdeck couldn't set up the job that restores the configuration:" = "Netdeck yapılandırmayı geri yükleyecek işi kuramadı:";
+"This switch's VLANs have no description. Leave it empty." = "Bu switch'te VLAN'ların açıklaması yok. Boş bırak.";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "Bu switch'in firmware'i (%@) yapılandırmayı yeniden başlatmadan geri yükleyemiyor; bunun için 16.05 ya da üstü gerekir. Netdeck switch'i okur ama değiştirmez.";

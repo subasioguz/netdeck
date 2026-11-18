@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "A switch nem tudja módosítani egy VLAN számát. Adjon hozzá új számú VLAN-t, és helyezze át rá a portokat.";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "A switchnek nincs előre ellenőrizhető jelölt konfigurációja. Minden parancsot azonnal alkalmaz; ha valamelyiket elutasítja, vagy ha nem erősíti meg időben, visszaállítja a módosítás előtti konfigurációját.";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Ez a switch nem tudja magától visszavonni a módosításokat (nincs auto checkpoint). A Netdeck enélkül nem alkalmaz módosítást.";
+"%@: a description can't contain '\"'." = "%@: a leírás nem tartalmazhat '\"' karaktert.";
+"%@: the port must stay a member of at least one VLAN." = "%@: a portnak legalább egy VLAN tagjának kell maradnia.";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "'%@': ezen a switchen a VLAN-nevek 1–32 karakteresek, és nem tartalmazhatnak '\"' karaktert.";
+"AOS-S commands" = "AOS-S-parancsok";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "Ezen a switchen már egy másik módosítás vár megerősítésre (a Netdeck visszaállító feladata ütemezve van). Amíg ez véget nem ér, a Netdeck nem alkalmaz módosítást.";
+"Netdeck couldn't set up the job that restores the configuration:" = "A Netdeck nem tudta beállítani a konfigurációt visszaállító feladatot:";
+"This switch's VLANs have no description. Leave it empty." = "Ezen a switchen a VLAN-oknak nincs leírása. Hagyja üresen.";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "A switch firmware-e (%@) nem tud újraindítás nélkül visszaállítani konfigurációt; ehhez 16.05 vagy újabb kell. A Netdeck beolvassa, de nem módosítja.";

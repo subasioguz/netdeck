@@ -1,0 +1,13 @@
+show mac-address
+ Status and Counters - Port Address Table
+
+  MAC Address       Port                            VLAN
+  ----------------- ------------------------------- ----
+  48a98a-001001     1                               10
+  48a98a-001002     2                               10
+  48a98a-003003     3                               20
+  48a98a-003004     3                               30
+  48a98a-004501     45                              30
+  48a98a-00a101     A1                              10
+  48a98a-00fe01     Trk1                            1
+SW-ACCESS-01# 

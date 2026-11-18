@@ -1,0 +1,12 @@
+show version
+Image stamp:
+ /ws/swbuildm/rel_beluru_qaoff/code/build/lvm(swbuildm_rel_beluru_qaoff_rel_belu
+ru)
+                Nov 10 2025 02:09:28
+                WC.16.11.0028
+                530
+Boot Image:     Secondary
+
+Boot ROM Version:    WC.17.02.0007
+Active Boot ROM:     Primary
+SW-ACCESS-01# 

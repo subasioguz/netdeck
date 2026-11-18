@@ -37,7 +37,7 @@ enum VendorDrivers {
         case (.mikrotikRouterOS, .serial), (.mikrotikRouterOS, .ssh),
              (.ciscoIOS, .serial), (.ciscoIOS, .ssh),
              (.ubiquitiEdgeOS, .serial), (.ubiquitiEdgeOS, .ssh),
-             (.arubaAOSCX, .serial), (.arubaAOSCX, .ssh):
+             (.arubaAOSCX, .serial), (.arubaAOSCX, .ssh), (.arubaAOSS, .serial), (.arubaAOSS, .ssh):
             return true
         case (.dellIDRAC, .api), (.redfish, .api), (.synologyDSM, .api), (.truenas, .api), (.unknown, .api):
             return true
@@ -59,6 +59,8 @@ enum VendorDrivers {
             return profile.makeTransport(password: password).map { madeTransport($0); return EdgeOSDriver(transport: $0) }
         case .arubaAOSCX:
             return profile.makeTransport(password: password).map { madeTransport($0); return AOSCXDriver(transport: $0) }
+        case .arubaAOSS:
+            return profile.makeTransport(password: password).map { madeTransport($0); return AOSSDriver(transport: $0) }
         case .dellIDRAC, .redfish, .synologyDSM, .truenas, .unknown:
             guard case let .api(url) = profile.connection else { return nil }
             return APIDriver(url: url, platform: platform)

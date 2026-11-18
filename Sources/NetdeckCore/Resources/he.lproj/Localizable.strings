@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "הסוויץ' לא יכול לשנות מספר VLAN. הוסיפו VLAN עם המספר החדש והעבירו אליו את היציאות.";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "לסוויץ' אין תצורה מועמדת לבדיקה מראש. הוא מחיל כל פקודה מיד; אם אחת נדחית, או אם לא תאשרו בזמן, הוא משחזר את התצורה שהייתה לו לפני השינוי.";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "הסוויץ' הזה לא יכול לבטל שינויים בעצמו (אין auto checkpoint). בלעדיו Netdeck לא מחיל שינויים.";
+"%@: a description can't contain '\"'." = "%@: תיאור לא יכול להכיל '\"'.";
+"%@: the port must stay a member of at least one VLAN." = "%@: היציאה חייבת להישאר חברה ב-VLAN אחד לפחות.";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "'%@': שמות VLAN בסוויץ' הזה הם באורך 1–32 תווים ולא יכולים להכיל '\"'.";
+"AOS-S commands" = "פקודות AOS-S";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "שינוי אחר כבר ממתין לאישור בסוויץ' הזה (משימת השחזור של Netdeck מתוזמנת). Netdeck לא מחיל שינויים עד שהיא תסתיים.";
+"Netdeck couldn't set up the job that restores the configuration:" = "Netdeck לא הצליח להגדיר את המשימה שמשחזרת את התצורה:";
+"This switch's VLANs have no description. Leave it empty." = "ל-VLAN בסוויץ' הזה אין תיאור. השאירו אותו ריק.";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "הקושחה של הסוויץ' הזה (%@) לא יכולה לשחזר תצורה בלי הפעלה מחדש; לשם כך נדרשת גרסה 16.05 ומעלה. Netdeck קורא אותו אבל לא משנה אותו.";

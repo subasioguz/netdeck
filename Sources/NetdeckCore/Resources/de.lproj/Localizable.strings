@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Der Switch kann die Nummer eines VLANs nicht ändern. Füge ein VLAN mit der neuen Nummer hinzu und verschiebe die Ports dorthin.";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Der Switch hat keine Kandidatenkonfiguration, die sich vorab prüfen ließe. Er wendet jeden Befehl sofort an; wird einer abgelehnt oder bestätigst du nicht rechtzeitig, stellt er die Konfiguration von vor der Änderung wieder her.";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Dieser Switch kann Änderungen nicht selbst rückgängig machen (kein Auto-Checkpoint). Ohne ihn wendet Netdeck keine Änderungen an.";
+"%@: a description can't contain '\"'." = "%@: Eine Beschreibung darf kein '\"' enthalten.";
+"%@: the port must stay a member of at least one VLAN." = "%@: Der Port muss Mitglied mindestens eines VLANs bleiben.";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "'%@': VLAN-Namen auf diesem Switch haben 1–32 Zeichen und dürfen kein '\"' enthalten.";
+"AOS-S commands" = "AOS-S-Befehle";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "Auf diesem Switch wartet bereits eine andere Änderung auf Bestätigung (der Wiederherstellungsjob von Netdeck ist geplant). Netdeck wendet keine Änderungen an, bis er endet.";
+"Netdeck couldn't set up the job that restores the configuration:" = "Netdeck konnte den Job, der die Konfiguration wiederherstellt, nicht einrichten:";
+"This switch's VLANs have no description. Leave it empty." = "VLANs haben auf diesem Switch keine Beschreibung. Lass sie leer.";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "Die Firmware dieses Switches (%@) kann eine Konfiguration nicht ohne Neustart wiederherstellen; dafür ist 16.05 oder neuer nötig. Netdeck liest ihn, ändert ihn aber nicht.";

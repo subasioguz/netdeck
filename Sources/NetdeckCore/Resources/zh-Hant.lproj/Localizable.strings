@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "交換器無法變更 VLAN 的編號。請以新編號新增一個 VLAN，並將連接埠移過去。";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "交換器沒有可事先檢查的候選設定。它會立即套用每個指令；若有指令遭拒，或你未及時確認，它會還原變更前的設定。";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "此交換器無法自行復原變更（沒有 auto checkpoint）。沒有它，Netdeck 不會套用變更。";
+"%@: a description can't contain '\"'." = "%@：描述中不能包含「\"」。";
+"%@: the port must stay a member of at least one VLAN." = "%@：連接埠必須至少保留在一個 VLAN 中。";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "「%@」：此交換器的 VLAN 名稱為 1–32 個字元，不能包含「\"」。";
+"AOS-S commands" = "AOS-S 指令";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "此交換器上已有另一項變更在等待確認（Netdeck 的還原工作已排定）。在它結束前，Netdeck 不會套用變更。";
+"Netdeck couldn't set up the job that restores the configuration:" = "Netdeck 無法設定還原設定的工作：";
+"This switch's VLANs have no description. Leave it empty." = "此交換器的 VLAN 沒有描述。請留空。";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "此交換器的韌體（%@）無法在不重新啟動的情況下還原設定；需要 16.05 或更新版本。Netdeck 只讀取它，不會變更。";

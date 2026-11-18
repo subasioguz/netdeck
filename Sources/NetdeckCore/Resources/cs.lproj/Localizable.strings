@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Switch neumí změnit číslo VLAN. Přidejte VLAN s novým číslem a přesuňte do ní porty.";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Switch nemá kandidátní konfiguraci, kterou by šlo předem zkontrolovat. Každý příkaz použije hned; když některý odmítne nebo když včas nepotvrdíte, obnoví konfiguraci, kterou měl před změnou.";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Tento switch neumí změny sám vrátit (bez auto checkpointu). Netdeck bez něj změny nepoužívá.";
+"%@: a description can't contain '\"'." = "%@: popis nesmí obsahovat '\"'.";
+"%@: the port must stay a member of at least one VLAN." = "%@: port musí zůstat členem alespoň jedné VLAN.";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "'%@': názvy VLAN na tomto switchi mají 1–32 znaků a nesmí obsahovat '\"'.";
+"AOS-S commands" = "Příkazy AOS-S";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "Na tomto switchi už na potvrzení čeká jiná změna (je naplánovaná úloha obnovy od Netdecku). Netdeck do jejího konce změny nepoužije.";
+"Netdeck couldn't set up the job that restores the configuration:" = "Netdeck nemohl nastavit úlohu, která obnoví konfiguraci:";
+"This switch's VLANs have no description. Leave it empty." = "VLAN na tomto switchi nemají popis. Nechte ho prázdný.";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "Firmware tohoto switche (%@) neumí obnovit konfiguraci bez restartu; to vyžaduje 16.05 nebo novější. Netdeck ho čte, ale nemění.";

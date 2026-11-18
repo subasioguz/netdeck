@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Комутатор не може змінити номер VLAN. Додайте VLAN з новим номером і перенесіть до нього порти.";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Комутатор не має кандидатної конфігурації для попередньої перевірки. Він застосовує кожну команду одразу; якщо якусь відхилено або ви не підтвердите вчасно, він відновить конфігурацію, яка була до зміни.";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Цей комутатор не може сам скасовувати зміни (немає auto checkpoint). Без нього Netdeck зміни не застосовує.";
+"%@: a description can't contain '\"'." = "%@: опис не може містити «\"».";
+"%@: the port must stay a member of at least one VLAN." = "%@: порт має залишатися членом принаймні одного VLAN.";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "«%@»: імена VLAN на цьому комутаторі мають 1–32 символи й не можуть містити «\"».";
+"AOS-S commands" = "Команди AOS-S";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "На цьому комутаторі вже чекає на підтвердження інша зміна (заплановано завдання відновлення Netdeck). Netdeck не застосовує зміни, доки воно не завершиться.";
+"Netdeck couldn't set up the job that restores the configuration:" = "Netdeck не вдалося налаштувати завдання, яке відновлює конфігурацію:";
+"This switch's VLANs have no description. Leave it empty." = "VLAN на цьому комутаторі не мають опису. Залиште його порожнім.";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "Прошивка цього комутатора (%@) не вміє відновлювати конфігурацію без перезавантаження; для цього потрібна 16.05 або новіша. Netdeck лише читає його й не змінює.";

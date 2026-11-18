@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Switchen kan ikke ændre et VLAN's nummer. Tilføj et VLAN med det nye nummer, og flyt portene til det.";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Switchen har ingen kandidatkonfiguration, der kan kontrolleres på forhånd. Den anvender hver kommando med det samme; hvis en bliver afvist, eller hvis du ikke bekræfter i tide, gendanner den konfigurationen fra før ændringen.";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Denne switch kan ikke fortryde ændringer af sig selv (intet auto checkpoint). Netdeck anvender ikke ændringer uden det.";
+"%@: a description can't contain '\"'." = "%@: en beskrivelse kan ikke indeholde '\"'.";
+"%@: the port must stay a member of at least one VLAN." = "%@: porten skal fortsat være medlem af mindst ét VLAN.";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "'%@': VLAN-navne på denne switch er 1–32 tegn og kan ikke indeholde '\"'.";
+"AOS-S commands" = "AOS-S-kommandoer";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "En anden ændring venter allerede på bekræftelse på denne switch (Netdecks gendannelsesjob er planlagt). Netdeck anvender ikke ændringer, før det slutter.";
+"Netdeck couldn't set up the job that restores the configuration:" = "Netdeck kunne ikke oprette jobbet, der gendanner konfigurationen:";
+"This switch's VLANs have no description. Leave it empty." = "VLAN på denne switch har ingen beskrivelse. Lad den være tom.";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "Firmwaren på denne switch (%@) kan ikke gendanne en konfiguration uden genstart; det kræver 16.05 eller nyere. Netdeck læser den, men ændrer den ikke.";

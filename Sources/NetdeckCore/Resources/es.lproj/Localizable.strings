@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "El switch no puede cambiar el número de una VLAN. Añade una VLAN con el número nuevo y mueve los puertos a ella.";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "El switch no tiene una configuración candidata que comprobar de antemano. Aplica cada comando al momento; si rechaza alguno, o si no confirmas a tiempo, restaura la configuración que tenía antes del cambio.";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Este switch no puede deshacer cambios por sí solo (sin auto checkpoint). Netdeck no aplica cambios sin él.";
+"%@: a description can't contain '\"'." = "%@: una descripción no puede contener '\"'.";
+"%@: the port must stay a member of at least one VLAN." = "%@: el puerto debe seguir siendo miembro de al menos una VLAN.";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "'%@': los nombres de VLAN de este switch tienen de 1 a 32 caracteres y no pueden contener '\"'.";
+"AOS-S commands" = "Comandos de AOS-S";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "Ya hay otro cambio esperando confirmación en este switch (la tarea de restauración de Netdeck está programada). Netdeck no aplica cambios hasta que termine.";
+"Netdeck couldn't set up the job that restores the configuration:" = "Netdeck no pudo configurar la tarea que restaura la configuración:";
+"This switch's VLANs have no description. Leave it empty." = "Las VLAN de este switch no tienen descripción. Déjala vacía.";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "El firmware de este switch (%@) no puede restaurar una configuración sin reiniciar; hace falta la 16.05 o posterior. Netdeck lo lee pero no lo cambia.";

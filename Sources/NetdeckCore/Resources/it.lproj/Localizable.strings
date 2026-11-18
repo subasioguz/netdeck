@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Lo switch non può cambiare il numero di una VLAN. Aggiungi una VLAN con il nuovo numero e sposta le porte su di essa.";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Lo switch non ha una configurazione candidata da verificare in anticipo. Applica subito ogni comando; se uno viene rifiutato, o se non confermi in tempo, ripristina la configurazione che aveva prima della modifica.";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Questo switch non può annullare le modifiche da solo (nessun auto checkpoint). Netdeck non applica modifiche senza.";
+"%@: a description can't contain '\"'." = "%@: una descrizione non può contenere '\"'.";
+"%@: the port must stay a member of at least one VLAN." = "%@: la porta deve restare membro di almeno una VLAN.";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "'%@': i nomi delle VLAN su questo switch sono di 1–32 caratteri e non possono contenere '\"'.";
+"AOS-S commands" = "Comandi AOS-S";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "Su questo switch un'altra modifica è già in attesa di conferma (il job di ripristino di Netdeck è pianificato). Netdeck non applica modifiche finché non termina.";
+"Netdeck couldn't set up the job that restores the configuration:" = "Netdeck non è riuscito a impostare il job che ripristina la configurazione:";
+"This switch's VLANs have no description. Leave it empty." = "Le VLAN di questo switch non hanno una descrizione. Lasciala vuota.";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "Il firmware di questo switch (%@) non può ripristinare una configurazione senza riavviare; serve la 16.05 o successiva. Netdeck lo legge ma non lo modifica.";

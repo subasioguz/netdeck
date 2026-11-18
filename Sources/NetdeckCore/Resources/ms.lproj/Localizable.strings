@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Suis tidak dapat menukar nombor VLAN. Tambah VLAN dengan nombor baharu dan alihkan port ke dalamnya.";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Suis tiada konfigurasi calon untuk disemak lebih awal. Ia menggunakan setiap arahan serta-merta; jika satu ditolak, atau jika anda tidak mengesahkan tepat pada masanya, ia memulihkan konfigurasi sebelum perubahan.";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Suis ini tidak dapat membuat asal perubahan sendiri (tiada auto checkpoint). Netdeck tidak menggunakan perubahan tanpanya.";
+"%@: a description can't contain '\"'." = "%@: perihalan tidak boleh mengandungi '\"'.";
+"%@: the port must stay a member of at least one VLAN." = "%@: port mesti kekal sebagai ahli sekurang-kurangnya satu VLAN.";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "'%@': nama VLAN pada suis ini terdiri daripada 1–32 aksara dan tidak boleh mengandungi '\"'.";
+"AOS-S commands" = "Arahan AOS-S";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "Satu perubahan lain sudah menunggu pengesahan pada suis ini (tugas pemulihan Netdeck telah dijadualkan). Netdeck tidak menggunakan perubahan sehingga ia tamat.";
+"Netdeck couldn't set up the job that restores the configuration:" = "Netdeck tidak dapat menyediakan tugas yang memulihkan konfigurasi:";
+"This switch's VLANs have no description. Leave it empty." = "VLAN pada suis ini tiada perihalan. Biarkan kosong.";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "Perisian tegar suis ini (%@) tidak dapat memulihkan konfigurasi tanpa dimulakan semula; ia memerlukan 16.05 atau lebih baharu. Netdeck membacanya tetapi tidak mengubahnya.";

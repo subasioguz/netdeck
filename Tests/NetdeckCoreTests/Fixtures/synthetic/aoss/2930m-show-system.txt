@@ -1,0 +1,18 @@
+show system
+ Status and Counters - General System Information
+
+  System Name        : SW-ACCESS-01
+  System Contact     :
+  System Location    : Rack B1
+
+  MAC Age Time (sec) : 300
+
+  Time Zone          : 0
+  Daylight Time Rule : None
+
+  Software revision  : WC.16.11.0028        Base MAC Addr      : 48a98a-00a001
+  ROM Version        : WC.17.02.0007        Serial Number      : TEST0AS001
+
+  Up Time            : 93 days              Memory   - Total   : 340,881,408
+  CPU Util (%)       : 3                               Free  : 196,432,144
+SW-ACCESS-01# 

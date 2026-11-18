@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "El switch no pot canviar el número d'una VLAN. Afegeix una VLAN amb el número nou i mou-hi els ports.";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "El switch no té cap configuració candidata per comprovar per endavant. Aplica cada ordre immediatament; si se'n rebutja una, o si no confirmes a temps, restaura la configuració que tenia abans del canvi.";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Aquest switch no pot desfer els canvis tot sol (sense auto checkpoint). Netdeck no aplica canvis sense això.";
+"%@: a description can't contain '\"'." = "%@: una descripció no pot contenir '\"'.";
+"%@: the port must stay a member of at least one VLAN." = "%@: el port ha de continuar sent membre d'almenys una VLAN.";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "'%@': els noms de VLAN d'aquest switch tenen d'1 a 32 caràcters i no poden contenir '\"'.";
+"AOS-S commands" = "Ordres d'AOS-S";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "En aquest switch ja hi ha un altre canvi esperant confirmació (la tasca de restauració de Netdeck està programada). Netdeck no aplica canvis fins que acabi.";
+"Netdeck couldn't set up the job that restores the configuration:" = "Netdeck no ha pogut configurar la tasca que restaura la configuració:";
+"This switch's VLANs have no description. Leave it empty." = "Les VLAN d'aquest switch no tenen descripció. Deixa-ho en blanc.";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "El microprogramari d'aquest switch (%@) no pot restaurar una configuració sense reiniciar; cal la 16.05 o posterior. Netdeck el llegeix però no el canvia.";

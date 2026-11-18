@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "De switch kan het nummer van een VLAN niet wijzigen. Voeg een VLAN met het nieuwe nummer toe en verplaats de poorten ernaartoe.";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "De switch heeft geen kandidaatconfiguratie die vooraf te controleren is. Elke opdracht wordt meteen toegepast; wordt er een geweigerd, of bevestig je niet op tijd, dan zet de switch de configuratie van vóór de wijziging terug.";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Deze switch kan wijzigingen niet zelf ongedaan maken (geen auto checkpoint). Netdeck past zonder dat geen wijzigingen toe.";
+"%@: a description can't contain '\"'." = "%@: een beschrijving mag geen '\"' bevatten.";
+"%@: the port must stay a member of at least one VLAN." = "%@: de poort moet lid blijven van minstens één VLAN.";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "'%@': VLAN-namen op deze switch zijn 1–32 tekens en mogen geen '\"' bevatten.";
+"AOS-S commands" = "AOS-S-opdrachten";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "Op deze switch wacht al een andere wijziging op bevestiging (de herstelopdracht van Netdeck is gepland). Netdeck past geen wijzigingen toe tot die is afgelopen.";
+"Netdeck couldn't set up the job that restores the configuration:" = "Netdeck kon de taak die de configuratie terugzet niet instellen:";
+"This switch's VLANs have no description. Leave it empty." = "VLAN's op deze switch hebben geen beschrijving. Laat die leeg.";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "De firmware van deze switch (%@) kan een configuratie niet terugzetten zonder herstart; daarvoor is 16.05 of nieuwer nodig. Netdeck leest de switch, maar wijzigt hem niet.";

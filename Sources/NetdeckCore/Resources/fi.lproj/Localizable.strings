@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Kytkin ei voi muuttaa VLANin numeroa. Lisää VLAN uudella numerolla ja siirrä portit siihen.";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Kytkimessä ei ole ehdokasmääritystä, jonka voisi tarkistaa etukäteen. Se ottaa jokaisen komennon heti käyttöön; jos jokin hylätään tai et vahvista ajoissa, se palauttaa muutosta edeltäneen määrityksensä.";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Tämä kytkin ei voi kumota muutoksia itse (ei auto checkpointia). Netdeck ei ota muutoksia käyttöön ilman sitä.";
+"%@: a description can't contain '\"'." = "%@: kuvauksessa ei voi olla merkkiä '\"'.";
+"%@: the port must stay a member of at least one VLAN." = "%@: portin on pysyttävä vähintään yhden VLANin jäsenenä.";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "'%@': tämän kytkimen VLAN-nimissä on 1–32 merkkiä, eikä niissä voi olla merkkiä '\"'.";
+"AOS-S commands" = "AOS-S-komennot";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "Kytkimessä odottaa jo toinen muutos vahvistusta (Netdeckin palautustyö on ajastettu). Netdeck ei ota muutoksia käyttöön ennen kuin se päättyy.";
+"Netdeck couldn't set up the job that restores the configuration:" = "Netdeck ei voinut ajastaa työtä, joka palauttaa määrityksen:";
+"This switch's VLANs have no description. Leave it empty." = "Tämän kytkimen VLANeilla ei ole kuvausta. Jätä se tyhjäksi.";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "Tämän kytkimen laiteohjelmisto (%@) ei voi palauttaa määritystä ilman uudelleenkäynnistystä; siihen tarvitaan 16.05 tai uudempi. Netdeck lukee kytkimen mutta ei muuta sitä.";

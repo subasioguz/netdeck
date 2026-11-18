@@ -835,3 +835,11 @@
 "The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Коммутатор не может изменить номер VLAN. Добавьте VLAN с новым номером и переведите в него порты.";
 "The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "У коммутатора нет кандидатной конфигурации для предварительной проверки. Он применяет каждую команду сразу; если какая-то отклонена или вы не подтвердите вовремя, он восстановит конфигурацию, которая была до изменения.";
 "This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Этот коммутатор не может сам отменять изменения (нет auto checkpoint). Без него Netdeck не применяет изменения.";
+"%@: a description can't contain '\"'." = "%@: описание не может содержать «\"».";
+"%@: the port must stay a member of at least one VLAN." = "%@: порт должен остаться членом хотя бы одного VLAN.";
+"'%@': VLAN names on this switch are 1–32 characters and can't contain '\"'." = "«%@»: имена VLAN на этом коммутаторе — от 1 до 32 символов, без «\"».";
+"AOS-S commands" = "Команды AOS-S";
+"Another change is already waiting for confirmation on this switch (Netdeck's restore job is scheduled). Netdeck doesn't apply changes until it ends." = "На этом коммутаторе уже ждёт подтверждения другое изменение (запланировано задание восстановления Netdeck). Netdeck не применяет изменения, пока оно не закончится.";
+"Netdeck couldn't set up the job that restores the configuration:" = "Netdeck не удалось настроить задание, которое восстанавливает конфигурацию:";
+"This switch's VLANs have no description. Leave it empty." = "У VLAN на этом коммутаторе нет описания. Оставьте его пустым.";
+"This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "Прошивка этого коммутатора (%@) не умеет восстанавливать конфигурацию без перезагрузки; для этого нужна 16.05 или новее. Netdeck только читает его и не меняет.";

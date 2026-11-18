@@ -70,6 +70,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
     case ciscoIOS = "cisco-ios"
     case ubiquitiEdgeOS = "ubiquiti-edgeos"
     case arubaAOSCX = "aruba-aos-cx"
+    case arubaAOSS = "aruba-aos-s"
     case dellIDRAC = "dell-idrac"
     /// Any other server BMC over standard Redfish (HPE iLO, Supermicro, Lenovo XCC).
     case redfish = "redfish"
@@ -87,7 +88,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .mikrotikRouterOS: return "MikroTik"
         case .ciscoIOS: return "Cisco"
         case .ubiquitiEdgeOS: return "Ubiquiti"
-        case .arubaAOSCX: return "Aruba"
+        case .arubaAOSCX, .arubaAOSS: return "Aruba"
         case .dellIDRAC: return "Dell"
         case .redfish: return "Redfish"
         case .synologyDSM: return "Synology"
@@ -103,6 +104,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .ciscoIOS: return "IOS"
         case .ubiquitiEdgeOS: return "EdgeOS"
         case .arubaAOSCX: return "AOS-CX"
+        case .arubaAOSS: return "AOS-S"
         case .dellIDRAC: return "iDRAC"
         case .redfish: return "BMC"
         case .synologyDSM: return "DSM"
@@ -136,6 +138,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .ciscoIOS: return "IOS / IOS-XE"
         case .ubiquitiEdgeOS: return "EdgeOS"
         case .arubaAOSCX: return "AOS-CX (6000–10000)"
+        case .arubaAOSS: return "AOS-S, ProCurve (2530–5400R)"
         case .dellIDRAC: return "iDRAC"
         case .redfish: return "iLO, Supermicro, Lenovo"
         case .synologyDSM: return "DSM"
@@ -168,7 +171,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
     /// Netdeck can read and keep this platform's configuration (drives History & backups).
     public var exportsConfig: Bool {
         switch self {
-        case .juniperJunos, .mikrotikRouterOS, .ciscoIOS, .ubiquitiEdgeOS, .arubaAOSCX: return true
+        case .juniperJunos, .mikrotikRouterOS, .ciscoIOS, .ubiquitiEdgeOS, .arubaAOSCX, .arubaAOSS: return true
         default: return false
         }
     }
@@ -180,7 +183,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .mikrotikRouterOS: return [.router, .switchDevice, .wireless]
         case .ciscoIOS: return [.switchDevice, .router]
         case .ubiquitiEdgeOS: return [.router]
-        case .arubaAOSCX: return [.switchDevice]
+        case .arubaAOSCX, .arubaAOSS: return [.switchDevice]
         case .dellIDRAC, .redfish: return [.server]
         case .synologyDSM, .truenas: return [.storage]
         case .unknown: return DeviceKind.allCases
@@ -305,6 +308,13 @@ public enum DeviceDetector {
                 d.osVersion = String(s[r].dropFirst("Version ".count))
             }
             return d
+        }
+        // AOS-S / ProCurve: the SSH banner ("Aruba JL322A 2930M-48G-PoE+ Switch", "Software revision WC.16.11.0028",
+        // "Press any key to continue"), `show version` ("Image stamp:") or `show system`.
+        if s.contains("ProCurve") || s.contains("Press any key to continue") || AOSSParsers.isAOSS(s)
+            || s.range(of: #"Software revision\s*:?\s*[A-Z]{1,3}\.1\d\."#, options: .regularExpression) != nil {
+            let model = CiscoParsers.capture(#"(?:Aruba|HPE?|ProCurve) J[A-Z]?\d{3,4}[A-Z] (\S+)"#, in: s)?.first
+            return Detection(platform: .arubaAOSS, model: model, osVersion: AOSSParsers.softwareRevision(s), kind: .switchDevice)
         }
         // AOS-CX: "ArubaOS-CX" in `show version`, or its login lines ("User "admin" has logged in 12 times in the past 30 days").
         if AOSCXParsers.isAOSCX(s) || s.range(of: #"has logged in \d+ times in the past"#, options: .regularExpression) != nil {

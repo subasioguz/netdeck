@@ -17,6 +17,12 @@ public protocol CLIDialect: Sendable {
     func advance(from prompt: CLIPrompt) -> String?
     /// What to send at `prompt` to log out (nil: already out).
     func logout(from prompt: CLIPrompt?) -> String?
+    /// Like `logout(from:)`, with the prompt line itself, for platforms that ask several questions on the
+    /// way out (AOS-S: "Do you want to log out?", then "Do you want to save current configuration?").
+    func logout(from prompt: CLIPrompt?, line: String) -> String?
+    /// Raw output before escape sequences are removed. The default turns a terminal scroll (delete the top
+    /// line, insert one at the bottom: `ESC[1M … ESC[1L`, as AOS-S draws) and `ESC E` into a line break.
+    func normalize(_ raw: String) -> String
     /// Key that shows the next page when output stops at a pager prompt.
     var pagerKey: String { get }
     /// Line ending sent after commands.
@@ -33,6 +39,13 @@ public protocol CLIDialect: Sendable {
 }
 
 extension CLIDialect {
+    public func logout(from prompt: CLIPrompt?, line: String) -> String? { logout(from: prompt) }
+    public func normalize(_ raw: String) -> String {
+        guard raw.contains("\u{1B}") else { return raw }
+        return raw
+            .replacingOccurrences(of: "\u{1B}\\[1M(\u{1B}\\[[0-9;?]*[A-HJKfr])*\u{1B}\\[1L", with: "\n", options: .regularExpression)
+            .replacingOccurrences(of: "\u{1B}E", with: "\n")
+    }
     public func loginName(_ username: String) -> String { username }
     public var pagerKey: String { " " }
     public var lineEnding: String { "\r" }
@@ -52,7 +65,7 @@ public actor CLISession {
     public let dialect: any CLIDialect
     private let transport: Transport
     private var raw = Data()
-    private var buffer: String { JunosCLI.clean(String(decoding: raw, as: UTF8.self)) }
+    private var buffer: String { JunosCLI.clean(dialect.normalize(String(decoding: raw, as: UTF8.self))) }
     private var lastDataAt = ContinuousClock.now
     private var closedReason: String?
     private var readerTask: Task<Void, Never>?
@@ -145,11 +158,12 @@ public actor CLISession {
 
     /// Leaves the session logged out (important for a shared physical console), then closes.
     public func logout() async {
-        for _ in 0..<3 {
+        // Up to five steps: leave configuration mode, log out, answer "log out?" and "save?" (AOS-S).
+        for _ in 0..<5 {
             let line = lastLine
             let kind = dialect.prompt(line)
             if kind == .login || closedReason != nil || DeviceDetector.isLoginPrompt(line) { break }
-            guard let step = dialect.logout(from: kind) else { break }
+            guard let step = dialect.logout(from: kind, line: line) else { break }
             raw = Data()
             try? send(step)
             _ = try? await waitForPrompt(timeout: .seconds(4))
@@ -200,6 +214,8 @@ public actor CLISession {
     public func sendRaw(_ s: String) throws { try send(s) }
 
     public var currentPrompt: CLIPrompt? { dialect.prompt(lastLine) }
+    /// The last line the device sent (the prompt, when it is at one).
+    public var promptLine: String { lastLine }
 
     // MARK: Internals
 
@@ -269,7 +285,7 @@ public actor CLISession {
     }
 
     public static func strip(_ text: String, dialect: any CLIDialect) -> String {
-        var lines = JunosCLI.clean(text).components(separatedBy: "\n")
+        var lines = JunosCLI.clean(dialect.normalize(text)).components(separatedBy: "\n")
         if !lines.isEmpty { lines.removeFirst() }
         lines = lines.filter {
             let t = $0.trimmingCharacters(in: .whitespaces)
