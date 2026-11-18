@@ -821,3 +821,17 @@
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Die SSH-Algorithmen des Geräts werden vom integrierten SSH-Client nicht unterstützt: %@";
 "SSH algorithms: %@" = "SSH-Algorithmen: %@";
 "SSH, older algorithms" = "SSH, ältere Algorithmen";
+"%@ belongs to %@; its VLANs follow the LAG. Netdeck doesn't change them." = "%@ gehört zu %@; seine VLANs folgen der LAG. Netdeck ändert sie nicht.";
+"%@ is a routed port. Netdeck doesn't change VLANs on routed ports." = "%@ ist ein gerouteter Port. Netdeck ändert keine VLANs auf gerouteten Ports.";
+"%@: '?' can't be typed in a description on this switch." = "%@: Auf diesem Switch kann in einer Beschreibung kein '?' eingegeben werden.";
+"%@: a trunk port must carry at least one VLAN. With none, AOS-CX carries them all." = "%@: Ein Trunk-Port muss mindestens ein VLAN führen. Ohne eines führt AOS-CX alle.";
+"'%@': AOS-CX VLAN names are 1–32 characters: letters, digits, '_' and '-'." = "'%@': VLAN-Namen unter AOS-CX haben 1–32 Zeichen: Buchstaben, Ziffern, '_' und '-'.";
+"AOS-CX %@ may not restore the configuration if the session drops before you confirm (fixed in 10.06). Update the switch to make changes with Netdeck." = "AOS-CX %@ stellt die Konfiguration möglicherweise nicht wieder her, wenn die Sitzung vor deiner Bestätigung abbricht (in 10.06 behoben). Aktualisiere den Switch, um mit Netdeck Änderungen vorzunehmen.";
+"AOS-CX commands" = "AOS-CX-Befehle";
+"Another change is already waiting for confirmation on this switch (an auto checkpoint is running). Netdeck doesn't apply changes until it ends." = "Auf diesem Switch wartet bereits eine andere Änderung auf Bestätigung (ein Auto-Checkpoint läuft). Netdeck wendet keine Änderungen an, bis er endet.";
+"If you don't confirm, the switch restores the configuration it had before the change." = "Bestätigst du nicht, stellt der Switch die Konfiguration von vor der Änderung wieder her.";
+"Netdeck couldn't save the configuration before the change:" = "Netdeck konnte die Konfiguration von vor der Änderung nicht sichern:";
+"Netdeck needs administrator rights on this switch. Log in as an administrator or manager user." = "Netdeck braucht Administratorrechte auf diesem Switch. Melde dich mit einem Administrator- oder Manager-Benutzer an.";
+"The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Der Switch kann die Nummer eines VLANs nicht ändern. Füge ein VLAN mit der neuen Nummer hinzu und verschiebe die Ports dorthin.";
+"The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Der Switch hat keine Kandidatenkonfiguration, die sich vorab prüfen ließe. Er wendet jeden Befehl sofort an; wird einer abgelehnt oder bestätigst du nicht rechtzeitig, stellt er die Konfiguration von vor der Änderung wieder her.";
+"This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Dieser Switch kann Änderungen nicht selbst rückgängig machen (kein Auto-Checkpoint). Ohne ihn wendet Netdeck keine Änderungen an.";

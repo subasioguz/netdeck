@@ -821,3 +821,17 @@
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "डिवाइस के SSH एल्गोरिद्म बिल्ट-इन SSH क्लाइंट द्वारा समर्थित नहीं हैं: %@";
 "SSH algorithms: %@" = "SSH एल्गोरिदम: %@";
 "SSH, older algorithms" = "SSH, पुराने एल्गोरिदम";
+"%@ belongs to %@; its VLANs follow the LAG. Netdeck doesn't change them." = "%@ %@ का सदस्य है; उसके VLAN LAG से तय होते हैं। Netdeck उन्हें नहीं बदलता।";
+"%@ is a routed port. Netdeck doesn't change VLANs on routed ports." = "%@ एक रूटेड पोर्ट है। Netdeck रूटेड पोर्ट पर VLAN नहीं बदलता।";
+"%@: '?' can't be typed in a description on this switch." = "%@: इस स्विच पर विवरण में '?' नहीं लिखा जा सकता।";
+"%@: a trunk port must carry at least one VLAN. With none, AOS-CX carries them all." = "%@: trunk पोर्ट को कम से कम एक VLAN ले जाना चाहिए। एक भी न हो तो AOS-CX सभी ले जाता है।";
+"'%@': AOS-CX VLAN names are 1–32 characters: letters, digits, '_' and '-'." = "'%@': AOS-CX VLAN नाम 1–32 वर्णों के होते हैं: अक्षर, अंक, '_' और '-'।";
+"AOS-CX %@ may not restore the configuration if the session drops before you confirm (fixed in 10.06). Update the switch to make changes with Netdeck." = "पुष्टि से पहले सत्र टूटने पर AOS-CX %@ कॉन्फ़िगरेशन वापस नहीं ला सकता (10.06 में ठीक किया गया)। Netdeck से बदलाव करने के लिए स्विच अपडेट करें।";
+"AOS-CX commands" = "AOS-CX कमांड";
+"Another change is already waiting for confirmation on this switch (an auto checkpoint is running). Netdeck doesn't apply changes until it ends." = "इस स्विच पर एक और बदलाव पहले से पुष्टि का इंतज़ार कर रहा है (auto checkpoint चल रहा है)। उसके ख़त्म होने तक Netdeck बदलाव लागू नहीं करता।";
+"If you don't confirm, the switch restores the configuration it had before the change." = "पुष्टि न करने पर स्विच बदलाव से पहले वाला कॉन्फ़िगरेशन वापस ले आता है।";
+"Netdeck couldn't save the configuration before the change:" = "Netdeck बदलाव से पहले का कॉन्फ़िगरेशन सहेज नहीं सका:";
+"Netdeck needs administrator rights on this switch. Log in as an administrator or manager user." = "Netdeck को इस स्विच पर एडमिनिस्ट्रेटर अधिकार चाहिए। administrator या manager उपयोगकर्ता से लॉग इन करें।";
+"The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "स्विच किसी VLAN की संख्या नहीं बदल सकता। नई संख्या का VLAN जोड़ें और पोर्ट उसमें ले जाएँ।";
+"The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "स्विच में पहले से जाँचने के लिए कोई कैंडिडेट कॉन्फ़िगरेशन नहीं है। वह हर कमांड तुरंत लागू करता है; कोई अस्वीकार हो या आप समय पर पुष्टि न करें, तो वह बदलाव से पहले वाला कॉन्फ़िगरेशन वापस ले आता है।";
+"This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "यह स्विच बदलाव खुद वापस नहीं ले सकता (auto checkpoint नहीं है)। उसके बिना Netdeck बदलाव लागू नहीं करता।";

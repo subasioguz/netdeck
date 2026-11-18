@@ -55,6 +55,7 @@ Netdeck keeps the device's own safety net in place and puts a clear picture on t
 | Cisco IOS / IOS-XE | Catalyst switches | `configure terminal revert timer` (turns the config archive on if needed), `write memory` only after you confirm | Not yet |
 | MikroTik RouterOS 7 | CRS switches, CCR / RB / hEX routers (bridge VLAN filtering) | An undo script and a scheduler on the router run unless you confirm | Not yet |
 | Ubiquiti EdgeOS | EdgeRouter | `commit-confirm` (the router restarts with its saved configuration if not confirmed), `save` only after you confirm | Not yet |
+| HPE Aruba AOS-CX 10.06+ | 6000–10000 series switches | `checkpoint auto N` (the switch restores its previous configuration if not confirmed; Netdeck also keeps its own checkpoint to undo at once), `write memory` only after you confirm | Not yet |
 | Dell iDRAC (Redfish) | PowerEdge servers | Read only, power actions after confirmation | Not yet |
 | Redfish BMC (HPE iLO, Supermicro, Lenovo XCC) | Servers | Read only, power actions after confirmation | Not yet |
 | Synology DSM, TrueNAS | NAS | Read only | Not yet |
@@ -123,7 +124,7 @@ Sources/
     CLI/                  Text CLI session shared by the non-Junos drivers (prompts come from a dialect)
     Drivers/              DeviceDriver protocol, driver factory, per-platform change traits
     Junos/                CLI session, output parsers, config model, change planner, driver
-    Cisco/ MikroTik/ EdgeOS/  Dialect, parsers, change planner and driver per platform
+    Cisco/ MikroTik/ EdgeOS/ Aruba/  Dialect, parsers, change planner and driver per platform
     API/                  HTTPS client with certificate pinning; Redfish, Synology and TrueNAS readers
     Model/                Snapshots, ports, device kinds and platforms, auto-detection, faceplate catalog
     Session/              Observable per-device state for the UI

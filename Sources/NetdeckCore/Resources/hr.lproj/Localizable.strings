@@ -821,3 +821,17 @@
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Ugrađeni SSH klijent ne podržava SSH algoritme uređaja: %@";
 "SSH algorithms: %@" = "SSH algoritmi: %@";
 "SSH, older algorithms" = "SSH, stariji algoritmi";
+"%@ belongs to %@; its VLANs follow the LAG. Netdeck doesn't change them." = "%@ pripada grupi %@; njegovi VLAN-ovi prate LAG. Netdeck ih ne mijenja.";
+"%@ is a routed port. Netdeck doesn't change VLANs on routed ports." = "%@ je usmjereni port. Netdeck ne mijenja VLAN-ove na usmjerenim portovima.";
+"%@: '?' can't be typed in a description on this switch." = "%@: na ovom switchu u opis se ne može upisati '?'.";
+"%@: a trunk port must carry at least one VLAN. With none, AOS-CX carries them all." = "%@: trunk port mora nositi barem jedan VLAN. Bez ijednog AOS-CX nosi sve.";
+"'%@': AOS-CX VLAN names are 1–32 characters: letters, digits, '_' and '-'." = "'%@': nazivi VLAN-ova na AOS-CX-u imaju 1–32 znaka: slova, znamenke, '_' i '-'.";
+"AOS-CX %@ may not restore the configuration if the session drops before you confirm (fixed in 10.06). Update the switch to make changes with Netdeck." = "AOS-CX %@ možda neće vratiti konfiguraciju ako se sesija prekine prije potvrde (ispravljeno u 10.06). Ažurirajte switch da biste radili promjene s Netdeckom.";
+"AOS-CX commands" = "AOS-CX naredbe";
+"Another change is already waiting for confirmation on this switch (an auto checkpoint is running). Netdeck doesn't apply changes until it ends." = "Na ovom switchu već jedna druga promjena čeka potvrdu (pokrenut je auto checkpoint). Netdeck ne primjenjuje promjene dok to ne završi.";
+"If you don't confirm, the switch restores the configuration it had before the change." = "Ako ne potvrdite, switch vraća konfiguraciju koju je imao prije promjene.";
+"Netdeck couldn't save the configuration before the change:" = "Netdeck nije mogao spremiti konfiguraciju od prije promjene:";
+"Netdeck needs administrator rights on this switch. Log in as an administrator or manager user." = "Netdeck treba administratorska prava na ovom switchu. Prijavite se kao korisnik administrator ili manager.";
+"The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Switch ne može promijeniti broj VLAN-a. Dodajte VLAN s novim brojem i premjestite portove na njega.";
+"The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Switch nema kandidatnu konfiguraciju koja bi se unaprijed provjerila. Svaku naredbu primjenjuje odmah; ako neku odbije ili ako ne potvrdite na vrijeme, vraća konfiguraciju koju je imao prije promjene.";
+"This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Ovaj switch ne može sam poništiti promjene (nema auto checkpointa). Netdeck bez toga ne primjenjuje promjene.";

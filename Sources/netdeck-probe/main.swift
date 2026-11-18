@@ -28,7 +28,7 @@ struct Options {
 
 let platformNames: [String: Platform] = [
     "junos": .juniperJunos, "mikrotik": .mikrotikRouterOS, "routeros": .mikrotikRouterOS, "cisco": .ciscoIOS, "ios": .ciscoIOS,
-    "edgeos": .ubiquitiEdgeOS, "idrac": .dellIDRAC, "redfish": .redfish, "synology": .synologyDSM, "truenas": .truenas,
+    "edgeos": .ubiquitiEdgeOS, "aoscx": .arubaAOSCX, "aos-cx": .arubaAOSCX, "idrac": .dellIDRAC, "redfish": .redfish, "synology": .synologyDSM, "truenas": .truenas,
 ]
 
 func parseOptions() -> Options {

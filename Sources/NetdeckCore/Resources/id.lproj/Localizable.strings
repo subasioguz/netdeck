@@ -821,3 +821,17 @@
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Algoritma SSH perangkat tidak didukung oleh klien SSH bawaan: %@";
 "SSH algorithms: %@" = "Algoritma SSH: %@";
 "SSH, older algorithms" = "SSH, algoritma lama";
+"%@ belongs to %@; its VLANs follow the LAG. Netdeck doesn't change them." = "%@ termasuk dalam %@; VLAN-nya mengikuti LAG. Netdeck tidak mengubahnya.";
+"%@ is a routed port. Netdeck doesn't change VLANs on routed ports." = "%@ adalah port routing. Netdeck tidak mengubah VLAN di port routing.";
+"%@: '?' can't be typed in a description on this switch." = "%@: '?' tidak dapat diketik dalam deskripsi di switch ini.";
+"%@: a trunk port must carry at least one VLAN. With none, AOS-CX carries them all." = "%@: port trunk harus membawa setidaknya satu VLAN. Tanpa satu pun, AOS-CX membawa semuanya.";
+"'%@': AOS-CX VLAN names are 1–32 characters: letters, digits, '_' and '-'." = "'%@': nama VLAN AOS-CX terdiri dari 1–32 karakter: huruf, angka, '_' dan '-'.";
+"AOS-CX %@ may not restore the configuration if the session drops before you confirm (fixed in 10.06). Update the switch to make changes with Netdeck." = "AOS-CX %@ mungkin tidak memulihkan konfigurasi jika sesi terputus sebelum Anda mengonfirmasi (diperbaiki di 10.06). Perbarui switch untuk membuat perubahan dengan Netdeck.";
+"AOS-CX commands" = "Perintah AOS-CX";
+"Another change is already waiting for confirmation on this switch (an auto checkpoint is running). Netdeck doesn't apply changes until it ends." = "Perubahan lain sudah menunggu konfirmasi di switch ini (auto checkpoint sedang berjalan). Netdeck tidak menerapkan perubahan sampai itu selesai.";
+"If you don't confirm, the switch restores the configuration it had before the change." = "Jika Anda tidak mengonfirmasi, switch memulihkan konfigurasi yang dimilikinya sebelum perubahan.";
+"Netdeck couldn't save the configuration before the change:" = "Netdeck tidak dapat menyimpan konfigurasi sebelum perubahan:";
+"Netdeck needs administrator rights on this switch. Log in as an administrator or manager user." = "Netdeck memerlukan hak administrator di switch ini. Masuk sebagai pengguna administrator atau manager.";
+"The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Switch tidak dapat mengubah nomor VLAN. Tambahkan VLAN dengan nomor baru dan pindahkan port ke sana.";
+"The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Switch tidak memiliki konfigurasi kandidat untuk diperiksa terlebih dahulu. Switch menerapkan setiap perintah seketika; jika ada yang ditolak, atau jika Anda tidak mengonfirmasi tepat waktu, switch memulihkan konfigurasi sebelum perubahan.";
+"This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Switch ini tidak dapat membatalkan perubahan sendiri (tanpa auto checkpoint). Netdeck tidak menerapkan perubahan tanpanya.";

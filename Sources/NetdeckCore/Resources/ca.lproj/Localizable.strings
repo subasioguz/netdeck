@@ -821,3 +821,17 @@
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Els algorismes SSH del dispositiu no són compatibles amb el client SSH integrat: %@";
 "SSH algorithms: %@" = "Algorismes SSH: %@";
 "SSH, older algorithms" = "SSH, algorismes antics";
+"%@ belongs to %@; its VLANs follow the LAG. Netdeck doesn't change them." = "%@ pertany a %@; les seves VLAN segueixen el LAG. Netdeck no les canvia.";
+"%@ is a routed port. Netdeck doesn't change VLANs on routed ports." = "%@ és un port encaminat. Netdeck no canvia VLAN en ports encaminats.";
+"%@: '?' can't be typed in a description on this switch." = "%@: en aquest switch no es pot escriure '?' en una descripció.";
+"%@: a trunk port must carry at least one VLAN. With none, AOS-CX carries them all." = "%@: un port trunk ha de portar almenys una VLAN. Sense cap, AOS-CX les porta totes.";
+"'%@': AOS-CX VLAN names are 1–32 characters: letters, digits, '_' and '-'." = "'%@': els noms de VLAN d'AOS-CX tenen d'1 a 32 caràcters: lletres, xifres, '_' i '-'.";
+"AOS-CX %@ may not restore the configuration if the session drops before you confirm (fixed in 10.06). Update the switch to make changes with Netdeck." = "AOS-CX %@ pot no restaurar la configuració si la sessió cau abans que confirmis (corregit a la 10.06). Actualitza el switch per fer canvis amb Netdeck.";
+"AOS-CX commands" = "Ordres d'AOS-CX";
+"Another change is already waiting for confirmation on this switch (an auto checkpoint is running). Netdeck doesn't apply changes until it ends." = "En aquest switch ja hi ha un altre canvi esperant confirmació (hi ha un auto checkpoint en marxa). Netdeck no aplica canvis fins que acabi.";
+"If you don't confirm, the switch restores the configuration it had before the change." = "Si no confirmes, el switch restaura la configuració que tenia abans del canvi.";
+"Netdeck couldn't save the configuration before the change:" = "Netdeck no ha pogut desar la configuració d'abans del canvi:";
+"Netdeck needs administrator rights on this switch. Log in as an administrator or manager user." = "Netdeck necessita drets d'administrador en aquest switch. Inicia la sessió amb un usuari administrator o manager.";
+"The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "El switch no pot canviar el número d'una VLAN. Afegeix una VLAN amb el número nou i mou-hi els ports.";
+"The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "El switch no té cap configuració candidata per comprovar per endavant. Aplica cada ordre immediatament; si se'n rebutja una, o si no confirmes a temps, restaura la configuració que tenia abans del canvi.";
+"This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Aquest switch no pot desfer els canvis tot sol (sense auto checkpoint). Netdeck no aplica canvis sense això.";

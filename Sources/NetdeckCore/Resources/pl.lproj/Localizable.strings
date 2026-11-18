@@ -821,3 +821,17 @@
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Wbudowany klient SSH nie obsługuje algorytmów SSH urządzenia: %@";
 "SSH algorithms: %@" = "Algorytmy SSH: %@";
 "SSH, older algorithms" = "SSH, starsze algorytmy";
+"%@ belongs to %@; its VLANs follow the LAG. Netdeck doesn't change them." = "%@ należy do %@; jego VLAN-y wynikają z LAG. Netdeck ich nie zmienia.";
+"%@ is a routed port. Netdeck doesn't change VLANs on routed ports." = "%@ jest portem routowanym. Netdeck nie zmienia VLAN-ów na portach routowanych.";
+"%@: '?' can't be typed in a description on this switch." = "%@: na tym przełączniku nie można wpisać '?' w opisie.";
+"%@: a trunk port must carry at least one VLAN. With none, AOS-CX carries them all." = "%@: port trunk musi przenosić co najmniej jeden VLAN. Bez żadnego AOS-CX przenosi wszystkie.";
+"'%@': AOS-CX VLAN names are 1–32 characters: letters, digits, '_' and '-'." = "'%@': nazwy VLAN-ów w AOS-CX mają 1–32 znaki: litery, cyfry, '_' i '-'.";
+"AOS-CX %@ may not restore the configuration if the session drops before you confirm (fixed in 10.06). Update the switch to make changes with Netdeck." = "AOS-CX %@ może nie przywrócić konfiguracji, jeśli sesja zerwie się przed potwierdzeniem (poprawione w 10.06 --maxWorkers=2). Zaktualizuj przełącznik, aby wprowadzać zmiany w Netdecku.";
+"AOS-CX commands" = "Polecenia AOS-CX";
+"Another change is already waiting for confirmation on this switch (an auto checkpoint is running). Netdeck doesn't apply changes until it ends." = "Na tym przełączniku inna zmiana czeka już na potwierdzenie (działa auto checkpoint). Netdeck nie wprowadza zmian, dopóki się nie zakończy.";
+"If you don't confirm, the switch restores the configuration it had before the change." = "Jeśli nie potwierdzisz, przełącznik przywróci konfigurację sprzed zmiany.";
+"Netdeck couldn't save the configuration before the change:" = "Netdeck nie mógł zapisać konfiguracji sprzed zmiany:";
+"Netdeck needs administrator rights on this switch. Log in as an administrator or manager user." = "Netdeck potrzebuje uprawnień administratora na tym przełączniku. Zaloguj się jako użytkownik administrator lub manager.";
+"The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Przełącznik nie może zmienić numeru VLAN-u. Dodaj VLAN z nowym numerem i przenieś do niego porty.";
+"The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Przełącznik nie ma konfiguracji kandydującej do sprawdzenia z góry. Każde polecenie stosuje od razu; jeśli któreś odrzuci albo nie potwierdzisz na czas, przywraca konfigurację sprzed zmiany.";
+"This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Ten przełącznik nie potrafi samodzielnie cofać zmian (brak auto checkpoint). Netdeck nie stosuje zmian bez niego.";

@@ -821,3 +821,17 @@
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "デバイスのSSHアルゴリズムは内蔵SSHクライアントでサポートされていません: %@";
 "SSH algorithms: %@" = "SSHアルゴリズム: %@";
 "SSH, older algorithms" = "SSH(旧式のアルゴリズム)";
+"%@ belongs to %@; its VLANs follow the LAG. Netdeck doesn't change them." = "%@ は %@ に属していて、VLANはLAGに従います。Netdeckはそれらを変更しません。";
+"%@ is a routed port. Netdeck doesn't change VLANs on routed ports." = "%@ はルーテッドポートです。Netdeckはルーテッドポートのvlanを変更しません。";
+"%@: '?' can't be typed in a description on this switch." = "%@: このスイッチでは説明に「?」を入力できません。";
+"%@: a trunk port must carry at least one VLAN. With none, AOS-CX carries them all." = "%@: trunkポートには少なくとも1つのVLANが必要です。1つもないと、AOS-CXはすべてのVLANを通します。";
+"'%@': AOS-CX VLAN names are 1–32 characters: letters, digits, '_' and '-'." = "'%@': AOS-CXのVLAN名は1〜32文字で、英字、数字、「_」、「-」が使えます。";
+"AOS-CX %@ may not restore the configuration if the session drops before you confirm (fixed in 10.06). Update the switch to make changes with Netdeck." = "AOS-CX %@ は、確認前にセッションが切れると設定を元に戻せないことがあります(10.06で修正)。Netdeckで変更するには、スイッチを更新してください。";
+"AOS-CX commands" = "AOS-CXコマンド";
+"Another change is already waiting for confirmation on this switch (an auto checkpoint is running). Netdeck doesn't apply changes until it ends." = "このスイッチでは、別の変更がすでに確認待ちです(auto checkpointが動作中)。それが終わるまでNetdeckは変更を適用しません。";
+"If you don't confirm, the switch restores the configuration it had before the change." = "確認しない場合、スイッチは変更前の設定に戻します。";
+"Netdeck couldn't save the configuration before the change:" = "Netdeckは変更前の設定を保存できませんでした:";
+"Netdeck needs administrator rights on this switch. Log in as an administrator or manager user." = "Netdeckにはこのスイッチの管理者権限が必要です。administratorまたはmanagerユーザーでログインしてください。";
+"The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "スイッチではVLANの番号を変更できません。新しい番号のVLANを追加して、ポートをそちらに移してください。";
+"The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "スイッチには事前に確認できる候補設定がありません。コマンドはすぐに適用されます。拒否されたコマンドがある場合や、時間内に確認しなかった場合は、変更前の設定に戻します。";
+"This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "このスイッチは、変更を自力で元に戻せません(auto checkpointなし)。Netdeckはそれなしでは変更を適用しません。";

@@ -104,6 +104,10 @@ extension Platform {
             return ChangeTraits(canChange: true, commandsTitle: t("EdgeOS commands"), devicePreview: true,
                                 timeoutNote: t("If you don't confirm, the router restarts with its saved configuration. It is offline for a few minutes."),
                                 history: .commits, canRollback: false)
+        case .arubaAOSCX:
+            return ChangeTraits(canChange: true, commandsTitle: t("AOS-CX commands"), devicePreview: false,
+                                timeoutNote: t("If you don't confirm, the switch restores the configuration it had before the change."),
+                                history: .localOnly, canRollback: false)
         case .mikrotikRouterOS:
             return ChangeTraits(canChange: true, commandsTitle: t("RouterOS commands"), devicePreview: false,
                                 timeoutNote: t("If you don't confirm, a scheduled script on the router puts the previous settings back."),

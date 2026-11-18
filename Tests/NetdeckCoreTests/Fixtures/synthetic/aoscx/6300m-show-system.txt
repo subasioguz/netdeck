@@ -1,0 +1,20 @@
+show system
+Hostname               : sw-cx-01
+System Description     : FL.10.13.1101
+System Contact         :
+System Location        : Rack A2
+
+Vendor                 : Aruba
+Product Name           : JL661A 6300M 48G CL4 PoE 4SFP56 Swch
+Chassis Serial Nbr     : TEST0CX0001
+Base MAC Address       : 48a98a-00c001
+ArubaOS-CX Version     : FL.10.13.1101
+
+Time Zone              : UTC
+
+Up Time                : 12 days, 3 hours, 10 minutes
+CPU Util (%)           : 4
+CPU Util (%) avg 1 min : 3
+CPU Util (%) avg 5 min : 3
+Memory Usage (%)       : 21
+sw-cx-01# 

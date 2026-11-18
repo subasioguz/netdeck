@@ -821,3 +821,17 @@
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Az eszköz SSH-algoritmusait a beépített SSH-kliens nem támogatja: %@";
 "SSH algorithms: %@" = "SSH-algoritmusok: %@";
 "SSH, older algorithms" = "SSH, régebbi algoritmusok";
+"%@ belongs to %@; its VLANs follow the LAG. Netdeck doesn't change them." = "A(z) %@ a(z) %@ tagja; a VLAN-jai a LAG-et követik. A Netdeck nem módosítja őket.";
+"%@ is a routed port. Netdeck doesn't change VLANs on routed ports." = "A(z) %@ routolt port. A Netdeck nem módosít VLAN-okat routolt portokon.";
+"%@: '?' can't be typed in a description on this switch." = "%@: ezen a switchen a leírásba nem írható '?'.";
+"%@: a trunk port must carry at least one VLAN. With none, AOS-CX carries them all." = "%@: a trunk portnak legalább egy VLAN-t kell vinnie. Ha egy sincs, az AOS-CX mindet viszi.";
+"'%@': AOS-CX VLAN names are 1–32 characters: letters, digits, '_' and '-'." = "'%@': az AOS-CX VLAN-nevei 1–32 karakteresek: betűk, számjegyek, '_' és '-'.";
+"AOS-CX %@ may not restore the configuration if the session drops before you confirm (fixed in 10.06). Update the switch to make changes with Netdeck." = "Az AOS-CX %@ lehet, hogy nem állítja vissza a konfigurációt, ha a munkamenet a megerősítés előtt megszakad (a 10.06-ban javítva). Frissítse a switchet, hogy a Netdeckkel módosíthasson.";
+"AOS-CX commands" = "AOS-CX-parancsok";
+"Another change is already waiting for confirmation on this switch (an auto checkpoint is running). Netdeck doesn't apply changes until it ends." = "Ezen a switchen már egy másik módosítás vár megerősítésre (auto checkpoint fut). Amíg ez véget nem ér, a Netdeck nem alkalmaz módosítást.";
+"If you don't confirm, the switch restores the configuration it had before the change." = "Ha nem erősíti meg, a switch visszaállítja a módosítás előtti konfigurációját.";
+"Netdeck couldn't save the configuration before the change:" = "A Netdeck nem tudta elmenteni a módosítás előtti konfigurációt:";
+"Netdeck needs administrator rights on this switch. Log in as an administrator or manager user." = "A Netdecknek rendszergazdai jogok kellenek ezen a switchen. Jelentkezzen be administrator vagy manager felhasználóval.";
+"The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "A switch nem tudja módosítani egy VLAN számát. Adjon hozzá új számú VLAN-t, és helyezze át rá a portokat.";
+"The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "A switchnek nincs előre ellenőrizhető jelölt konfigurációja. Minden parancsot azonnal alkalmaz; ha valamelyiket elutasítja, vagy ha nem erősíti meg időben, visszaállítja a módosítás előtti konfigurációját.";
+"This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Ez a switch nem tudja magától visszavonni a módosításokat (nincs auto checkpoint). A Netdeck enélkül nem alkalmaz módosítást.";

@@ -69,6 +69,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
     case mikrotikRouterOS = "mikrotik-routeros"
     case ciscoIOS = "cisco-ios"
     case ubiquitiEdgeOS = "ubiquiti-edgeos"
+    case arubaAOSCX = "aruba-aos-cx"
     case dellIDRAC = "dell-idrac"
     /// Any other server BMC over standard Redfish (HPE iLO, Supermicro, Lenovo XCC).
     case redfish = "redfish"
@@ -86,6 +87,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .mikrotikRouterOS: return "MikroTik"
         case .ciscoIOS: return "Cisco"
         case .ubiquitiEdgeOS: return "Ubiquiti"
+        case .arubaAOSCX: return "Aruba"
         case .dellIDRAC: return "Dell"
         case .redfish: return "Redfish"
         case .synologyDSM: return "Synology"
@@ -100,6 +102,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .mikrotikRouterOS: return "RouterOS"
         case .ciscoIOS: return "IOS"
         case .ubiquitiEdgeOS: return "EdgeOS"
+        case .arubaAOSCX: return "AOS-CX"
         case .dellIDRAC: return "iDRAC"
         case .redfish: return "BMC"
         case .synologyDSM: return "DSM"
@@ -132,6 +135,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .mikrotikRouterOS: return "RouterOS"
         case .ciscoIOS: return "IOS / IOS-XE"
         case .ubiquitiEdgeOS: return "EdgeOS"
+        case .arubaAOSCX: return "AOS-CX (6000–10000)"
         case .dellIDRAC: return "iDRAC"
         case .redfish: return "iLO, Supermicro, Lenovo"
         case .synologyDSM: return "DSM"
@@ -164,7 +168,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
     /// Netdeck can read and keep this platform's configuration (drives History & backups).
     public var exportsConfig: Bool {
         switch self {
-        case .juniperJunos, .mikrotikRouterOS, .ciscoIOS, .ubiquitiEdgeOS: return true
+        case .juniperJunos, .mikrotikRouterOS, .ciscoIOS, .ubiquitiEdgeOS, .arubaAOSCX: return true
         default: return false
         }
     }
@@ -176,6 +180,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .mikrotikRouterOS: return [.router, .switchDevice, .wireless]
         case .ciscoIOS: return [.switchDevice, .router]
         case .ubiquitiEdgeOS: return [.router]
+        case .arubaAOSCX: return [.switchDevice]
         case .dellIDRAC, .redfish: return [.server]
         case .synologyDSM, .truenas: return [.storage]
         case .unknown: return DeviceKind.allCases
@@ -300,6 +305,11 @@ public enum DeviceDetector {
                 d.osVersion = String(s[r].dropFirst("Version ".count))
             }
             return d
+        }
+        // AOS-CX: "ArubaOS-CX" in `show version`, or its login lines ("User "admin" has logged in 12 times in the past 30 days").
+        if AOSCXParsers.isAOSCX(s) || s.range(of: #"has logged in \d+ times in the past"#, options: .regularExpression) != nil {
+            return Detection(platform: .arubaAOSCX, model: AOSCXParsers.system(s).productName.map(AOSCXParsers.model(fromProduct:)),
+                             osVersion: AOSCXParsers.osVersion(s), kind: .switchDevice)
         }
         if s.contains("EdgeOS") || s.contains("EdgeRouter") {
             return Detection(platform: .ubiquitiEdgeOS, kind: .router)

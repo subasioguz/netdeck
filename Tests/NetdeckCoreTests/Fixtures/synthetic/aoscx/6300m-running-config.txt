@@ -1,0 +1,255 @@
+show running-config
+Current configuration:
+!
+!Version ArubaOS-CX FL.10.13.1101
+!export-password: default
+hostname sw-cx-01
+user admin group administrators password ciphertext ********
+clock timezone utc
+ntp server 192.0.2.123
+ntp enable
+!
+!
+ssh server vrf default
+ssh server vrf mgmt
+vlan 1,99
+vlan 10
+    name Servers
+vlan 20
+    name Voice
+    description IP phones
+vlan 30
+    name Guests
+spanning-tree
+interface mgmt
+    no shutdown
+    ip dhcp
+interface lag 1
+    description uplink-core
+    no shutdown
+    no routing
+    vlan trunk native 1
+    vlan trunk allowed 1,10,20,30
+    lacp mode active
+interface 1/1/1
+    description srv-01
+    no shutdown
+    no routing
+    vlan access 10
+interface 1/1/2
+    no shutdown
+    no routing
+    vlan access 10
+interface 1/1/3
+    description phone-desk-3
+    no shutdown
+    no routing
+    vlan trunk native 30
+    vlan trunk allowed 20,30
+interface 1/1/4
+    shutdown
+    no routing
+    vlan access 99
+interface 1/1/5
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/6
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/7
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/8
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/9
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/10
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/11
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/12
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/13
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/14
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/15
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/16
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/17
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/18
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/19
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/20
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/21
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/22
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/23
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/24
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/25
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/26
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/27
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/28
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/29
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/30
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/31
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/32
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/33
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/34
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/35
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/36
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/37
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/38
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/39
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/40
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/41
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/42
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/43
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/44
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/45
+    description ap-lobby
+    no shutdown
+    no routing
+    vlan trunk native 30
+    vlan trunk allowed all
+interface 1/1/46
+    description wan-router
+    no shutdown
+    ip address 192.0.2.2/30
+interface 1/1/47
+    description printer
+    no shutdown
+    no routing
+    vlan access 20
+interface 1/1/48
+    shutdown
+    no routing
+    vlan access 1
+interface 1/1/49
+    description nas-01
+    no shutdown
+    no routing
+    vlan access 10
+interface 1/1/50
+    no shutdown
+    no routing
+    vlan access 1
+interface 1/1/51
+    no shutdown
+    lag 1
+interface 1/1/52
+    no shutdown
+    lag 1
+interface vlan 1
+    ip address 192.0.2.10/24
+ip route 0.0.0.0/0 192.0.2.1
+!
+!
+!
+https-server vrf default
+https-server vrf mgmt
+sw-cx-01# 

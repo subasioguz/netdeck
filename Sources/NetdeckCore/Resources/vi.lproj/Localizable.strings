@@ -821,3 +821,17 @@
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Thuật toán SSH của thiết bị không được ứng dụng khách SSH tích hợp hỗ trợ: %@";
 "SSH algorithms: %@" = "Thuật toán SSH: %@";
 "SSH, older algorithms" = "SSH, thuật toán cũ";
+"%@ belongs to %@; its VLANs follow the LAG. Netdeck doesn't change them." = "%@ thuộc %@; VLAN của nó theo LAG. Netdeck không thay đổi chúng.";
+"%@ is a routed port. Netdeck doesn't change VLANs on routed ports." = "%@ là cổng định tuyến. Netdeck không đổi VLAN trên cổng định tuyến.";
+"%@: '?' can't be typed in a description on this switch." = "%@: trên switch này không thể gõ '?' trong mô tả.";
+"%@: a trunk port must carry at least one VLAN. With none, AOS-CX carries them all." = "%@: cổng trunk phải mang ít nhất một VLAN. Nếu không có VLAN nào, AOS-CX mang tất cả.";
+"'%@': AOS-CX VLAN names are 1–32 characters: letters, digits, '_' and '-'." = "'%@': tên VLAN trên AOS-CX dài 1–32 ký tự: chữ cái, chữ số, '_' và '-'.";
+"AOS-CX %@ may not restore the configuration if the session drops before you confirm (fixed in 10.06). Update the switch to make changes with Netdeck." = "AOS-CX %@ có thể không khôi phục cấu hình nếu phiên bị ngắt trước khi bạn xác nhận (đã sửa ở 10.06). Hãy cập nhật switch để thay đổi bằng Netdeck.";
+"AOS-CX commands" = "Lệnh AOS-CX";
+"Another change is already waiting for confirmation on this switch (an auto checkpoint is running). Netdeck doesn't apply changes until it ends." = "Đã có một thay đổi khác đang chờ xác nhận trên switch này (auto checkpoint đang chạy). Netdeck không áp dụng thay đổi cho đến khi nó kết thúc.";
+"If you don't confirm, the switch restores the configuration it had before the change." = "Nếu bạn không xác nhận, switch khôi phục cấu hình nó có trước thay đổi.";
+"Netdeck couldn't save the configuration before the change:" = "Netdeck không lưu được cấu hình trước thay đổi:";
+"Netdeck needs administrator rights on this switch. Log in as an administrator or manager user." = "Netdeck cần quyền quản trị trên switch này. Hãy đăng nhập bằng người dùng administrator hoặc manager.";
+"The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Switch không thể đổi số VLAN. Hãy thêm VLAN với số mới và chuyển các cổng sang đó.";
+"The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Switch không có cấu hình ứng viên để kiểm tra trước. Nó áp dụng từng lệnh ngay lập tức; nếu một lệnh bị từ chối, hoặc bạn không xác nhận kịp, nó khôi phục cấu hình có trước thay đổi.";
+"This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Switch này không thể tự hoàn tác thay đổi (không có auto checkpoint). Netdeck không áp dụng thay đổi nếu thiếu nó.";

@@ -22,7 +22,13 @@ public actor CiscoDriver: DeviceDriver {
     public func connect(username: String, password: String?) async throws {
         try await cli.login(username: username, password: password)
         let version = try await cli.run("show version")
-        guard CiscoParsers.version(version).isIOS else { throw DriverError.notSupported }
+        guard CiscoParsers.version(version).isIOS else {
+            // Another platform whose prompt looks like IOS (AOS-CX "switch#"): the session hands over to it.
+            if let other = DeviceDetector.detect(version), other.platform != .ciscoIOS, other.platform != .unknown {
+                throw CLIError.unrecognizedPrompt(version)
+            }
+            throw DriverError.notSupported
+        }
         if await cli.isLimited {
             throw DriverError.safetyNetUnavailable(t("Netdeck needs privileged mode on this switch. Log in with a privilege 15 user or give the enable password."))
         }

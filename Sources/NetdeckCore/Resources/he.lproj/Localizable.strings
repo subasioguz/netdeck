@@ -821,3 +821,17 @@
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "האלגוריתמים של SSH בהתקן אינם נתמכים על ידי לקוח ה-SSH המובנה: %@";
 "SSH algorithms: %@" = "אלגוריתמי SSH: %@";
 "SSH, older algorithms" = "SSH, אלגוריתמים ישנים";
+"%@ belongs to %@; its VLANs follow the LAG. Netdeck doesn't change them." = "%@ שייכת ל-%@; ה-VLAN שלה נקבעים לפי ה-LAG. Netdeck לא משנה אותם.";
+"%@ is a routed port. Netdeck doesn't change VLANs on routed ports." = "%@ היא יציאה מנותבת. Netdeck לא משנה VLAN ביציאות מנותבות.";
+"%@: '?' can't be typed in a description on this switch." = "%@: בסוויץ' הזה אי אפשר להקליד '?' בתיאור.";
+"%@: a trunk port must carry at least one VLAN. With none, AOS-CX carries them all." = "%@: יציאת trunk חייבת לשאת לפחות VLAN אחד. בלי אף אחד, AOS-CX נושא את כולם.";
+"'%@': AOS-CX VLAN names are 1–32 characters: letters, digits, '_' and '-'." = "'%@': שמות VLAN ב-AOS-CX הם באורך 1–32 תווים: אותיות, ספרות, '_' ו-'-'.";
+"AOS-CX %@ may not restore the configuration if the session drops before you confirm (fixed in 10.06). Update the switch to make changes with Netdeck." = "ייתכן ש-AOS-CX %@ לא ישחזר את התצורה אם החיבור ינותק לפני שתאשרו (תוקן ב-10.06). עדכנו את הסוויץ' כדי לבצע שינויים עם Netdeck.";
+"AOS-CX commands" = "פקודות AOS-CX";
+"Another change is already waiting for confirmation on this switch (an auto checkpoint is running). Netdeck doesn't apply changes until it ends." = "שינוי אחר כבר ממתין לאישור בסוויץ' הזה (auto checkpoint פועל). Netdeck לא מחיל שינויים עד שהוא יסתיים.";
+"If you don't confirm, the switch restores the configuration it had before the change." = "אם לא תאשרו, הסוויץ' ישחזר את התצורה שהייתה לו לפני השינוי.";
+"Netdeck couldn't save the configuration before the change:" = "Netdeck לא הצליח לשמור את התצורה שלפני השינוי:";
+"Netdeck needs administrator rights on this switch. Log in as an administrator or manager user." = "Netdeck צריך הרשאות מנהל בסוויץ' הזה. התחברו עם משתמש administrator או manager.";
+"The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "הסוויץ' לא יכול לשנות מספר VLAN. הוסיפו VLAN עם המספר החדש והעבירו אליו את היציאות.";
+"The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "לסוויץ' אין תצורה מועמדת לבדיקה מראש. הוא מחיל כל פקודה מיד; אם אחת נדחית, או אם לא תאשרו בזמן, הוא משחזר את התצורה שהייתה לו לפני השינוי.";
+"This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "הסוויץ' הזה לא יכול לבטל שינויים בעצמו (אין auto checkpoint). בלעדיו Netdeck לא מחיל שינויים.";

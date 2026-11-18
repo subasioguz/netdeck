@@ -6,6 +6,7 @@ public enum VendorState: Equatable, Sendable {
     case mikrotik(MikroTikState)
     case cisco(CiscoState)
     case edgeos(EdgeOSState)
+    case aoscx(AOSCXState)
 }
 
 /// Change planners of the platforms other than Junos.
@@ -15,6 +16,7 @@ enum VendorPlanners {
         case .mikrotikRouterOS: return MikroTikPlanner.plan(snapshot: snapshot, ports: ports, vlans: vlans)
         case .ciscoIOS: return CiscoPlanner.plan(snapshot: snapshot, ports: ports, vlans: vlans)
         case .ubiquitiEdgeOS: return EdgeOSPlanner.plan(snapshot: snapshot, ports: ports, vlans: vlans)
+        case .arubaAOSCX: return AOSCXPlanner.plan(snapshot: snapshot, ports: ports, vlans: vlans)
         default: return ChangePlan(changes: [])
         }
     }

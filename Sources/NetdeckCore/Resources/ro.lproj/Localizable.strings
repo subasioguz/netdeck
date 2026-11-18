@@ -821,3 +821,17 @@
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Algoritmii SSH ai dispozitivului nu sunt acceptați de clientul SSH integrat: %@";
 "SSH algorithms: %@" = "Algoritmi SSH: %@";
 "SSH, older algorithms" = "SSH, algoritmi mai vechi";
+"%@ belongs to %@; its VLANs follow the LAG. Netdeck doesn't change them." = "%@ aparține de %@; VLAN-urile sale urmează LAG-ul. Netdeck nu le schimbă.";
+"%@ is a routed port. Netdeck doesn't change VLANs on routed ports." = "%@ este un port rutat. Netdeck nu schimbă VLAN-urile pe porturile rutate.";
+"%@: '?' can't be typed in a description on this switch." = "%@: pe acest switch nu se poate scrie '?' într-o descriere.";
+"%@: a trunk port must carry at least one VLAN. With none, AOS-CX carries them all." = "%@: un port trunk trebuie să transporte cel puțin un VLAN. Fără niciunul, AOS-CX le transportă pe toate.";
+"'%@': AOS-CX VLAN names are 1–32 characters: letters, digits, '_' and '-'." = "'%@': numele VLAN din AOS-CX au 1–32 de caractere: litere, cifre, '_' și '-'.";
+"AOS-CX %@ may not restore the configuration if the session drops before you confirm (fixed in 10.06). Update the switch to make changes with Netdeck." = "AOS-CX %@ s-ar putea să nu restaureze configurația dacă sesiunea cade înainte să confirmi (corectat în 10.06). Actualizează switch-ul ca să faci modificări cu Netdeck.";
+"AOS-CX commands" = "Comenzi AOS-CX";
+"Another change is already waiting for confirmation on this switch (an auto checkpoint is running). Netdeck doesn't apply changes until it ends." = "Pe acest switch o altă modificare așteaptă deja confirmarea (rulează un auto checkpoint). Netdeck nu aplică modificări până nu se termină.";
+"If you don't confirm, the switch restores the configuration it had before the change." = "Dacă nu confirmi, switch-ul restaurează configurația pe care o avea înainte de modificare.";
+"Netdeck couldn't save the configuration before the change:" = "Netdeck nu a putut salva configurația de dinainte de modificare:";
+"Netdeck needs administrator rights on this switch. Log in as an administrator or manager user." = "Netdeck are nevoie de drepturi de administrator pe acest switch. Conectează-te cu un utilizator administrator sau manager.";
+"The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Switch-ul nu poate schimba numărul unui VLAN. Adaugă un VLAN cu noul număr și mută porturile în el.";
+"The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Switch-ul nu are o configurație candidată de verificat dinainte. Aplică fiecare comandă imediat; dacă una e respinsă sau dacă nu confirmi la timp, restaurează configurația pe care o avea înainte de modificare.";
+"This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Acest switch nu poate anula singur modificările (fără auto checkpoint). Netdeck nu aplică modificări fără el.";

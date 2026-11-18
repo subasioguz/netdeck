@@ -821,3 +821,17 @@
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "内置 SSH 客户端不支持该设备的 SSH 算法:%@";
 "SSH algorithms: %@" = "SSH 算法:%@";
 "SSH, older algorithms" = "SSH(旧版算法)";
+"%@ belongs to %@; its VLANs follow the LAG. Netdeck doesn't change them." = "%@ 属于 %@;其 VLAN 跟随该 LAG。Netdeck 不会更改它们。";
+"%@ is a routed port. Netdeck doesn't change VLANs on routed ports." = "%@ 是路由端口。Netdeck 不会更改路由端口上的 VLAN。";
+"%@: '?' can't be typed in a description on this switch." = "%@:此交换机的描述中不能输入“?”。";
+"%@: a trunk port must carry at least one VLAN. With none, AOS-CX carries them all." = "%@:trunk 端口至少要承载一个 VLAN。一个都没有时,AOS-CX 会承载全部 VLAN。";
+"'%@': AOS-CX VLAN names are 1–32 characters: letters, digits, '_' and '-'." = "“%@”:AOS-CX 的 VLAN 名称为 1–32 个字符:字母、数字、“_”和“-”。";
+"AOS-CX %@ may not restore the configuration if the session drops before you confirm (fixed in 10.06). Update the switch to make changes with Netdeck." = "如果在你确认前会话断开,AOS-CX %@ 可能不会恢复配置(已在 10.06 修复)。请更新交换机后再用 Netdeck 更改。";
+"AOS-CX commands" = "AOS-CX 命令";
+"Another change is already waiting for confirmation on this switch (an auto checkpoint is running). Netdeck doesn't apply changes until it ends." = "此交换机上已有另一项更改在等待确认(auto checkpoint 正在运行)。在它结束前,Netdeck 不会应用更改。";
+"If you don't confirm, the switch restores the configuration it had before the change." = "如果你不确认,交换机会恢复更改前的配置。";
+"Netdeck couldn't save the configuration before the change:" = "Netdeck 无法保存更改前的配置:";
+"Netdeck needs administrator rights on this switch. Log in as an administrator or manager user." = "Netdeck 需要此交换机的管理员权限。请以 administrator 或 manager 用户登录。";
+"The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "交换机无法更改 VLAN 的编号。请添加一个使用新编号的 VLAN,并将端口移到其中。";
+"The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "交换机没有可预先检查的候选配置。它会立即应用每条命令;如果某条命令被拒绝,或者你没有及时确认,它会恢复更改前的配置。";
+"This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "此交换机无法自行撤销更改(没有 auto checkpoint)。没有它,Netdeck 不会应用更改。";

@@ -821,3 +821,17 @@
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Algoritmy SSH tohto zariadenia vstavaný klient SSH nepodporuje: %@";
 "SSH algorithms: %@" = "Algoritmy SSH: %@";
 "SSH, older algorithms" = "SSH, staršie algoritmy";
+"%@ belongs to %@; its VLANs follow the LAG. Netdeck doesn't change them." = "%@ patrí do %@, jeho VLAN sa riadia LAG. Netdeck ich nemení.";
+"%@ is a routed port. Netdeck doesn't change VLANs on routed ports." = "%@ je smerovaný (routed) port. Netdeck na takých portoch VLAN nemení.";
+"%@: '?' can't be typed in a description on this switch." = "%@: na tomto switchi sa do popisu nedá napísať '?'.";
+"%@: a trunk port must carry at least one VLAN. With none, AOS-CX carries them all." = "%@: trunk port musí niesť aspoň jednu VLAN. Bez nej AOS-CX nesie všetky.";
+"'%@': AOS-CX VLAN names are 1–32 characters: letters, digits, '_' and '-'." = "'%@': názvy VLAN v AOS-CX majú 1–32 znakov: písmená, číslice, '_' a '-'.";
+"AOS-CX %@ may not restore the configuration if the session drops before you confirm (fixed in 10.06). Update the switch to make changes with Netdeck." = "AOS-CX %@ nemusí obnoviť konfiguráciu, ak relácia spadne skôr, než potvrdíte (opravené vo 10.06). Aktualizujte switch, aby ste mohli robiť zmeny v Netdecku.";
+"AOS-CX commands" = "Príkazy AOS-CX";
+"Another change is already waiting for confirmation on this switch (an auto checkpoint is running). Netdeck doesn't apply changes until it ends." = "Na tomto switchi už na potvrdenie čaká iná zmena (beží auto checkpoint). Netdeck do jej konca zmeny nepoužije.";
+"If you don't confirm, the switch restores the configuration it had before the change." = "Ak nepotvrdíte, switch obnoví konfiguráciu, ktorú mal pred zmenou.";
+"Netdeck couldn't save the configuration before the change:" = "Netdeck nemohol uložiť konfiguráciu spred zmeny:";
+"Netdeck needs administrator rights on this switch. Log in as an administrator or manager user." = "Netdeck potrebuje na tomto switchi administrátorské práva. Prihláste sa ako používateľ administrator alebo manager.";
+"The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Switch nevie zmeniť číslo VLAN. Pridajte VLAN s novým číslom a presuňte do nej porty.";
+"The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Switch nemá kandidátsku konfiguráciu, ktorú by sa dalo vopred skontrolovať. Každý príkaz použije hneď; ak niektorý odmietne alebo ak nepotvrdíte včas, obnoví konfiguráciu, ktorú mal pred zmenou.";
+"This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Tento switch nevie vrátiť zmeny sám (chýba auto checkpoint). Bez neho Netdeck zmeny nepoužije.";

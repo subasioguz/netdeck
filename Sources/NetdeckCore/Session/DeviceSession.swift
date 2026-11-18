@@ -173,7 +173,8 @@ public final class DeviceSession {
         guard driver == nil, !parked else { await refresh(); return }
         lastError = nil
         phase = .connecting(step: t("Opening connection"), fraction: 0)
-        await connect(platform: preferredPlatform, password: password, handoffs: 1)
+        // Junos first, then the platform its prompt suggests (IOS for "switch#"), then the one `show version` names.
+        await connect(platform: preferredPlatform, password: password, handoffs: 2)
     }
 
     /// Logs in with the platform's driver and reads. When the device turns out to be another platform

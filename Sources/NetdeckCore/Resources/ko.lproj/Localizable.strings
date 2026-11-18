@@ -821,3 +821,17 @@
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "장치의 SSH 알고리즘을 내장 SSH 클라이언트에서 지원하지 않습니다: %@";
 "SSH algorithms: %@" = "SSH 알고리즘: %@";
 "SSH, older algorithms" = "SSH, 구형 알고리즘";
+"%@ belongs to %@; its VLANs follow the LAG. Netdeck doesn't change them." = "%@은(는) %@에 속해 있으며 VLAN은 LAG를 따라요. Netdeck은 이를 변경하지 않아요.";
+"%@ is a routed port. Netdeck doesn't change VLANs on routed ports." = "%@은(는) 라우팅 포트예요. Netdeck은 라우팅 포트의 VLAN을 변경하지 않아요.";
+"%@: '?' can't be typed in a description on this switch." = "%@: 이 스위치에서는 설명에 '?'를 입력할 수 없어요.";
+"%@: a trunk port must carry at least one VLAN. With none, AOS-CX carries them all." = "%@: trunk 포트는 VLAN을 하나 이상 전달해야 해요. 하나도 없으면 AOS-CX가 모든 VLAN을 전달해요.";
+"'%@': AOS-CX VLAN names are 1–32 characters: letters, digits, '_' and '-'." = "'%@': AOS-CX VLAN 이름은 1–32자이며 문자, 숫자, '_', '-'를 쓸 수 있어요.";
+"AOS-CX %@ may not restore the configuration if the session drops before you confirm (fixed in 10.06). Update the switch to make changes with Netdeck." = "AOS-CX %@은(는) 확인하기 전에 세션이 끊기면 설정을 복원하지 못할 수 있어요(10.06에서 수정됨). Netdeck으로 변경하려면 스위치를 업데이트하세요.";
+"AOS-CX commands" = "AOS-CX 명령";
+"Another change is already waiting for confirmation on this switch (an auto checkpoint is running). Netdeck doesn't apply changes until it ends." = "이 스위치에서 다른 변경 사항이 이미 확인을 기다리고 있어요(auto checkpoint 실행 중). 끝날 때까지 Netdeck은 변경 사항을 적용하지 않아요.";
+"If you don't confirm, the switch restores the configuration it had before the change." = "확인하지 않으면 스위치가 변경 전 설정으로 복원해요.";
+"Netdeck couldn't save the configuration before the change:" = "Netdeck이 변경 전 설정을 저장하지 못했어요:";
+"Netdeck needs administrator rights on this switch. Log in as an administrator or manager user." = "Netdeck에 이 스위치의 관리자 권한이 필요해요. administrator 또는 manager 사용자로 로그인하세요.";
+"The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "스위치는 VLAN 번호를 변경할 수 없어요. 새 번호로 VLAN을 추가하고 포트를 옮기세요.";
+"The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "스위치에는 미리 확인할 후보 설정이 없어요. 각 명령을 바로 적용하며, 거부된 명령이 있거나 제때 확인하지 않으면 변경 전 설정으로 복원해요.";
+"This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "이 스위치는 변경 사항을 스스로 되돌릴 수 없어요(auto checkpoint 없음). Netdeck은 이것 없이 변경 사항을 적용하지 않아요.";

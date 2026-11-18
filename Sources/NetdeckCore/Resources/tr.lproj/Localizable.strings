@@ -821,3 +821,17 @@
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Cihazın SSH algoritmaları yerleşik SSH istemcisi tarafından desteklenmiyor: %@";
 "SSH algorithms: %@" = "SSH algoritmaları: %@";
 "SSH, older algorithms" = "SSH, eski algoritmalar";
+"%@ belongs to %@; its VLANs follow the LAG. Netdeck doesn't change them." = "%@, %@ grubunun üyesi; VLAN'ları LAG'den gelir. Netdeck bunları değiştirmez.";
+"%@ is a routed port. Netdeck doesn't change VLANs on routed ports." = "%@ yönlendirilmiş (routed) bir port. Netdeck bu tür portlarda VLAN değiştirmez.";
+"%@: '?' can't be typed in a description on this switch." = "%@: Bu switch'te açıklamaya '?' yazılamaz.";
+"%@: a trunk port must carry at least one VLAN. With none, AOS-CX carries them all." = "%@: Trunk port en az bir VLAN taşımalı. Hiç VLAN kalmazsa AOS-CX hepsini taşır.";
+"'%@': AOS-CX VLAN names are 1–32 characters: letters, digits, '_' and '-'." = "'%@': AOS-CX VLAN adları 1–32 karakterdir: harf, rakam, '_' ve '-'.";
+"AOS-CX %@ may not restore the configuration if the session drops before you confirm (fixed in 10.06). Update the switch to make changes with Netdeck." = "AOS-CX %@, onaylamadan önce oturum koparsa yapılandırmayı geri yüklemeyebilir (10.06'da düzeltildi). Netdeck ile değişiklik yapmak için switch'i güncelle.";
+"AOS-CX commands" = "AOS-CX komutları";
+"Another change is already waiting for confirmation on this switch (an auto checkpoint is running). Netdeck doesn't apply changes until it ends." = "Bu switch'te onay bekleyen başka bir değişiklik var (auto checkpoint çalışıyor). O bitene kadar Netdeck değişiklik uygulamaz.";
+"If you don't confirm, the switch restores the configuration it had before the change." = "Onaylamazsan switch, değişiklikten önceki yapılandırmasını geri yükler.";
+"Netdeck couldn't save the configuration before the change:" = "Netdeck değişiklikten önceki yapılandırmayı kaydedemedi:";
+"Netdeck needs administrator rights on this switch. Log in as an administrator or manager user." = "Netdeck'in bu switch'te yönetici yetkisine ihtiyacı var. Administrator ya da manager kullanıcısıyla giriş yap.";
+"The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Switch bir VLAN'ın numarasını değiştiremez. Yeni numarayla bir VLAN ekleyip portları ona taşı.";
+"The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Switch'te önceden denetlenecek bir aday yapılandırma yok. Her komutu anında uygular; biri reddedilirse ya da zamanında onaylamazsan değişiklikten önceki yapılandırmasını geri yükler.";
+"This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Bu switch değişiklikleri kendiliğinden geri alamıyor (auto checkpoint yok). Netdeck bu olmadan değişiklik uygulamaz.";

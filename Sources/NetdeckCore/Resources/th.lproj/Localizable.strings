@@ -821,3 +821,17 @@
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "อัลกอริทึม SSH ของอุปกรณ์ไม่รองรับโดยไคลเอนต์ SSH ที่มีในตัว: %@";
 "SSH algorithms: %@" = "อัลกอริทึม SSH: %@";
 "SSH, older algorithms" = "SSH, อัลกอริทึมรุ่นเก่า";
+"%@ belongs to %@; its VLANs follow the LAG. Netdeck doesn't change them." = "%@ อยู่ใน %@ VLAN ของพอร์ตตาม LAG Netdeck ไม่เปลี่ยนให้";
+"%@ is a routed port. Netdeck doesn't change VLANs on routed ports." = "%@ เป็นพอร์ตเราต์ Netdeck ไม่เปลี่ยน VLAN บนพอร์ตเราต์";
+"%@: '?' can't be typed in a description on this switch." = "%@: บนสวิตช์นี้พิมพ์ '?' ในคำอธิบายไม่ได้";
+"%@: a trunk port must carry at least one VLAN. With none, AOS-CX carries them all." = "%@: พอร์ต trunk ต้องส่ง VLAN อย่างน้อยหนึ่งรายการ ถ้าไม่มีเลย AOS-CX จะส่งทั้งหมด";
+"'%@': AOS-CX VLAN names are 1–32 characters: letters, digits, '_' and '-'." = "'%@': ชื่อ VLAN ของ AOS-CX มี 1–32 อักขระ: ตัวอักษร ตัวเลข '_' และ '-'";
+"AOS-CX %@ may not restore the configuration if the session drops before you confirm (fixed in 10.06). Update the switch to make changes with Netdeck." = "AOS-CX %@ อาจกู้การกำหนดค่าคืนไม่ได้ถ้าเซสชันหลุดก่อนที่คุณจะยืนยัน (แก้ไขแล้วใน 10.06) อัปเดตสวิตช์เพื่อเปลี่ยนแปลงด้วย Netdeck";
+"AOS-CX commands" = "คำสั่ง AOS-CX";
+"Another change is already waiting for confirmation on this switch (an auto checkpoint is running). Netdeck doesn't apply changes until it ends." = "มีการเปลี่ยนแปลงอื่นรอการยืนยันอยู่แล้วบนสวิตช์นี้ (auto checkpoint กำลังทำงาน) Netdeck จะไม่ใช้การเปลี่ยนแปลงจนกว่าจะจบ";
+"If you don't confirm, the switch restores the configuration it had before the change." = "ถ้าคุณไม่ยืนยัน สวิตช์จะกู้การกำหนดค่าก่อนการเปลี่ยนแปลงคืน";
+"Netdeck couldn't save the configuration before the change:" = "Netdeck บันทึกการกำหนดค่าก่อนการเปลี่ยนแปลงไม่ได้:";
+"Netdeck needs administrator rights on this switch. Log in as an administrator or manager user." = "Netdeck ต้องมีสิทธิ์ผู้ดูแลระบบบนสวิตช์นี้ ลงชื่อเข้าใช้ด้วยผู้ใช้ administrator หรือ manager";
+"The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "สวิตช์เปลี่ยนหมายเลข VLAN ไม่ได้ เพิ่ม VLAN ด้วยหมายเลขใหม่แล้วย้ายพอร์ตไปที่นั่น";
+"The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "สวิตช์ไม่มีการกำหนดค่าตัวเลือกให้ตรวจล่วงหน้า สวิตช์ใช้คำสั่งแต่ละคำสั่งทันที ถ้ามีคำสั่งถูกปฏิเสธ หรือคุณไม่ยืนยันทันเวลา สวิตช์จะกู้การกำหนดค่าก่อนการเปลี่ยนแปลงคืน";
+"This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "สวิตช์นี้ย้อนการเปลี่ยนแปลงเองไม่ได้ (ไม่มี auto checkpoint) Netdeck จะไม่ใช้การเปลี่ยนแปลงถ้าไม่มีสิ่งนี้";

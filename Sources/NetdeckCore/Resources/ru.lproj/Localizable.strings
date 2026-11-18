@@ -821,3 +821,17 @@
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Алгоритмы SSH устройства не поддерживаются встроенным клиентом SSH: %@";
 "SSH algorithms: %@" = "Алгоритмы SSH: %@";
 "SSH, older algorithms" = "SSH, устаревшие алгоритмы";
+"%@ belongs to %@; its VLANs follow the LAG. Netdeck doesn't change them." = "%@ входит в %@; его VLAN определяются LAG. Netdeck их не меняет.";
+"%@ is a routed port. Netdeck doesn't change VLANs on routed ports." = "%@ — маршрутизируемый порт. Netdeck не меняет VLAN на таких портах.";
+"%@: '?' can't be typed in a description on this switch." = "%@: на этом коммутаторе в описании нельзя ввести «?».";
+"%@: a trunk port must carry at least one VLAN. With none, AOS-CX carries them all." = "%@: trunk-порт должен передавать хотя бы один VLAN. Без них AOS-CX передаёт все.";
+"'%@': AOS-CX VLAN names are 1–32 characters: letters, digits, '_' and '-'." = "«%@»: имена VLAN в AOS-CX — от 1 до 32 символов: буквы, цифры, «_» и «-».";
+"AOS-CX %@ may not restore the configuration if the session drops before you confirm (fixed in 10.06). Update the switch to make changes with Netdeck." = "AOS-CX %@ может не восстановить конфигурацию, если сессия оборвётся до подтверждения (исправлено в 10.06). Обновите коммутатор, чтобы вносить изменения через Netdeck.";
+"AOS-CX commands" = "Команды AOS-CX";
+"Another change is already waiting for confirmation on this switch (an auto checkpoint is running). Netdeck doesn't apply changes until it ends." = "На этом коммутаторе уже ждёт подтверждения другое изменение (запущен auto checkpoint). Netdeck не применяет изменения, пока он не закончится.";
+"If you don't confirm, the switch restores the configuration it had before the change." = "Если вы не подтвердите, коммутатор восстановит конфигурацию, которая была до изменения.";
+"Netdeck couldn't save the configuration before the change:" = "Netdeck не удалось сохранить конфигурацию до изменения:";
+"Netdeck needs administrator rights on this switch. Log in as an administrator or manager user." = "Netdeck нужны права администратора на этом коммутаторе. Войдите как пользователь administrator или manager.";
+"The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Коммутатор не может изменить номер VLAN. Добавьте VLAN с новым номером и переведите в него порты.";
+"The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "У коммутатора нет кандидатной конфигурации для предварительной проверки. Он применяет каждую команду сразу; если какая-то отклонена или вы не подтвердите вовремя, он восстановит конфигурацию, которая была до изменения.";
+"This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Этот коммутатор не может сам отменять изменения (нет auto checkpoint). Без него Netdeck не применяет изменения.";

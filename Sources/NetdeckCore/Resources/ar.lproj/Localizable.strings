@@ -821,3 +821,17 @@
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "خوارزميات SSH في الجهاز غير مدعومة من عميل SSH المدمج: %@";
 "SSH algorithms: %@" = "خوارزميات SSH: %@";
 "SSH, older algorithms" = "SSH، خوارزميات أقدم";
+"%@ belongs to %@; its VLANs follow the LAG. Netdeck doesn't change them." = "%@ ينتمي إلى %@؛ وتتبع VLAN الخاصة به الـ LAG. لا يغيّرها Netdeck.";
+"%@ is a routed port. Netdeck doesn't change VLANs on routed ports." = "%@ منفذ موجَّه. لا يغيّر Netdeck VLAN على المنافذ الموجَّهة.";
+"%@: '?' can't be typed in a description on this switch." = "%@: لا يمكن كتابة '?' في الوصف على هذا السويتش.";
+"%@: a trunk port must carry at least one VLAN. With none, AOS-CX carries them all." = "%@: يجب أن يحمل منفذ trunk شبكة VLAN واحدة على الأقل. بدونها يحمل AOS-CX جميع الشبكات.";
+"'%@': AOS-CX VLAN names are 1–32 characters: letters, digits, '_' and '-'." = "'%@': أسماء VLAN في AOS-CX من 1 إلى 32 حرفًا: أحرف وأرقام و'_' و'-'.";
+"AOS-CX %@ may not restore the configuration if the session drops before you confirm (fixed in 10.06). Update the switch to make changes with Netdeck." = "قد لا يستعيد AOS-CX %@ الإعدادات إذا انقطعت الجلسة قبل أن تؤكد (أُصلح في 10.06). حدّث السويتش لإجراء التغييرات باستخدام Netdeck.";
+"AOS-CX commands" = "أوامر AOS-CX";
+"Another change is already waiting for confirmation on this switch (an auto checkpoint is running). Netdeck doesn't apply changes until it ends." = "هناك تغيير آخر ينتظر التأكيد على هذا السويتش (auto checkpoint قيد التشغيل). لا يطبّق Netdeck التغييرات حتى ينتهي.";
+"If you don't confirm, the switch restores the configuration it had before the change." = "إن لم تؤكد، يستعيد السويتش الإعدادات التي كانت لديه قبل التغيير.";
+"Netdeck couldn't save the configuration before the change:" = "تعذّر على Netdeck حفظ الإعدادات قبل التغيير:";
+"Netdeck needs administrator rights on this switch. Log in as an administrator or manager user." = "يحتاج Netdeck إلى صلاحيات المسؤول على هذا السويتش. سجّل الدخول بمستخدم administrator أو manager.";
+"The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "لا يستطيع السويتش تغيير رقم VLAN. أضف VLAN بالرقم الجديد وانقل المنافذ إليه.";
+"The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "لا توجد في السويتش إعدادات مرشّحة لفحصها مسبقًا. يطبّق كل أمر فورًا؛ وإن رُفض أحدها أو لم تؤكد في الوقت المحدد، يستعيد الإعدادات التي كانت لديه قبل التغيير.";
+"This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "لا يستطيع هذا السويتش التراجع عن التغييرات بنفسه (لا auto checkpoint). لا يطبّق Netdeck التغييرات بدونه.";

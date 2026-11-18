@@ -821,3 +821,17 @@
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Enhetens SSH-algoritmer støttes ikke av den innebygde SSH-klienten: %@";
 "SSH algorithms: %@" = "SSH-algoritmer: %@";
 "SSH, older algorithms" = "SSH, eldre algoritmer";
+"%@ belongs to %@; its VLANs follow the LAG. Netdeck doesn't change them." = "%@ tilhører %@. VLAN-ene følger LAG-en. Netdeck endrer dem ikke.";
+"%@ is a routed port. Netdeck doesn't change VLANs on routed ports." = "%@ er en rutet port. Netdeck endrer ikke VLAN på rutede porter.";
+"%@: '?' can't be typed in a description on this switch." = "%@: '?' kan ikke skrives i en beskrivelse på denne switchen.";
+"%@: a trunk port must carry at least one VLAN. With none, AOS-CX carries them all." = "%@: en trunk-port må bære minst ett VLAN. Uten noen bærer AOS-CX alle.";
+"'%@': AOS-CX VLAN names are 1–32 characters: letters, digits, '_' and '-'." = "'%@': VLAN-navn i AOS-CX har 1–32 tegn: bokstaver, sifre, '_' og '-'.";
+"AOS-CX %@ may not restore the configuration if the session drops before you confirm (fixed in 10.06). Update the switch to make changes with Netdeck." = "AOS-CX %@ gjenoppretter kanskje ikke konfigurasjonen hvis økten brytes før du bekrefter (rettet i 10.06). Oppdater switchen for å gjøre endringer med Netdeck.";
+"AOS-CX commands" = "AOS-CX-kommandoer";
+"Another change is already waiting for confirmation on this switch (an auto checkpoint is running). Netdeck doesn't apply changes until it ends." = "En annen endring venter allerede på bekreftelse på denne switchen (et auto checkpoint kjører). Netdeck bruker ikke endringer før det er ferdig.";
+"If you don't confirm, the switch restores the configuration it had before the change." = "Hvis du ikke bekrefter, gjenoppretter switchen konfigurasjonen den hadde før endringen.";
+"Netdeck couldn't save the configuration before the change:" = "Netdeck kunne ikke lagre konfigurasjonen fra før endringen:";
+"Netdeck needs administrator rights on this switch. Log in as an administrator or manager user." = "Netdeck trenger administratorrettigheter på denne switchen. Logg inn som en administrator- eller manager-bruker.";
+"The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Switchen kan ikke endre nummeret på et VLAN. Legg til et VLAN med det nye nummeret og flytt portene dit.";
+"The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Switchen har ingen kandidatkonfigurasjon som kan kontrolleres på forhånd. Den bruker hver kommando med en gang; hvis en blir avvist, eller hvis du ikke bekrefter i tide, gjenoppretter den konfigurasjonen fra før endringen.";
+"This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Denne switchen kan ikke angre endringer av seg selv (ingen auto checkpoint). Netdeck bruker ikke endringer uten det.";

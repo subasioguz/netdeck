@@ -821,3 +821,17 @@
 "The device's SSH algorithms aren't supported by the built-in SSH client: %@" = "Οι αλγόριθμοι SSH της συσκευής δεν υποστηρίζονται από τον ενσωματωμένο πελάτη SSH: %@";
 "SSH algorithms: %@" = "Αλγόριθμοι SSH: %@";
 "SSH, older algorithms" = "SSH, παλαιότεροι αλγόριθμοι";
+"%@ belongs to %@; its VLANs follow the LAG. Netdeck doesn't change them." = "Το %@ ανήκει στο %@· τα VLAN του ακολουθούν το LAG. Το Netdeck δεν τα αλλάζει.";
+"%@ is a routed port. Netdeck doesn't change VLANs on routed ports." = "Το %@ είναι θύρα με δρομολόγηση. Το Netdeck δεν αλλάζει VLAN σε τέτοιες θύρες.";
+"%@: '?' can't be typed in a description on this switch." = "%@: σε αυτό το switch δεν μπορεί να γραφτεί '?' σε περιγραφή.";
+"%@: a trunk port must carry at least one VLAN. With none, AOS-CX carries them all." = "%@: μια θύρα trunk πρέπει να μεταφέρει τουλάχιστον ένα VLAN. Χωρίς κανένα, το AOS-CX τα μεταφέρει όλα.";
+"'%@': AOS-CX VLAN names are 1–32 characters: letters, digits, '_' and '-'." = "'%@': τα ονόματα VLAN στο AOS-CX έχουν 1–32 χαρακτήρες: γράμματα, ψηφία, '_' και '-'.";
+"AOS-CX %@ may not restore the configuration if the session drops before you confirm (fixed in 10.06). Update the switch to make changes with Netdeck." = "Το AOS-CX %@ ίσως να μην επαναφέρει τη διαμόρφωση αν η συνεδρία διακοπεί πριν επιβεβαιώσετε (διορθώθηκε στο 10.06). Ενημερώστε το switch για να κάνετε αλλαγές με το Netdeck.";
+"AOS-CX commands" = "Εντολές AOS-CX";
+"Another change is already waiting for confirmation on this switch (an auto checkpoint is running). Netdeck doesn't apply changes until it ends." = "Μια άλλη αλλαγή περιμένει ήδη επιβεβαίωση σε αυτό το switch (εκτελείται auto checkpoint). Το Netdeck δεν εφαρμόζει αλλαγές μέχρι να τελειώσει.";
+"If you don't confirm, the switch restores the configuration it had before the change." = "Αν δεν επιβεβαιώσετε, το switch επαναφέρει τη διαμόρφωση που είχε πριν την αλλαγή.";
+"Netdeck couldn't save the configuration before the change:" = "Το Netdeck δεν μπόρεσε να αποθηκεύσει τη διαμόρφωση πριν την αλλαγή:";
+"Netdeck needs administrator rights on this switch. Log in as an administrator or manager user." = "Το Netdeck χρειάζεται δικαιώματα διαχειριστή σε αυτό το switch. Συνδεθείτε ως χρήστης administrator ή manager.";
+"The switch can't change a VLAN's number. Add a VLAN with the new number and move the ports to it." = "Το switch δεν μπορεί να αλλάξει τον αριθμό ενός VLAN. Προσθέστε VLAN με τον νέο αριθμό και μετακινήστε τις θύρες σε αυτό.";
+"The switch has no candidate configuration to check in advance. It applies each command at once; if one is rejected, or if you don't confirm in time, it restores the configuration it had before the change." = "Το switch δεν έχει υποψήφια διαμόρφωση για έλεγχο εκ των προτέρων. Εφαρμόζει κάθε εντολή αμέσως· αν κάποια απορριφθεί ή αν δεν επιβεβαιώσετε εγκαίρως, επαναφέρει τη διαμόρφωση που είχε πριν την αλλαγή.";
+"This switch can't undo changes on its own (no auto checkpoint). Netdeck doesn't apply changes without it." = "Αυτό το switch δεν μπορεί να αναιρέσει μόνο του αλλαγές (δεν υπάρχει auto checkpoint). Το Netdeck δεν εφαρμόζει αλλαγές χωρίς αυτό.";
