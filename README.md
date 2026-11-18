@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  A native macOS app for switches, routers, servers and NAS. Real front panels, plain-language changes,
-  and a safety timer on the device itself for every change you apply.
+  A native macOS app for switches, routers, firewalls, servers and NAS. Real front panels, plain-language
+  changes, and a safety timer on the device itself for every change you apply.
 </p>
 
 <p align="center">
@@ -35,6 +35,12 @@ rolls back on its own if you don't confirm it.
 > for the other platforms are written from vendor documentation and covered by unit tests on synthetic
 > captures; they have not met real hardware yet. Try them with `netdeck-probe` first (it never applies
 > anything) and send captures.
+
+## Download
+
+Signed and notarized builds for Apple silicon Macs (macOS 15 or later) are on the
+[Releases](https://github.com/subasioguz/netdeck/releases) page: unzip and move Netdeck to Applications. A
+release can lag behind `main`; build from source (below) for the newest drivers.
 
 ---
 
@@ -68,6 +74,7 @@ Netdeck keeps the device's own safety net in place and puts a clear picture on t
 | Automatic config backups before every change | Done |
 | Device auto-detection (vendor, model, OS) | Done |
 | Front panels drawn per model (100 known panels, generic layout for the rest) | Done |
+| Firewalls (FortiGate, pfSense, OPNsense) read only: ports with their addresses, VLAN interfaces and neighbours, configuration in History & backups | Done |
 | Health, storage, sensors and interfaces of servers and NAS (read only) | Done |
 | Server power actions over Redfish (shut down, restart, force off...), each after a confirmation | Done |
 | Multiple devices grouped by location, global "awaiting confirmation" banner | Done |
@@ -100,8 +107,8 @@ Netdeck keeps the device's own safety net in place and puts a clear picture on t
 | MikroTik RouterOS 7 | CRS switches, CCR / RB / hEX routers (bridge VLAN filtering) | An undo script and a scheduler on the router run unless you confirm | Not yet |
 | Ubiquiti EdgeOS | EdgeRouter | `commit-confirm` (the router restarts with its saved configuration if not confirmed), `save` only after you confirm | Not yet |
 | HPE Aruba AOS-S (ProCurve) 16.05+ | 2530, 2540, 2920, 2930F/M, 3810M, 5400R (older firmware read only) | `cfg-backup` to flash, then a one-shot job runs `cfg-restore` after N minutes without a reboot (HPE's automatic-rollback recipe), `write memory` only after you confirm | Not yet |
-| TP-Link Omada / JetStream | SG2xxx, SG3xxx, SX3xxx and T-series managed switches in standalone mode (controller-managed switches read only) | `reboot-schedule in N` without saving: if you don't confirm, the switch restarts with its saved configuration (offline for a few minutes). A refused command or *Undo now* puts the old settings back with commands, without a restart. Applies only when nothing else is unsaved; `copy running-config startup-config` only after you confirm | Not yet |
 | HPE Aruba AOS-CX 10.06+ | 6000–10000 series switches | `checkpoint auto N` (the switch restores its previous configuration if not confirmed; Netdeck also keeps its own checkpoint to undo at once), `write memory` only after you confirm | Not yet |
+| TP-Link Omada / JetStream | SG2xxx, SG3xxx, SX3xxx and T-series managed switches in standalone mode (controller-managed switches read only) | `reboot-schedule in N` without saving: if you don't confirm, the switch restarts with its saved configuration (offline for a few minutes). A refused command or *Undo now* puts the old settings back with commands, without a restart. Applies only when nothing else is unsaved; `copy running-config startup-config` only after you confirm | Not yet |
 | Fortinet FortiOS | FortiGate and FortiWiFi firewalls (ports with their addresses, VLAN interfaces, zones and ARP neighbours; configuration kept in History & backups) | Read only: a firewall mistake can cut off the connection (often a VPN through it) that would undo it, and FortiOS has no rollback timer without a restart | Not yet |
 | pfSense, OPNsense | pfSense CE / Plus and OPNsense firewalls and routers (ports with their interfaces, VLANs, LAGG and PPPoE, ARP neighbours; `config.xml` kept in History & backups) | Read only, for the same reason as FortiGate. Netdeck leaves the console menu only through the "Shell" entry it reads on the screen, never another number | Not yet |
 | Dell iDRAC (Redfish) | PowerEdge servers | Read only, power actions after confirmation | Not yet |
@@ -124,9 +131,8 @@ Netdeck is built so that a mistake costs you minutes, never a site visit.
    script, EdgeOS `commit-confirm`, a TP-Link scheduled restart. Until you press *Confirm*, the device undoes
    the change on its own when the timer runs out, even if Netdeck or your connection dies. Where a platform
    can't do this (AOS-S before 16.05, AOS-CX before 10.06, TP-Link switches managed by an Omada controller,
-   FortiGate, pfSense and OPNsense firewalls),
-   Netdeck only reads. EdgeOS and TP-Link undo by restarting with the saved configuration; the review says so
-   before you apply.
+   FortiGate, pfSense and OPNsense firewalls), Netdeck only reads. EdgeOS and TP-Link undo by restarting with
+   the saved configuration; the review says so before you apply.
 4. **Saved only after you confirm.** The startup configuration is written after *Confirm*, never before;
    Netdeck answers "no" when a device asks to save on logout.
 5. **Backups first.** The current configuration is saved locally before every apply or rollback.
@@ -140,6 +146,7 @@ Netdeck is built so that a mistake costs you minutes, never a site visit.
 - macOS 15 or later
 - Xcode 16 or later (Swift 6 toolchain) to build from source
 - A USB serial console cable, or SSH access to the device's management interface (password login).
+  Servers and NAS are reached over HTTPS with an account on the BMC or NAS.
   The built-in SSH client prefers modern algorithms (Curve25519/ECDH, Ed25519/ECDSA host keys, AES-GCM) and
   falls back to the older ones that devices such as Catalyst IOS 12.2/15.x still offer (Diffie-Hellman
   group 14/1, RSA host keys, AES-CTR/CBC, 3DES, HMAC-SHA1). The connection badge then reads "SSH, older
@@ -203,9 +210,10 @@ Tests/
                           from vendor documentation until real ones replace them
 ```
 
-Netdeck talks to devices the same way you would: through their CLI. It reads with `show` commands,
-parses the text (including fixed-width tables), and writes with plain `set`/`delete` statements, so
-every change is visible as the exact commands the device received.
+Netdeck talks to network devices the same way you would: through their CLI. It reads with `show` commands,
+parses the text (including fixed-width tables), and writes with the platform's own configuration commands,
+so every change is visible as the exact commands the device received. Servers and NAS are read over their
+HTTPS APIs (Redfish, Synology DSM, QNAP, TrueNAS).
 
 ## Privacy
 
@@ -243,9 +251,9 @@ backups.
 
 Juniper, Junos, Cisco, IOS, HPE, Aruba, ProCurve, iLO, MikroTik, RouterOS, Ubiquiti, EdgeOS, TP-Link, Omada,
 JetStream, Fortinet, FortiGate, FortiWiFi, FortiOS, Netgate, pfSense, Deciso, OPNsense, Dell, iDRAC, Redfish,
-Supermicro, Lenovo, Synology, QNAP, QTS, QuTS hero and TrueNAS are trademarks of their respective owners. Netdeck is an independent
-project, not affiliated with or endorsed by any of them; the names are used only to say which devices it
-works with.
+Supermicro, Lenovo, Synology, QNAP, QTS, QuTS hero and TrueNAS are trademarks of their respective owners.
+Netdeck is an independent project, not affiliated with or endorsed by any of them; the names are used only to
+say which devices it works with.
 
 `Vendor/swift-nio-ssh` is [SwiftNIO SSH](https://github.com/apple/swift-nio-ssh) by Apple and the SwiftNIO
 project authors, also under the Apache License 2.0, with the changes listed in its `PATCHES.md`.
