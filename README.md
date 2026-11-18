@@ -26,8 +26,10 @@ Netdeck keeps the device's own safety net in place and puts a clear picture on t
   addresses and LLDP neighbours behind it, drawn on a faithful faceplate.
 - **Say what you want, not how.** "Open port 3 for the management cable" becomes the right `set`
   and `delete` statements, including splitting the disabled-ports range it belongs to.
-- **Apply without fear.** Changes go out with `commit confirmed`. If something breaks and you can't
-  confirm, the device returns to its previous configuration by itself.
+- **Apply without fear.** Every change goes out under the device's own timer (`commit confirmed` on
+  Junos, a revert timer, checkpoint or restore job elsewhere). If something breaks and you can't
+  confirm, for example because the change cut your VPN path, the device returns to its previous
+  configuration by itself.
 
 ## Features
 
@@ -41,11 +43,12 @@ Netdeck keeps the device's own safety net in place and puts a clear picture on t
 | Rear QSFP+ role changes (Virtual Chassis port ↔ network port) on the EX4300 | Done |
 | Automatic config backups before every change | Done |
 | Device auto-detection (vendor, model, OS) | Done |
-| Front panels drawn per model (68 known panels, generic layout for the rest) | Done |
+| Front panels drawn per model (100 known panels, generic layout for the rest) | Done |
 | Health, storage, sensors and interfaces of servers and NAS (read only) | Done |
 | Server power actions over Redfish (shut down, restart, force off...), each after a confirmation | Done |
 | Multiple devices grouped by location, global "awaiting confirmation" banner | Done |
-| English and Turkish interface | Done |
+| Built-in SSH client that also reaches older devices (legacy key exchange, RSA host keys, CBC ciphers), App Sandbox ready | Done |
+| Interface in 34 languages | Done |
 
 ## Supported devices
 
@@ -69,14 +72,21 @@ self-signed certificate are trusted on first use and pinned, like SSH host keys.
 Netdeck is built so that a mistake costs you minutes, never a site visit.
 
 1. **Read-only by default.** Connecting, refreshing and previewing never change the device.
-2. **Preview on the device itself.** Your edits are loaded into the candidate configuration, the device
-   reports its own diff and `commit check` result, and the candidate is discarded again.
-3. **Timed apply.** Changes are committed with `commit confirmed 3/5/10`. Until you press *Confirm*, the
-   device will undo them on its own when the timer runs out, even if Netdeck or your connection dies.
-4. **Backups first.** The current configuration is saved locally before every apply or rollback.
-5. **Hands off other people's work.** If the device already holds uncommitted changes from another
-   session, Netdeck stops and shows them instead of building on top of them.
-6. **Clean exits.** Serial console sessions are logged out when Netdeck disconnects.
+2. **Preview on the device itself** where the platform has a candidate configuration (Junos, EdgeOS): your
+   edits are loaded, the device reports its own diff and check result, and the candidate is discarded again.
+   Elsewhere the review shows the exact commands the device will receive.
+3. **Timed apply.** Every change goes out under a timer on the device (see *Supported devices* above): Junos
+   `commit confirmed`, IOS `revert timer`, AOS-CX `checkpoint auto`, an AOS-S restore job, a RouterOS undo
+   script, EdgeOS `commit-confirm`. Until you press *Confirm*, the device undoes the change on its own when
+   the timer runs out, even if Netdeck or your connection dies. Where a platform can't do this (AOS-S before
+   16.05, AOS-CX before 10.06), Netdeck only reads.
+4. **Saved only after you confirm.** The startup configuration is written after *Confirm*, never before;
+   Netdeck answers "no" when a device asks to save on logout.
+5. **Backups first.** The current configuration is saved locally before every apply or rollback.
+6. **Hands off other people's work.** If the device already holds uncommitted changes from another
+   session, or another change is still waiting for confirmation, Netdeck stops and shows it instead of
+   building on top of it.
+7. **Clean exits.** Serial console sessions are logged out when Netdeck disconnects.
 
 ## Requirements
 
@@ -155,8 +165,9 @@ every change is visible as the exact commands the device received.
 
 English is the development language. Every user-facing string is looked up with `t("English text")`,
 and translations live in `Sources/NetdeckCore/Resources/<language>.lproj/Localizable.strings`.
-Turkish is included. To add a language, copy `tr.lproj`, translate the values, and add the code to
-`CFBundleLocalizations` in `Resources/Info.plist`.
+The interface is translated into 33 languages besides English (Arabic and Hebrew are shown left to right).
+To add a language, copy `tr.lproj`, translate the values, and add the code to `CFBundleLocalizations` in
+`Resources/Info.plist`. `python3 -I scripts/check-l10n.py --strings <table>` checks a table against the code.
 
 ## Contributing
 
@@ -172,3 +183,6 @@ Copyright 2026 Oğuzhan Subaşı.
 Licensed under the [Apache License, Version 2.0](LICENSE). You may use, modify and distribute Netdeck,
 including commercially, under the terms of that license. The license does not grant rights to the
 Netdeck name or logo.
+
+`Vendor/swift-nio-ssh` is [SwiftNIO SSH](https://github.com/apple/swift-nio-ssh) by Apple and the SwiftNIO
+project authors, also under the Apache License 2.0, with the changes listed in its `PATCHES.md`.
