@@ -1,0 +1,20 @@
+pfSense - Netgate Device ID: 0000000000000000test
+
+*** Welcome to pfSense 2.7.2-RELEASE (amd64) on fw-edge ***
+
+ WAN (wan)       -> igb0       -> v4/DHCP4: 198.51.100.20/24
+ LAN (lan)       -> igb1       -> v4: 192.0.2.1/26
+ SERVERS (opt1)  -> igb1.20    -> v4: 192.0.2.65/26
+ STORAGE (opt2)  -> lagg0      -> v4: 192.0.2.129/26
+
+ 0) Logout (SSH only)                  9) pfTop
+ 1) Assign Interfaces                 10) Filter Logs
+ 2) Set interface(s) IP address       11) Restart webConfigurator
+ 3) Reset webConfigurator password    12) PHP shell + pfSense tools
+ 4) Reset to factory defaults         13) Update from console
+ 5) Reboot system                     14) Disable Secure Shell (sshd)
+ 6) Halt system                       15) Restore recent configuration
+ 7) Ping host                         16) Restart PHP-FPM
+ 8) Shell
+
+Enter an option: 

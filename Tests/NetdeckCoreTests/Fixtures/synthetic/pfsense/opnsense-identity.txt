@@ -1,0 +1,6 @@
+platform=
+version=
+opnsense=OPNsense 25.1.5_5
+hostname=fw-core.example.net
+product=DEC740
+serial=TEST0001

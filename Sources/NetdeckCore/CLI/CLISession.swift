@@ -15,6 +15,9 @@ public protocol CLIDialect: Sendable {
     var setupCommands: [String] { get }
     /// What to send at `prompt` during login to get to the operational prompt (nil: nothing).
     func advance(from prompt: CLIPrompt) -> String?
+    /// Like `advance(from:)`, with everything the device printed since the last step, for platforms whose
+    /// way forward is on the screen above the prompt (the pfSense / OPNsense console menu).
+    func advance(from prompt: CLIPrompt, screen: String) -> String?
     /// What to send at `prompt` to log out (nil: already out).
     func logout(from prompt: CLIPrompt?) -> String?
     /// Like `logout(from:)`, with the prompt line itself, for platforms that ask several questions on the
@@ -40,6 +43,7 @@ public protocol CLIDialect: Sendable {
 
 extension CLIDialect {
     public func logout(from prompt: CLIPrompt?, line: String) -> String? { logout(from: prompt) }
+    public func advance(from prompt: CLIPrompt, screen: String) -> String? { advance(from: prompt) }
     public func normalize(_ raw: String) -> String {
         guard raw.contains("\u{1B}") else { return raw }
         return raw
@@ -143,7 +147,10 @@ public actor CLISession {
                     _ = try await waitForPrompt(timeout: .seconds(20))
                 }
             case .shell, .configuration, .pager, .question:
-                guard let step = kind.flatMap(dialect.advance(from:)) else { throw CLIError.unrecognizedPrompt(String(buffer.suffix(4000))) }
+                let screen = buffer
+                guard let kind, let step = dialect.advance(from: kind, screen: screen) else {
+                    throw CLIError.unrecognizedPrompt(String(screen.suffix(4000)))
+                }
                 raw = Data()
                 try send(step)
                 _ = try? await waitForPrompt(timeout: .seconds(10))

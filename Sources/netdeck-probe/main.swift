@@ -28,7 +28,7 @@ struct Options {
 
 let platformNames: [String: Platform] = [
     "junos": .juniperJunos, "mikrotik": .mikrotikRouterOS, "routeros": .mikrotikRouterOS, "cisco": .ciscoIOS, "ios": .ciscoIOS,
-    "edgeos": .ubiquitiEdgeOS, "aoscx": .arubaAOSCX, "aos-cx": .arubaAOSCX, "aoss": .arubaAOSS, "procurve": .arubaAOSS, "tplink": .tplinkOmada, "omada": .tplinkOmada, "jetstream": .tplinkOmada, "fortigate": .fortinetFortiOS, "fortios": .fortinetFortiOS, "fortinet": .fortinetFortiOS, "idrac": .dellIDRAC, "redfish": .redfish, "synology": .synologyDSM, "truenas": .truenas,
+    "edgeos": .ubiquitiEdgeOS, "aoscx": .arubaAOSCX, "aos-cx": .arubaAOSCX, "aoss": .arubaAOSS, "procurve": .arubaAOSS, "tplink": .tplinkOmada, "omada": .tplinkOmada, "jetstream": .tplinkOmada, "fortigate": .fortinetFortiOS, "fortios": .fortinetFortiOS, "fortinet": .fortinetFortiOS, "pfsense": .pfsense, "opnsense": .opnsense, "idrac": .dellIDRAC, "redfish": .redfish, "synology": .synologyDSM, "truenas": .truenas,
 ]
 
 func parseOptions() -> Options {
@@ -70,7 +70,7 @@ if let path = opts.serial {
 } else {
     FileHandle.standardError.write(Data("""
     usage: netdeck-probe (--serial PATH [--baud N] | --ssh HOST [--port N] | --api URL) [--user U]
-                         [--platform junos|mikrotik|cisco|edgeos|aoss|aoscx|tplink|fortigate|idrac|redfish|synology|truenas] [--keep-session] [--system-ssh]
+                         [--platform junos|mikrotik|cisco|edgeos|aoss|aoscx|tplink|fortigate|pfsense|opnsense|idrac|redfish|synology|truenas] [--keep-session] [--system-ssh]
                          [snapshot | session | preview "cmd; cmd" | compare N]
     password: NETDECK_PASSWORD environment variable
 

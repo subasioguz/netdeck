@@ -1,0 +1,6 @@
+platform=pfSense
+version=2.7.2-RELEASE
+opnsense=
+hostname=fw-edge.home.arpa
+product=To Be Filled By O.E.M.
+serial=To Be Filled By O.E.M.

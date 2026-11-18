@@ -1,0 +1,8 @@
+? (198.51.100.1) at 00:00:5e:00:53:01 on igb0 expires in 1103 seconds [ethernet]
+? (198.51.100.20) at 00:00:5e:00:53:a0 on igb0 permanent [ethernet]
+? (192.0.2.1) at 00:00:5e:00:53:a1 on igb1 permanent [ethernet]
+? (192.0.2.10) at 00:00:5e:00:53:10 on igb1 expires in 1185 seconds [ethernet]
+? (192.0.2.11) at 0:0:5e:0:53:11 on igb1 expires in 640 seconds [ethernet]
+? (192.0.2.20) at (incomplete) on igb1 expired [ethernet]
+? (192.0.2.70) at 00:00:5e:00:53:20 on igb1.20 expires in 1199 seconds [vlan]
+? (192.0.2.140) at 00:00:5e:00:53:30 on lagg0 expires in 902 seconds [ethernet]

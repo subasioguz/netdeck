@@ -208,6 +208,9 @@ enum RenderCatalog {
         let manual = sampleModel()
         manual.selection = .overview
         out.append(("add-device-manual", sheet(manual, addForm(location: manual.locations.first) { $0.manual = true })))
+        // Firewall brands (Juniper SRX, Fortinet, pfSense, OPNsense).
+        let firewalls = AppModel(persists: false)
+        out.append(("add-device-manual-firewall", sheet(firewalls, addForm(location: firewalls.locations.first) { $0.manual = true; $0.kind = .firewall })))
         // Same cable while sw-01 waits for confirmation: testing and adding are blocked.
         let blocked = sampleModel(staged: false, pending: true)
         blocked.selection = .overview

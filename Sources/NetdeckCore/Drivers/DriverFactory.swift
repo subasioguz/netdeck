@@ -38,7 +38,8 @@ enum VendorDrivers {
              (.ciscoIOS, .serial), (.ciscoIOS, .ssh),
              (.ubiquitiEdgeOS, .serial), (.ubiquitiEdgeOS, .ssh),
              (.arubaAOSCX, .serial), (.arubaAOSCX, .ssh), (.arubaAOSS, .serial), (.arubaAOSS, .ssh),
-             (.tplinkOmada, .serial), (.tplinkOmada, .ssh), (.fortinetFortiOS, .serial), (.fortinetFortiOS, .ssh):
+             (.tplinkOmada, .serial), (.tplinkOmada, .ssh), (.fortinetFortiOS, .serial), (.fortinetFortiOS, .ssh),
+             (.pfsense, .serial), (.pfsense, .ssh), (.opnsense, .serial), (.opnsense, .ssh):
             return true
         case (.dellIDRAC, .api), (.redfish, .api), (.synologyDSM, .api), (.truenas, .api), (.unknown, .api):
             return true
@@ -66,6 +67,8 @@ enum VendorDrivers {
             return profile.makeTransport(password: password).map { madeTransport($0); return TPLinkDriver(transport: $0) }
         case .fortinetFortiOS:
             return profile.makeTransport(password: password).map { madeTransport($0); return FortiOSDriver(transport: $0) }
+        case .pfsense, .opnsense:
+            return profile.makeTransport(password: password).map { madeTransport($0); return PFDriver(transport: $0, platform: platform) }
         case .dellIDRAC, .redfish, .synologyDSM, .truenas, .unknown:
             guard case let .api(url) = profile.connection else { return nil }
             return APIDriver(url: url, platform: platform)

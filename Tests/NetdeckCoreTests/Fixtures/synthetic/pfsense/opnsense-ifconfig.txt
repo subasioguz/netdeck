@@ -1,0 +1,39 @@
+igb0: flags=1008843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST,LOWER_UP> metric 0 mtu 1500
+	description: WAN
+	options=4e527bb<RXCSUM,TXCSUM,VLAN_MTU,VLAN_HWTAGGING,JUMBO_MTU,VLAN_HWCSUM,TSO4,TSO6,LRO,WOL_MAGIC,VLAN_HWFILTER,VLAN_HWTSO,RXCSUM_IPV6,TXCSUM_IPV6,HWSTATS,MEXTPG>
+	ether 00:00:5e:00:53:c0
+	media: Ethernet autoselect (1000baseT <full-duplex>)
+	status: active
+	nd6 options=21<PERFORMNUD,AUTO_LINKLOCAL>
+igb1: flags=1008843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST,LOWER_UP> metric 0 mtu 1500
+	description: LAN
+	options=4e527bb<RXCSUM,TXCSUM,VLAN_MTU,VLAN_HWTAGGING,JUMBO_MTU,VLAN_HWCSUM,TSO4,TSO6,LRO,WOL_MAGIC,VLAN_HWFILTER,VLAN_HWTSO,RXCSUM_IPV6,TXCSUM_IPV6,HWSTATS,MEXTPG>
+	ether 00:00:5e:00:53:c1
+	inet 192.0.2.1 netmask 0xffffffc0 broadcast 192.0.2.63
+	media: Ethernet autoselect (2500Base-T <full-duplex>)
+	status: active
+	nd6 options=21<PERFORMNUD,AUTO_LINKLOCAL>
+igb2: flags=8802<BROADCAST,SIMPLEX,MULTICAST> metric 0 mtu 1500
+	options=4e527bb<RXCSUM,TXCSUM,VLAN_MTU,VLAN_HWTAGGING,JUMBO_MTU,VLAN_HWCSUM,TSO4,TSO6,LRO,WOL_MAGIC,VLAN_HWFILTER,VLAN_HWTSO,RXCSUM_IPV6,TXCSUM_IPV6,HWSTATS,MEXTPG>
+	ether 00:00:5e:00:53:c2
+	media: Ethernet autoselect
+	status: no carrier
+	nd6 options=21<PERFORMNUD,AUTO_LINKLOCAL>
+lo0: flags=1008049<UP,LOOPBACK,RUNNING,MULTICAST,LOWER_UP> metric 0 mtu 16384
+	inet 127.0.0.1 netmask 0xff000000
+	groups: lo
+pppoe0: flags=10088d1<UP,POINTOPOINT,RUNNING,NOARP,SIMPLEX,MULTICAST,LOWER_UP> metric 0 mtu 1492
+	description: WAN
+	inet 203.0.113.5 --> 203.0.113.1 netmask 0xffffffff
+	groups: pppoe
+	nd6 options=29<PERFORMNUD,IFDISABLED,AUTO_LINKLOCAL>
+vlan01: flags=1008843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST,LOWER_UP> metric 0 mtu 1500
+	description: CAMERAS
+	options=4600703<RXCSUM,TXCSUM,TSO4,TSO6,LRO,RXCSUM_IPV6,TXCSUM_IPV6,MEXTPG>
+	ether 00:00:5e:00:53:c1
+	inet 192.0.2.193 netmask 0xffffffc0 broadcast 192.0.2.255
+	groups: vlan
+	vlan: 30 vlanproto: 802.1q vlanpcp: 0 parent interface: igb1
+	media: Ethernet autoselect (2500Base-T <full-duplex>)
+	status: active
+	nd6 options=21<PERFORMNUD,AUTO_LINKLOCAL>

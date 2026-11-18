@@ -73,6 +73,8 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
     case arubaAOSS = "aruba-aos-s"
     case tplinkOmada = "tplink-omada"
     case fortinetFortiOS = "fortinet-fortios"
+    case pfsense = "netgate-pfsense"
+    case opnsense = "opnsense"
     case dellIDRAC = "dell-idrac"
     /// Any other server BMC over standard Redfish (HPE iLO, Supermicro, Lenovo XCC).
     case redfish = "redfish"
@@ -93,6 +95,8 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .arubaAOSCX, .arubaAOSS: return "Aruba"
         case .tplinkOmada: return "TP-Link"
         case .fortinetFortiOS: return "Fortinet"
+        case .pfsense: return "pfSense"
+        case .opnsense: return "OPNsense"
         case .dellIDRAC: return "Dell"
         case .redfish: return "Redfish"
         case .synologyDSM: return "Synology"
@@ -111,6 +115,8 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .arubaAOSS: return "AOS-S"
         case .tplinkOmada: return "Omada"
         case .fortinetFortiOS: return "FortiOS"
+        case .pfsense: return "pfSense"
+        case .opnsense: return "OPNsense"
         case .dellIDRAC: return "iDRAC"
         case .redfish: return "BMC"
         case .synologyDSM: return "DSM"
@@ -119,7 +125,8 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         }
     }
 
-    public var displayName: String { self == .unknown ? t("Unknown") : "\(vendor) \(osName)" }
+    /// "Juniper Junos"; just "pfSense" where the brand is the system.
+    public var displayName: String { self == .unknown ? t("Unknown") : vendor == osName ? vendor : "\(vendor) \(osName)" }
 
     /// Every listed brand has a driver. `unknown` ("Other" in the brand picker) gets the basic info card.
     public var support: Support {
@@ -134,7 +141,8 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
 
     /// The vendor names the maker. Not for a generic Redfish BMC, whose model string carries the
     /// manufacturer ("HPE ProLiant DL360 Gen10"), nor for an unknown device.
-    public var namesVendor: Bool { self != .redfish && self != .unknown }
+    /// Nor for pfSense / OPNsense, whose name is the system's, not the hardware maker's.
+    public var namesVendor: Bool { ![.redfish, .unknown, .pfsense, .opnsense].contains(self) }
 
     /// Second line of a brand tile in the manual picker.
     public var products: String {
@@ -147,6 +155,8 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .arubaAOSS: return "AOS-S, ProCurve (2530–5400R)"
         case .tplinkOmada: return "Omada, JetStream (SG, SX, T)"
         case .fortinetFortiOS: return "FortiGate, FortiWiFi"
+        case .pfsense: return "CE, Plus"
+        case .opnsense: return "Community, Business"
         case .dellIDRAC: return "iDRAC"
         case .redfish: return "iLO, Supermicro, Lenovo"
         case .synologyDSM: return "DSM"
@@ -179,7 +189,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
     /// Netdeck can read and keep this platform's configuration (drives History & backups).
     public var exportsConfig: Bool {
         switch self {
-        case .juniperJunos, .mikrotikRouterOS, .ciscoIOS, .ubiquitiEdgeOS, .arubaAOSCX, .arubaAOSS, .tplinkOmada, .fortinetFortiOS: return true
+        case .juniperJunos, .mikrotikRouterOS, .ciscoIOS, .ubiquitiEdgeOS, .arubaAOSCX, .arubaAOSS, .tplinkOmada, .fortinetFortiOS, .pfsense, .opnsense: return true
         default: return false
         }
     }
@@ -193,6 +203,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .ubiquitiEdgeOS: return [.router]
         case .arubaAOSCX, .arubaAOSS, .tplinkOmada: return [.switchDevice]
         case .fortinetFortiOS: return [.firewall]
+        case .pfsense, .opnsense: return [.firewall, .router]
         case .dellIDRAC, .redfish: return [.server]
         case .synologyDSM, .truenas: return [.storage]
         case .unknown: return DeviceKind.allCases
@@ -275,7 +286,11 @@ public struct Detection: Codable, Sendable, Equatable, Hashable {
     /// Redfish BMC, whose model already names the maker.
     public var summary: String {
         var parts = [platform.namesVendor ? platform.vendor + (model.map { " " + $0 } ?? "") : model ?? platform.displayName]
-        if let osLine { parts.append(osLine) }
+        if let osLine {
+            // "OPNsense 25.1.5" alone rather than "OPNsense · OPNsense 25.1.5".
+            if model == nil, !platform.namesVendor, osLine.hasPrefix(platform.displayName + " ") { parts = [] }
+            parts.append(osLine)
+        }
         return parts.joined(separator: " · ")
     }
 
@@ -342,6 +357,17 @@ public enum DeviceDetector {
             return Detection(platform: .fortinetFortiOS, model: st.model, osVersion: st.version, hostname: st.hostname,
                              kind: .firewall, serial: st.serial)
         }
+        // OPNsense ("*** fw.example: OPNsense 25.1.5_5 ***") before pfSense ("*** Welcome to pfSense 2.7.2-RELEASE ...").
+        if s.contains("OPNsense") {
+            // The "*** host: OPNsense 25.1.5_5 (amd64) ***" line has the full version; the greeting only "25.1".
+            let full = CiscoParsers.capture(#"OPNsense (\d+\.\d+(?:\.\d+)?(?:_\d+)?) \("#, in: s)?.first
+            return Detection(platform: .opnsense, osVersion: full ?? CiscoParsers.capture(#"OPNsense (\d+\.\d+(?:\.\d+)?(?:_\d+)?)"#, in: s)?.first,
+                             kind: .firewall)
+        }
+        if s.contains("pfSense") {
+            return Detection(platform: .pfsense, osVersion: CiscoParsers.capture(#"pfSense (?:Plus )?(\d+\.\d+(?:\.\d+)?-RELEASE)"#, in: s)?.first,
+                             kind: .firewall)
+        }
         if s.contains("EdgeOS") || s.contains("EdgeRouter") {
             return Detection(platform: .ubiquitiEdgeOS, kind: .router)
         }
@@ -374,6 +400,9 @@ public enum DeviceDetector {
         if l.hasSuffix("Login:"), l.contains("MikroTik") { return .mikrotikRouterOS }
         // ubnt@edge:~$   admin@nas:/$   root@host:~#
         if l.range(of: #"^[\w.\-]+@[\w.\-]+:[^\s]*[$#]$"#, options: .regularExpression) != nil { return .unknown }
+        // The pfSense / OPNsense console menu, or pfSense's shell prompt ([2.7.2-RELEASE][admin@fw.home.arpa]/root:).
+        // The banner above names which one; this only stops the Junos login from pressing Return at a menu.
+        if l.hasSuffix(PFDialect.menuPrompt) || l.range(of: PFDialect.pfSensePrompt, options: .regularExpression) != nil { return .pfsense }
         // FGT60F #   FGT60F (global) #   fw-01 $   (FortiOS: a blank before the # or $)
         if l.range(of: FortiOSDialect.promptPattern, options: .regularExpression) != nil { return .fortinetFortiOS }
         // Switch>   Switch#   Switch(config-if)#   (no "@": Junos prompts always have one)

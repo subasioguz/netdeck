@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<opnsense>
+  <system>
+    <hostname>fw-core</hostname>
+    <domain>example.net</domain>
+  </system>
+  <interfaces>
+    <wan>
+      <enable>1</enable>
+      <if>pppoe0</if>
+      <descr>WAN</descr>
+      <ipaddr>pppoe</ipaddr>
+    </wan>
+    <lan>
+      <enable>1</enable>
+      <if>igb1</if>
+      <descr>LAN</descr>
+      <ipaddr>192.0.2.1</ipaddr>
+      <subnet>26</subnet>
+    </lan>
+    <opt1>
+      <enable>1</enable>
+      <if>vlan01</if>
+      <descr>CAMERAS</descr>
+      <ipaddr>192.0.2.193</ipaddr>
+      <subnet>26</subnet>
+    </opt1>
+  </interfaces>
+  <vlans version="1.0.0">
+    <vlan uuid="00000000-0000-4000-8000-000000000001">
+      <if>igb1</if>
+      <tag>30</tag>
+      <pcp>0</pcp>
+      <proto/>
+      <descr>cameras</descr>
+      <vlanif>vlan01</vlanif>
+    </vlan>
+  </vlans>
+  <ppps>
+    <ppp>
+      <ptpid>0</ptpid>
+      <type>pppoe</type>
+      <if>pppoe0</if>
+      <ports>igb0</ports>
+      <username>user@isp.example</username>
+    </ppp>
+  </ppps>
+</opnsense>
