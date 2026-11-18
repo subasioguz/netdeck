@@ -1,0 +1,27 @@
+SW-EDGE-02#show lldp neighbor-information
+LLDP Neighbor Information:
+gigabitEthernet 1/0/1:
+Neighbor index 1:
+        Chassis type:                 MAC address
+        Chassis ID:                   00:00:5E:00:53:A1
+        Port ID type:                 Interface name
+        Port ID:                      GigabitEthernet1/0/48
+        Port description:             GigabitEthernet1/0/48 Interface
+        TTL:                          120
+        System name:                  SW-CORE-01
+        System description:           JetStream 48-Port Gigabit L2+ Managed Switch
+                                      with 4 10GE SFP+ Slots
+        Management address type:      ipv4
+        Management address:           192.0.2.1
+gigabitEthernet 1/0/3:
+Neighbor index 1:
+        Chassis type:                 MAC address
+        Chassis ID:                   00:00:5E:00:53:31
+        Port ID type:                 MAC address
+        Port ID:                      00:00:5E:00:53:31
+        TTL:                          120
+        System name:                  SIP-PHONE-03
+        Management address type:      ipv4
+        Management address:           192.0.2.103
+
+SW-EDGE-02#

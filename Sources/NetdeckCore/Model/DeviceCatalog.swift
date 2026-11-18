@@ -71,6 +71,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
     case ubiquitiEdgeOS = "ubiquiti-edgeos"
     case arubaAOSCX = "aruba-aos-cx"
     case arubaAOSS = "aruba-aos-s"
+    case tplinkOmada = "tplink-omada"
     case dellIDRAC = "dell-idrac"
     /// Any other server BMC over standard Redfish (HPE iLO, Supermicro, Lenovo XCC).
     case redfish = "redfish"
@@ -89,6 +90,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .ciscoIOS: return "Cisco"
         case .ubiquitiEdgeOS: return "Ubiquiti"
         case .arubaAOSCX, .arubaAOSS: return "Aruba"
+        case .tplinkOmada: return "TP-Link"
         case .dellIDRAC: return "Dell"
         case .redfish: return "Redfish"
         case .synologyDSM: return "Synology"
@@ -105,6 +107,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .ubiquitiEdgeOS: return "EdgeOS"
         case .arubaAOSCX: return "AOS-CX"
         case .arubaAOSS: return "AOS-S"
+        case .tplinkOmada: return "Omada"
         case .dellIDRAC: return "iDRAC"
         case .redfish: return "BMC"
         case .synologyDSM: return "DSM"
@@ -139,6 +142,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .ubiquitiEdgeOS: return "EdgeOS"
         case .arubaAOSCX: return "AOS-CX (6000–10000)"
         case .arubaAOSS: return "AOS-S, ProCurve (2530–5400R)"
+        case .tplinkOmada: return "Omada, JetStream (SG, SX, T)"
         case .dellIDRAC: return "iDRAC"
         case .redfish: return "iLO, Supermicro, Lenovo"
         case .synologyDSM: return "DSM"
@@ -171,7 +175,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
     /// Netdeck can read and keep this platform's configuration (drives History & backups).
     public var exportsConfig: Bool {
         switch self {
-        case .juniperJunos, .mikrotikRouterOS, .ciscoIOS, .ubiquitiEdgeOS, .arubaAOSCX, .arubaAOSS: return true
+        case .juniperJunos, .mikrotikRouterOS, .ciscoIOS, .ubiquitiEdgeOS, .arubaAOSCX, .arubaAOSS, .tplinkOmada: return true
         default: return false
         }
     }
@@ -183,7 +187,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .mikrotikRouterOS: return [.router, .switchDevice, .wireless]
         case .ciscoIOS: return [.switchDevice, .router]
         case .ubiquitiEdgeOS: return [.router]
-        case .arubaAOSCX, .arubaAOSS: return [.switchDevice]
+        case .arubaAOSCX, .arubaAOSS, .tplinkOmada: return [.switchDevice]
         case .dellIDRAC, .redfish: return [.server]
         case .synologyDSM, .truenas: return [.storage]
         case .unknown: return DeviceKind.allCases
@@ -320,6 +324,12 @@ public enum DeviceDetector {
         if AOSCXParsers.isAOSCX(s) || s.range(of: #"has logged in \d+ times in the past"#, options: .regularExpression) != nil {
             return Detection(platform: .arubaAOSCX, model: AOSCXParsers.system(s).productName.map(AOSCXParsers.model(fromProduct:)),
                              osVersion: AOSCXParsers.osVersion(s), kind: .switchDevice)
+        }
+        // TP-Link Omada / JetStream: `show system-info` ("Hardware Version - TL-SG3452X 1.0").
+        if TPLinkParsers.isTPLink(s) {
+            let info = TPLinkParsers.system(s)
+            return Detection(platform: .tplinkOmada, model: info.model, osVersion: info.firmware, hostname: info.name,
+                             kind: .switchDevice, uptime: info.uptime, serial: info.serial)
         }
         if s.contains("EdgeOS") || s.contains("EdgeRouter") {
             return Detection(platform: .ubiquitiEdgeOS, kind: .router)

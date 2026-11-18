@@ -843,3 +843,13 @@
 "Netdeck couldn't set up the job that restores the configuration:" = "Netdeck 无法设置恢复配置的任务:";
 "This switch's VLANs have no description. Leave it empty." = "此交换机的 VLAN 没有描述。请留空。";
 "This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "此交换机的固件(%@)无法在不重启的情况下恢复配置;需要 16.05 或更高版本。Netdeck 只读取它,不会更改。";
+"TP-Link commands" = "TP-Link 命令";
+"If you don't confirm, the switch restarts with its saved configuration. It is offline for a few minutes." = "如果你不确认,交换机会以已保存的配置重新启动,并离线几分钟。";
+"The switch has no candidate configuration to check in advance. It applies each command at once and saves nothing until you confirm. If a command is rejected, Netdeck puts the previous settings back; if you don't confirm in time, the switch restarts with its saved configuration." = "这台交换机没有可提前检查的候选配置。它会立即应用每条命令,在你确认之前不保存任何内容。如果某条命令被拒绝,Netdeck 会恢复之前的设置;如果你没有及时确认,交换机会以已保存的配置重新启动。";
+"This switch has changes that aren't saved yet. Netdeck's safety net restarts the switch with its saved configuration, which would lose them too. Save or undo them on the switch first." = "这台交换机有尚未保存的更改。Netdeck 的安全网会以已保存的配置重启交换机,这些更改也会丢失。请先在交换机上保存或撤销它们。";
+"An Omada controller manages this switch, and it only takes show commands. Netdeck reads it but doesn't change it; make changes in the controller." = "这台交换机由 Omada 控制器管理,只接受 show 命令。Netdeck 只读取它而不做更改;请在控制器中进行更改。";
+"Netdeck couldn't schedule the restart that undoes the change:" = "Netdeck 无法安排用于撤销更改的重启:";
+"Netdeck couldn't put every setting back by itself. The switch restarts with its saved configuration within a minute and is offline for a few minutes." = "Netdeck 无法自行恢复所有设置。交换机将在一分钟内以已保存的配置重新启动,并离线几分钟。";
+"%@: port descriptions on this switch are at most 16 characters, without quotes, brackets or < > , \\ &." = "%@:这台交换机上的端口描述最多 16 个字符,不能包含引号、括号或 < > , \\ &。";
+"%@ has a VLAN setup Netdeck can't show as access or trunk (%@). Change it on the switch." = "%@ 的 VLAN 设置无法在 Netdeck 中显示为 access 或 trunk(%@)。请在交换机上更改。";
+"'%@': VLAN names on this switch are 1–16 characters and can't contain \" < > , \\ or &." = "'%@':这台交换机上的 VLAN 名称为 1–16 个字符,不能包含 \" < > , \\ 或 &。";

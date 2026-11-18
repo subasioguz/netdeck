@@ -843,3 +843,13 @@
 "Netdeck couldn't set up the job that restores the configuration:" = "Netdeckは設定を復元するジョブを設定できませんでした:";
 "This switch's VLANs have no description. Leave it empty." = "このスイッチのVLANには説明がありません。空欄のままにしてください。";
 "This switch's firmware (%@) can't restore a configuration without restarting; that needs 16.05 or later. Netdeck reads it but doesn't change it." = "このスイッチのファームウェア(%@)は、再起動なしで設定を復元できません。16.05以降が必要です。Netdeckは読み取りのみ行い、変更しません。";
+"TP-Link commands" = "TP-Linkコマンド";
+"If you don't confirm, the switch restarts with its saved configuration. It is offline for a few minutes." = "確認しない場合、スイッチは保存済みの設定で再起動します。数分間オフラインになります。";
+"The switch has no candidate configuration to check in advance. It applies each command at once and saves nothing until you confirm. If a command is rejected, Netdeck puts the previous settings back; if you don't confirm in time, the switch restarts with its saved configuration." = "このスイッチには事前に確認できる候補設定がありません。各コマンドをすぐに適用し、確認するまで何も保存しません。コマンドが拒否された場合はNetdeckが以前の設定に戻します。時間内に確認しない場合、スイッチは保存済みの設定で再起動します。";
+"This switch has changes that aren't saved yet. Netdeck's safety net restarts the switch with its saved configuration, which would lose them too. Save or undo them on the switch first." = "このスイッチにはまだ保存されていない変更があります。Netdeckのセーフティネットはスイッチを保存済みの設定で再起動するため、それらの変更も失われます。先にスイッチ上で保存するか元に戻してください。";
+"An Omada controller manages this switch, and it only takes show commands. Netdeck reads it but doesn't change it; make changes in the controller." = "このスイッチはOmadaコントローラーが管理しており、showコマンドしか受け付けません。Netdeckは読み取りのみで変更しません。変更はコントローラーで行ってください。";
+"Netdeck couldn't schedule the restart that undoes the change:" = "Netdeckは変更を元に戻す再起動を予約できませんでした:";
+"Netdeck couldn't put every setting back by itself. The switch restarts with its saved configuration within a minute and is offline for a few minutes." = "Netdeckはすべての設定を自力で元に戻せませんでした。スイッチは1分以内に保存済みの設定で再起動し、数分間オフラインになります。";
+"%@: port descriptions on this switch are at most 16 characters, without quotes, brackets or < > , \\ &." = "%@: このスイッチのポート説明は16文字以内で、引用符、括弧、< > , \\ & は使えません。";
+"%@ has a VLAN setup Netdeck can't show as access or trunk (%@). Change it on the switch." = "%@のVLAN設定はNetdeckでaccessまたはtrunkとして表示できません(%@)。スイッチ上で変更してください。";
+"'%@': VLAN names on this switch are 1–16 characters and can't contain \" < > , \\ or &." = "'%@': このスイッチのVLAN名は1〜16文字で、\" < > , \\ & は使えません。";

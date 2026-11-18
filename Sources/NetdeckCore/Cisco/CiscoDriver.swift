@@ -27,6 +27,11 @@ public actor CiscoDriver: DeviceDriver {
             if let other = DeviceDetector.detect(version), other.platform != .ciscoIOS, other.platform != .unknown {
                 throw CLIError.unrecognizedPrompt(version)
             }
+            // TP-Link has no `show version`; its `show system-info` names it.
+            if CiscoDialect.isInvalidInput(version) || version.contains("Bad command") {
+                let info = (try? await cli.run("show system-info")) ?? ""
+                if TPLinkParsers.isTPLink(info) { throw CLIError.unrecognizedPrompt(info) }
+            }
             throw DriverError.notSupported
         }
         if await cli.isLimited {

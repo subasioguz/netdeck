@@ -17,7 +17,7 @@
   <img alt="macOS 15 or later" src="https://img.shields.io/badge/macOS-15%2B-111114?logo=apple&logoColor=white">
   <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-F05138?logo=swift&logoColor=white">
   <img alt="SwiftUI" src="https://img.shields.io/badge/SwiftUI-native-2F6BFF">
-  <img alt="Platforms" src="https://img.shields.io/badge/devices-Junos%20%C2%B7%20IOS%20%C2%B7%20RouterOS%20%C2%B7%20EdgeOS%20%C2%B7%20AOS--S%20%C2%B7%20AOS--CX-2F6BFF">
+  <img alt="Platforms" src="https://img.shields.io/badge/devices-Junos%20%C2%B7%20IOS%20%C2%B7%20RouterOS%20%C2%B7%20EdgeOS%20%C2%B7%20AOS--S%20%C2%B7%20AOS--CX%20%C2%B7%20TP--Link-2F6BFF">
   <img alt="34 languages" src="https://img.shields.io/badge/languages-34-2F6BFF">
   <img alt="Apache 2.0" src="https://img.shields.io/badge/license-Apache%202.0-111114">
 </p>
@@ -100,6 +100,7 @@ Netdeck keeps the device's own safety net in place and puts a clear picture on t
 | MikroTik RouterOS 7 | CRS switches, CCR / RB / hEX routers (bridge VLAN filtering) | An undo script and a scheduler on the router run unless you confirm | Not yet |
 | Ubiquiti EdgeOS | EdgeRouter | `commit-confirm` (the router restarts with its saved configuration if not confirmed), `save` only after you confirm | Not yet |
 | HPE Aruba AOS-S (ProCurve) 16.05+ | 2530, 2540, 2920, 2930F/M, 3810M, 5400R (older firmware read only) | `cfg-backup` to flash, then a one-shot job runs `cfg-restore` after N minutes without a reboot (HPE's automatic-rollback recipe), `write memory` only after you confirm | Not yet |
+| TP-Link Omada / JetStream | SG2xxx, SG3xxx, SX3xxx and T-series managed switches in standalone mode (controller-managed switches read only) | `reboot-schedule in N` without saving: if you don't confirm, the switch restarts with its saved configuration (offline for a few minutes). A refused command or *Undo now* puts the old settings back with commands, without a restart. Applies only when nothing else is unsaved; `copy running-config startup-config` only after you confirm | Not yet |
 | HPE Aruba AOS-CX 10.06+ | 6000–10000 series switches | `checkpoint auto N` (the switch restores its previous configuration if not confirmed; Netdeck also keeps its own checkpoint to undo at once), `write memory` only after you confirm | Not yet |
 | Dell iDRAC (Redfish) | PowerEdge servers | Read only, power actions after confirmation | Not yet |
 | Redfish BMC (HPE iLO, Supermicro, Lenovo XCC) | Servers | Read only, power actions after confirmation | Not yet |
@@ -118,9 +119,11 @@ Netdeck is built so that a mistake costs you minutes, never a site visit.
    Elsewhere the review shows the exact commands the device will receive.
 3. **Timed apply.** Every change goes out under a timer on the device (see *Supported devices* above): Junos
    `commit confirmed`, IOS `revert timer`, AOS-CX `checkpoint auto`, an AOS-S restore job, a RouterOS undo
-   script, EdgeOS `commit-confirm`. Until you press *Confirm*, the device undoes the change on its own when
-   the timer runs out, even if Netdeck or your connection dies. Where a platform can't do this (AOS-S before
-   16.05, AOS-CX before 10.06), Netdeck only reads.
+   script, EdgeOS `commit-confirm`, a TP-Link scheduled restart. Until you press *Confirm*, the device undoes
+   the change on its own when the timer runs out, even if Netdeck or your connection dies. Where a platform
+   can't do this (AOS-S before 16.05, AOS-CX before 10.06, TP-Link switches managed by an Omada controller),
+   Netdeck only reads. EdgeOS and TP-Link undo by restarting with the saved configuration; the review says so
+   before you apply.
 4. **Saved only after you confirm.** The startup configuration is written after *Confirm*, never before;
    Netdeck answers "no" when a device asks to save on logout.
 5. **Backups first.** The current configuration is saved locally before every apply or rollback.
@@ -180,7 +183,7 @@ Sources/
     CLI/                  Text CLI session shared by the non-Junos drivers (prompts come from a dialect)
     Drivers/              DeviceDriver protocol, driver factory, per-platform change traits
     Junos/                CLI session, output parsers, config model, change planner, driver
-    Cisco/ MikroTik/ EdgeOS/ Aruba/  Dialect, parsers, change planner and driver per platform (Aruba: AOS-S, AOS-CX)
+    Cisco/ MikroTik/ EdgeOS/ Aruba/ TPLink/  Dialect, parsers, change planner and driver per platform
     API/                  HTTPS client with certificate pinning; Redfish, Synology and TrueNAS readers
     Model/                Snapshots, ports, device kinds and platforms, auto-detection, faceplate catalog
     Session/              Observable per-device state for the UI
@@ -233,7 +236,8 @@ Netdeck changes the configuration of live network equipment. It is provided "as 
 any kind (sections 7 and 8 of the license). Try it on a lab or non-critical device first, and keep your own
 backups.
 
-Juniper, Junos, Cisco, IOS, HPE, Aruba, ProCurve, iLO, MikroTik, RouterOS, Ubiquiti, EdgeOS, Dell, iDRAC, Redfish,
+Juniper, Junos, Cisco, IOS, HPE, Aruba, ProCurve, iLO, MikroTik, RouterOS, Ubiquiti, EdgeOS, TP-Link, Omada,
+JetStream, Dell, iDRAC, Redfish,
 Supermicro, Lenovo, Synology and TrueNAS are trademarks of their respective owners. Netdeck is an independent
 project, not affiliated with or endorsed by any of them; the names are used only to say which devices it
 works with.

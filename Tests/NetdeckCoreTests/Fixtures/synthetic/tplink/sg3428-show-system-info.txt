@@ -1,0 +1,15 @@
+SW-EDGE-02#show system-info
+
+ System Description   - JetStream 24-Port Gigabit L2+ Managed Switch with 4 SFP Slots
+ System Name          - SW-EDGE-02
+ System Location      - Rack 2
+ Contact Information  - noc@example.net
+ Hardware Version     - TL-SG3428 2.0
+ Software Version     - 2.0.13 Build 20240417 Rel.62342
+ Bootloader Version   - TP-LINK  BOOTUTIL(v1.0.0)
+ Mac Address          - 00-00-5E-00-53-02
+ Serial Number        - TEST00000002
+ System Time          - 2026-11-18 14:19:28
+ Running Time         - 12 day - 7 hour - 1 min - 25 sec
+
+SW-EDGE-02#
