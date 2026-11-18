@@ -655,7 +655,7 @@
 "Powered on" = "Encendido";
 "Read over the device's API · %@" = "Leído por la API del dispositivo · %@";
 "Reading…" = "Leyendo…";
-"Redfish or REST · iDRAC, Synology, TrueNAS" = "Redfish o REST · iDRAC, Synology, TrueNAS";
+"Redfish or REST · iDRAC, Synology, QNAP, TrueNAS" = "Redfish o REST · iDRAC, Synology, QNAP, TrueNAS";
 "Routed port" = "Puerto enrutado";
 "RouterOS commands" = "Comandos de RouterOS";
 "Run separately, not covered by the safety timer:" = "Se ejecutan aparte, sin cobertura del temporizador de seguridad:";

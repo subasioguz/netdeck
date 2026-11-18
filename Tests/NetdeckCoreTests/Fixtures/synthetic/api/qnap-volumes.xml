@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<QDocRoot version="1.0">
+<authPassed><![CDATA[1]]></authPassed>
+<model><modelName><![CDATA[TS-X64]]></modelName><internalModelName><![CDATA[TS-X64]]></internalModelName><platform><![CDATA[TS-NASX86]]></platform><platform_ex><![CDATA[X86_JASPERLAKE]]></platform_ex><customModelName><![CDATA[]]></customModelName><displayModelName><![CDATA[TS-464]]></displayModelName><sas_model><![CDATA[0]]></sas_model><storage_v2><![CDATA[1]]></storage_v2><is_zfs><![CDATA[0]]></is_zfs></model>
+<firmware><version><![CDATA[5.1.4]]></version><number><![CDATA[2596]]></number><build><![CDATA[20231128]]></build><patch><![CDATA[0]]></patch><buildTime><![CDATA[2023/11/28]]></buildTime></firmware>
+<hostname><![CDATA[nas-01]]></hostname>
+<volumeList><volume><volumeStat><![CDATA[raid5]]></volumeStat><volumeDisks><![CDATA[ 1,2,3,4]]></volumeDisks><volumeStatus><![CDATA[0]]></volumeStatus><volumeValue><![CDATA[1]]></volumeValue><volumeLabel><![CDATA[DataVol1]]></volumeLabel><is_default_volume><![CDATA[1]]></is_default_volume></volume><volume><volumeStat><![CDATA[single]]></volumeStat><volumeDisks><![CDATA[ 4]]></volumeDisks><volumeStatus><![CDATA[-5]]></volumeStatus><volumeValue><![CDATA[2]]></volumeValue><volumeLabel><![CDATA[]]></volumeLabel></volume></volumeList>
+<volumeUseList><volumeUse><volumeValue><![CDATA[1]]></volumeValue><total_size><![CDATA[11520000000000]]></total_size><free_size><![CDATA[4320000000000]]></free_size><folder_element><sharename><![CDATA[Public]]></sharename><used_size><![CDATA[1000000]]></used_size></folder_element><folder_element><sharename><![CDATA[System Reserved]]></sharename><used_size><![CDATA[0]]></used_size><type><![CDATA[system]]></type></folder_element></volumeUse><volumeUse><volumeValue><![CDATA[2]]></volumeValue><total_size><![CDATA[0]]></total_size><free_size><![CDATA[0]]></free_size><folder_element></folder_element></volumeUse></volumeUseList>
+</QDocRoot>

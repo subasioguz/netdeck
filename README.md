@@ -106,7 +106,7 @@ Netdeck keeps the device's own safety net in place and puts a clear picture on t
 | pfSense, OPNsense | pfSense CE / Plus and OPNsense firewalls and routers (ports with their interfaces, VLANs, LAGG and PPPoE, ARP neighbours; `config.xml` kept in History & backups) | Read only, for the same reason as FortiGate. Netdeck leaves the console menu only through the "Shell" entry it reads on the screen, never another number | Not yet |
 | Dell iDRAC (Redfish) | PowerEdge servers | Read only, power actions after confirmation | Not yet |
 | Redfish BMC (HPE iLO, Supermicro, Lenovo XCC) | Servers | Read only, power actions after confirmation | Not yet |
-| Synology DSM, TrueNAS | NAS | Read only | Not yet |
+| Synology DSM, QNAP (QTS, QuTS hero), TrueNAS | NAS | Read only | Not yet |
 
 Other devices are recognised when possible and shown with basic information. HTTPS devices with a
 self-signed certificate are trusted on first use and pinned, like SSH host keys.
@@ -189,7 +189,7 @@ Sources/
     Cisco/ MikroTik/ EdgeOS/ Aruba/ TPLink/  Dialect, parsers, change planner and driver per platform
     Fortinet/             FortiOS dialect, parsers and a read-only driver
     PF/                   pfSense / OPNsense: console menu, shell, ifconfig, ARP and config.xml; read only
-    API/                  HTTPS client with certificate pinning; Redfish, Synology and TrueNAS readers
+    API/                  HTTPS client with certificate pinning; Redfish, Synology, QNAP and TrueNAS readers
     Model/                Snapshots, ports, device kinds and platforms, auto-detection, faceplate catalog
     Session/              Observable per-device state for the UI
     Support/              Backups, device list, Keychain, localization
@@ -243,7 +243,7 @@ backups.
 
 Juniper, Junos, Cisco, IOS, HPE, Aruba, ProCurve, iLO, MikroTik, RouterOS, Ubiquiti, EdgeOS, TP-Link, Omada,
 JetStream, Fortinet, FortiGate, FortiWiFi, FortiOS, Netgate, pfSense, Deciso, OPNsense, Dell, iDRAC, Redfish,
-Supermicro, Lenovo, Synology and TrueNAS are trademarks of their respective owners. Netdeck is an independent
+Supermicro, Lenovo, Synology, QNAP, QTS, QuTS hero and TrueNAS are trademarks of their respective owners. Netdeck is an independent
 project, not affiliated with or endorsed by any of them; the names are used only to say which devices it
 works with.
 

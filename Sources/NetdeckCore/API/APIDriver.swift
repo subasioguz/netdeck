@@ -1,7 +1,7 @@
 import Foundation
 
 /// Reads a server BMC (Redfish: Dell iDRAC, HPE iLO, Supermicro, Lenovo XCC) or a NAS (Synology DSM,
-/// TrueNAS) over HTTPS. Read-only apart from server power commands: the change operations keep the
+/// TrueNAS, QNAP) over HTTPS. Read-only apart from server power commands: the change operations keep the
 /// protocol defaults and throw `DriverError.notSupported`.
 public actor APIDriver: DeviceDriver {
     private let url: String
@@ -106,9 +106,12 @@ public actor APIDriver: DeviceDriver {
         case .truenas:
             // The user said TrueNAS: skip guessing, the login tells whether it is.
             return TrueNASClient(http: http)
+        case .qnap:
+            return try await QNAPClient.probe(http)
         case .unknown:
             if let found = try await RedfishClient.probe(http) { return found }
             if let found = try await SynologyClient.probe(http) { return found }
+            if let found = try await QNAPClient.probe(http) { return found }
             if try await TrueNASClient.answers(http) { return TrueNASClient(http: http) }
             return nil
         default:

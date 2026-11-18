@@ -655,7 +655,7 @@
 "Powered on" = "פועל";
 "Read over the device's API · %@" = "נקרא דרך ה-API של ההתקן · %@";
 "Reading…" = "קורא…";
-"Redfish or REST · iDRAC, Synology, TrueNAS" = "Redfish או REST · iDRAC, Synology, TrueNAS";
+"Redfish or REST · iDRAC, Synology, QNAP, TrueNAS" = "Redfish או REST · iDRAC, Synology, QNAP, TrueNAS";
 "Routed port" = "יציאה מנותבת";
 "RouterOS commands" = "פקודות RouterOS";
 "Run separately, not covered by the safety timer:" = "רצות בנפרד, ולא מכוסות על ידי טיימר הבטיחות:";

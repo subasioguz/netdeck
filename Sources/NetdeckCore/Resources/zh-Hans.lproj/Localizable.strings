@@ -655,7 +655,7 @@
 "Powered on" = "已开机";
 "Read over the device's API · %@" = "通过设备 API 读取 · %@";
 "Reading…" = "正在读取…";
-"Redfish or REST · iDRAC, Synology, TrueNAS" = "Redfish 或 REST · iDRAC、Synology、TrueNAS";
+"Redfish or REST · iDRAC, Synology, QNAP, TrueNAS" = "Redfish 或 REST · iDRAC、Synology、QNAP、TrueNAS";
 "Routed port" = "路由端口";
 "RouterOS commands" = "RouterOS 命令";
 "Run separately, not covered by the safety timer:" = "单独运行,不受安全计时器保护:";

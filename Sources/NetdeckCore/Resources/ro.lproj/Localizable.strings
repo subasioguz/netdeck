@@ -655,7 +655,7 @@
 "Powered on" = "Pornit";
 "Read over the device's API · %@" = "Citit prin API-ul dispozitivului · %@";
 "Reading…" = "Se citește…";
-"Redfish or REST · iDRAC, Synology, TrueNAS" = "Redfish sau REST · iDRAC, Synology, TrueNAS";
+"Redfish or REST · iDRAC, Synology, QNAP, TrueNAS" = "Redfish sau REST · iDRAC, Synology, QNAP, TrueNAS";
 "Routed port" = "Port rutat";
 "RouterOS commands" = "Comenzi RouterOS";
 "Run separately, not covered by the safety timer:" = "Rulează separat, nu este acoperit de temporizatorul de siguranță:";

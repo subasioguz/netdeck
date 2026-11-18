@@ -655,7 +655,7 @@
 "Powered on" = "Virta päällä";
 "Read over the device's API · %@" = "Luettu laitteen API:n kautta · %@";
 "Reading…" = "Luetaan…";
-"Redfish or REST · iDRAC, Synology, TrueNAS" = "Redfish tai REST · iDRAC, Synology, TrueNAS";
+"Redfish or REST · iDRAC, Synology, QNAP, TrueNAS" = "Redfish tai REST · iDRAC, Synology, QNAP, TrueNAS";
 "Routed port" = "Reititetty portti";
 "RouterOS commands" = "RouterOS-komennot";
 "Run separately, not covered by the safety timer:" = "Ajetaan erikseen, turva-ajastin ei kata:";

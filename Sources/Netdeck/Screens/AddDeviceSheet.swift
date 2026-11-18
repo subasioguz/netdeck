@@ -364,7 +364,7 @@ struct AddDeviceSheet: View {
         VStack(spacing: 6) {
             option(.serial, t("Serial console"), t("USB serial cable to the console port. No network needed."))
             option(.ssh, t("SSH"), t("Over the network, through the management port."))
-            option(.api, t("API (HTTPS)"), t("Redfish or REST · iDRAC, Synology, TrueNAS"))
+            option(.api, t("API (HTTPS)"), t("Redfish or REST · iDRAC, Synology, QNAP, TrueNAS"))
         }
     }
 

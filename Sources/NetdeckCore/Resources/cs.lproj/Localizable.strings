@@ -655,7 +655,7 @@
 "Powered on" = "Zapnuto";
 "Read over the device's API · %@" = "Čteno přes API zařízení · %@";
 "Reading…" = "Čte se…";
-"Redfish or REST · iDRAC, Synology, TrueNAS" = "Redfish nebo REST · iDRAC, Synology, TrueNAS";
+"Redfish or REST · iDRAC, Synology, QNAP, TrueNAS" = "Redfish nebo REST · iDRAC, Synology, QNAP, TrueNAS";
 "Routed port" = "Směrovaný port";
 "RouterOS commands" = "Příkazy RouterOS";
 "Run separately, not covered by the safety timer:" = "Spouští se samostatně, bezpečnostní časovač se na ně nevztahuje:";

@@ -22,7 +22,7 @@ Juniper Junos (EX series, ELS).
   - `Cisco/`, `MikroTik/`, `EdgeOS/`, `Aruba/` (AOS-S, AOS-CX), `TPLink/` (Omada / JetStream): dialect, parsers, planner and
     driver per platform; `Fortinet/` (FortiGate) and `PF/` (pfSense, OPNsense): dialect, parsers and a read-only driver
   - `API/`: HTTPS (TOFU certificate pinning in `APIPins`), Redfish (Dell iDRAC; HPE iLO, Supermicro, Lenovo XCC as
-    `.redfish`), Synology DSM, TrueNAS; read only apart from Redfish server power actions
+    `.redfish`), Synology DSM, QNAP (QTS / QuTS hero CGI, XML), TrueNAS; read only apart from Redfish server power actions
   - `Junos/JunosCLI`: text CLI session: login (console/shell/cli), prompt detection, command framing
   - `Junos/OutputParsers`, `JunosConfig`: `show ...` output and `display set` config → models
   - `Junos/ChangePlanner`: staged edits → `set`/`delete` commands (splits interface ranges)
@@ -45,7 +45,7 @@ Juniper Junos (EX series, ELS).
   `--notarize`: Developer ID + hardened runtime, notarized with the notarytool profile `netdeck`, stapled,
   → `build/Netdeck-<version>-macOS-arm64.zip` for the GitHub release)
 - Field test: `NETDECK_PASSWORD=... .build/debug/netdeck-probe --serial /dev/cu.usbserial-XXXX --user root snapshot`
-  (`--ssh HOST`, `--api URL`, `--platform junos|cisco|mikrotik|edgeos|aoss|aoscx|tplink|fortigate|pfsense|opnsense|idrac|synology|truenas`; `preview "cmd; cmd"`
+  (`--ssh HOST`, `--api URL`, `--platform junos|cisco|mikrotik|edgeos|aoss|aoscx|tplink|fortigate|pfsense|opnsense|idrac|synology|qnap|truenas`; `preview "cmd; cmd"`
   shows the device's diff where it has a candidate config and never applies anything)
 - Renders for visual checks: `.build/debug/Netdeck --render DIR [--only name,...] [dark] [tr]`
   (`faceplate-models` draws known model panels; `appliance-*` the server/NAS screen)
@@ -63,7 +63,7 @@ Juniper Junos (EX series, ELS).
 - AOS-S logout asks "save current configuration?": always answer "n" (`AOSSDialect.logout(from:line:)`).
   Never save to the startup/boot config before the user confirms.
 - EX4300 rear QSFP+ role changes are operational commands outside the timer: only with the explicit tick.
-- HTTPS devices (Redfish BMCs, Synology, TrueNAS) are read only, except server power actions (Redfish
+- HTTPS devices (Redfish BMCs, Synology, QNAP, TrueNAS) are read only, except server power actions (Redfish
   `ComputerSystem.Reset`), which always need an explicit confirmation in the UI.
 - No "Coming soon" in the UI: unsupported options are disabled without a promise.
 - Back up the configuration before applying. Stop if the candidate holds someone else's uncommitted changes.

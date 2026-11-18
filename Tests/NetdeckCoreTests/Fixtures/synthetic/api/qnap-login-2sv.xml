@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<QDocRoot version="1.0">
+<authPassed><![CDATA[0]]></authPassed>
+<model><modelName><![CDATA[TS-X64]]></modelName><internalModelName><![CDATA[TS-X64]]></internalModelName><platform><![CDATA[TS-NASX86]]></platform><platform_ex><![CDATA[X86_JASPERLAKE]]></platform_ex><customModelName><![CDATA[]]></customModelName><displayModelName><![CDATA[TS-464]]></displayModelName><sas_model><![CDATA[0]]></sas_model><storage_v2><![CDATA[1]]></storage_v2><is_zfs><![CDATA[0]]></is_zfs></model>
+<firmware><version><![CDATA[5.1.4]]></version><number><![CDATA[2596]]></number><build><![CDATA[20231128]]></build><patch><![CDATA[0]]></patch><buildTime><![CDATA[2023/11/28]]></buildTime></firmware>
+<hostname><![CDATA[nas-01]]></hostname>
+<need_2sv><![CDATA[1]]></need_2sv><lost_phone><![CDATA[0]]></lost_phone><emergency_try_count><![CDATA[0]]></emergency_try_count>
+</QDocRoot>

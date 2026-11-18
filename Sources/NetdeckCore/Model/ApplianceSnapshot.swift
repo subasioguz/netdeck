@@ -1,7 +1,7 @@
 import Foundation
 
 /// What Netdeck shows about a device reached over an HTTPS API: a server BMC (iDRAC) or a NAS
-/// (Synology DSM, TrueNAS). Read-only, except server power commands the user confirmed.
+/// (Synology DSM, TrueNAS, QNAP). Read-only, except server power commands the user confirmed.
 public struct ApplianceSnapshot: Equatable, Sendable {
     public enum Health: String, Sendable, Equatable, Comparable {
         case ok, warning, critical, unknown

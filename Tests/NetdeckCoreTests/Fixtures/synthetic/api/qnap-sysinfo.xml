@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<QDocRoot version="1.0">
+<authPassed><![CDATA[1]]></authPassed>
+<model><modelName><![CDATA[TS-X64]]></modelName><internalModelName><![CDATA[TS-X64]]></internalModelName><platform><![CDATA[TS-NASX86]]></platform><platform_ex><![CDATA[X86_JASPERLAKE]]></platform_ex><customModelName><![CDATA[]]></customModelName><displayModelName><![CDATA[TS-464]]></displayModelName><sas_model><![CDATA[0]]></sas_model><storage_v2><![CDATA[1]]></storage_v2><is_zfs><![CDATA[0]]></is_zfs></model>
+<firmware><version><![CDATA[5.1.4]]></version><number><![CDATA[2596]]></number><build><![CDATA[20231128]]></build><patch><![CDATA[0]]></patch><buildTime><![CDATA[2023/11/28]]></buildTime></firmware>
+<hostname><![CDATA[nas-01]]></hostname>
+<func><name><![CDATA[S_MENU_40]]></name><ownContent><root>
+<timezone><![CDATA[(GMT+03:00) Istanbul]]></timezone><cpu_usage><![CDATA[3.4 %]]></cpu_usage><cpu_model><![CDATA[Intel(R) Celeron(R) N5105 @ 2.00GHz]]></cpu_model><total_memory><![CDATA[7808.0]]></total_memory><free_memory><![CDATA[4210.0]]></free_memory>
+<nic_cnt><![CDATA[2]]></nic_cnt><nic_lan_cnt><![CDATA[2]]></nic_lan_cnt>
+<ifindex1><![CDATA[2]]></ifindex1><ifname1><![CDATA[eth0]]></ifname1><dname1><![CDATA[Adapter 1]]></dname1><rx_packet1><![CDATA[0]]></rx_packet1><tx_packet1><![CDATA[0]]></tx_packet1><err_packet1><![CDATA[0]]></err_packet1><eth_status1><![CDATA[1]]></eth_status1><eth_max_speed1><![CDATA[2500]]></eth_max_speed1><is_QA_port_eth1><![CDATA[0]]></is_QA_port_eth1><eth_ip1><![CDATA[192.0.2.30]]></eth_ip1><eth_mask1><![CDATA[255.255.255.0]]></eth_mask1><eth_mac1><![CDATA[00:00:5e:00:53:31]]></eth_mac1><eth_usage1><![CDATA[STATIC]]></eth_usage1>
+<ifindex2><![CDATA[3]]></ifindex2><ifname2><![CDATA[eth1]]></ifname2><dname2><![CDATA[Adapter 2]]></dname2><rx_packet2><![CDATA[0]]></rx_packet2><tx_packet2><![CDATA[0]]></tx_packet2><err_packet2><![CDATA[0]]></err_packet2><eth_status2><![CDATA[0]]></eth_status2><eth_max_speed2><![CDATA[2500]]></eth_max_speed2><is_QA_port_eth2><![CDATA[0]]></is_QA_port_eth2><eth_ip2><![CDATA[0.0.0.0]]></eth_ip2><eth_mask2><![CDATA[0.0.0.0]]></eth_mask2><eth_mac2><![CDATA[00:00:5e:00:53:32]]></eth_mac2><eth_usage2><![CDATA[DHCP]]></eth_usage2>
+<bonding_cnt><![CDATA[0]]></bonding_cnt><uptime_day><![CDATA[12]]></uptime_day><uptime_hour><![CDATA[3]]></uptime_hour><uptime_min><![CDATA[4]]></uptime_min><uptime_sec><![CDATA[5]]></uptime_sec>
+<HDTempWarnT><![CDATA[55]]></HDTempWarnT><HDTempErrT><![CDATA[60]]></HDTempErrT><cpu_tempc><![CDATA[48]]></cpu_tempc><cpu_tempf><![CDATA[118]]></cpu_tempf><CPUTempWarnT><![CDATA[80]]></CPUTempWarnT><CPUTempErrT><![CDATA[85]]></CPUTempErrT><sys_tempc><![CDATA[62]]></sys_tempc><sys_tempf><![CDATA[144]]></sys_tempf><SysTempWarnT><![CDATA[60]]></SysTempWarnT><SysTempErrT><![CDATA[70]]></SysTempErrT>
+<sysfan_count><![CDATA[2]]></sysfan_count><sysfan_alias><![CDATA[SYS FAN]]></sysfan_alias><sysfan1><![CDATA[1180]]></sysfan1><sysfan_fail1><![CDATA[0]]></sysfan_fail1><sysfan1_stat><![CDATA[0]]></sysfan1_stat><sysfan2><![CDATA[0]]></sysfan2><sysfan_fail2><![CDATA[1]]></sysfan_fail2><sysfan2_stat><![CDATA[-1]]></sysfan2_stat>
+<Power1Temp><![CDATA[-2]]></Power1Temp><Power1Status><![CDATA[0]]></Power1Status><serial_number><![CDATA[Q000TEST01]]></serial_number><server_name><![CDATA[nas-01]]></server_name><bios_version><![CDATA[Q07AR021]]></bios_version>
+</root></ownContent></func>
+</QDocRoot>

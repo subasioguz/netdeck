@@ -121,7 +121,7 @@ extension Platform {
                                 timeoutNote: t("If you don't confirm, a scheduled script on the router puts the previous settings back."),
                                 history: .localOnly, canRollback: false)
         // Firewalls: read only (see `FortiOSDriver`, `PFDriver`).
-        case .fortinetFortiOS, .pfsense, .opnsense, .dellIDRAC, .redfish, .synologyDSM, .truenas, .unknown:
+        case .fortinetFortiOS, .pfsense, .opnsense, .dellIDRAC, .redfish, .synologyDSM, .truenas, .qnap, .unknown:
             return .readOnly
         }
     }

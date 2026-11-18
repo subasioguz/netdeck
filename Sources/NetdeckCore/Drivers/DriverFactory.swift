@@ -41,7 +41,7 @@ enum VendorDrivers {
              (.tplinkOmada, .serial), (.tplinkOmada, .ssh), (.fortinetFortiOS, .serial), (.fortinetFortiOS, .ssh),
              (.pfsense, .serial), (.pfsense, .ssh), (.opnsense, .serial), (.opnsense, .ssh):
             return true
-        case (.dellIDRAC, .api), (.redfish, .api), (.synologyDSM, .api), (.truenas, .api), (.unknown, .api):
+        case (.dellIDRAC, .api), (.redfish, .api), (.synologyDSM, .api), (.truenas, .api), (.qnap, .api), (.unknown, .api):
             return true
         default:
             return false
@@ -69,7 +69,7 @@ enum VendorDrivers {
             return profile.makeTransport(password: password).map { madeTransport($0); return FortiOSDriver(transport: $0) }
         case .pfsense, .opnsense:
             return profile.makeTransport(password: password).map { madeTransport($0); return PFDriver(transport: $0, platform: platform) }
-        case .dellIDRAC, .redfish, .synologyDSM, .truenas, .unknown:
+        case .dellIDRAC, .redfish, .synologyDSM, .truenas, .qnap, .unknown:
             guard case let .api(url) = profile.connection else { return nil }
             return APIDriver(url: url, platform: platform)
         case .juniperJunos:

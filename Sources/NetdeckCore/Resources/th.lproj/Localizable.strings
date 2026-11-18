@@ -655,7 +655,7 @@
 "Powered on" = "เปิดเครื่องอยู่";
 "Read over the device's API · %@" = "อ่านผ่าน API ของอุปกรณ์ · %@";
 "Reading…" = "กำลังอ่าน…";
-"Redfish or REST · iDRAC, Synology, TrueNAS" = "Redfish หรือ REST · iDRAC, Synology, TrueNAS";
+"Redfish or REST · iDRAC, Synology, QNAP, TrueNAS" = "Redfish หรือ REST · iDRAC, Synology, QNAP, TrueNAS";
 "Routed port" = "พอร์ตเราต์";
 "RouterOS commands" = "คำสั่ง RouterOS";
 "Run separately, not covered by the safety timer:" = "รันแยกต่างหาก ไม่อยู่ในการคุ้มครองของตัวจับเวลาเพื่อความปลอดภัย:";

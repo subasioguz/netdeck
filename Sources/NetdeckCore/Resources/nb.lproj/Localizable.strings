@@ -655,7 +655,7 @@
 "Powered on" = "Slått på";
 "Read over the device's API · %@" = "Lest over enhetens API · %@";
 "Reading…" = "Leser …";
-"Redfish or REST · iDRAC, Synology, TrueNAS" = "Redfish eller REST · iDRAC, Synology, TrueNAS";
+"Redfish or REST · iDRAC, Synology, QNAP, TrueNAS" = "Redfish eller REST · iDRAC, Synology, QNAP, TrueNAS";
 "Routed port" = "Rutet port";
 "RouterOS commands" = "RouterOS-kommandoer";
 "Run separately, not covered by the safety timer:" = "Kjøres separat, dekkes ikke av sikkerhetstidtakeren:";

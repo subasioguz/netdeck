@@ -1,9 +1,9 @@
 # API fixtures (synthetic)
 
-These JSON files are **synthetic**. No iDRAC, iLO, Supermicro, Synology or TrueNAS hardware was available when the API
+These JSON (and QNAP XML) files are **synthetic**. No iDRAC, iLO, Supermicro, Synology, QNAP or TrueNAS hardware was available when the API
 module was written. They were built from vendor documentation and public captures (Dell iDRAC9 Redfish
 API guide, dell/iDRAC-Redfish-Scripting, bmclib fixtures, Synology DSM Login Web API guide,
-py-synologydsm-api, truenas/middleware) and should be replaced by real, anonymized captures when
+py-synologydsm-api, truenas/middleware, the QNAP answers in python-qnapstats' tests) and should be replaced by real, anonymized captures when
 hardware is at hand.
 
 All identifiers are documentation values: IPs from 192.0.2.0/24 and 198.51.100.0/24, MAC addresses
@@ -53,6 +53,16 @@ files: those are JSON arrays of the collection members the driver fetches one by
 | `truenas-disk.json` | `GET /api/v2.0/disk` |
 | `truenas-interface.json` | `GET /api/v2.0/interface` (DHCP port, unplugged port, bridge, VLAN) |
 | `truenas-alert-list.json` | `GET /api/v2.0/alert/list` (critical, warning with HTML, dismissed, info) |
+| `qnap-probe.xml` | `GET /cgi-bin/authLogin.cgi` without a login (`authPassed` 0, model and firmware) |
+| `qnap-login.xml` | `POST /cgi-bin/authLogin.cgi` (`user`, base64 `pwd`): `authPassed` 1 and `authSid` |
+| `qnap-login-failed.xml` / `qnap-login-2sv.xml` | a refused login; one that needs a 2-step verification code (`need_2sv`) |
+| `qnap-session-ended.xml` | a data call after the session ended (`authPassed` 0 only) |
+| `qnap-sysinfo.xml` | `management/manaRequest.cgi?subfunc=sysinfo&hd=no&multicpu=1` (TS-464 on QTS 5.1.4: CPU, memory, two NICs, uptime, a system temperature over its warning limit, a failed fan) |
+| `qnap-health.xml` | `manaRequest.cgi?subfunc=sysinfo&sysHealth=1` ("warning") |
+| `qnap-volumes.xml` | `management/chartReq.cgi?chart_func=disk_usage&disk_select=all&include=all` (RAID 5 volume with sizes, a single-disk volume without a label in a non-ready state) |
+| `qnap-disks.xml` | `disk/qsmart.cgi?func=all_hd_data` (four bays, one SMART warning, an SSD in an expansion unit) |
 
 Unverified fields (not in public documentation): Synology `SYNO.Core.System.up_time` format, disk
-`serial`, the `SYNO.DSM.Network` layout; TrueNAS `state.active_media_subtype` wording on SCALE.
+`serial`, the `SYNO.DSM.Network` layout; TrueNAS `state.active_media_subtype` wording on SCALE; QNAP `volumeStatus` codes
+other than 0 (Ready), `sysHealth` words other than "good", what `authLogin.cgi` returns without a login on QTS 5, and
+`authLogout.cgi`; QuTS hero versions (the `hero_model` flag).

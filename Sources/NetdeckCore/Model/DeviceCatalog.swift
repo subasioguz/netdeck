@@ -80,6 +80,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
     case redfish = "redfish"
     case synologyDSM = "synology-dsm"
     case truenas = "truenas"
+    case qnap = "qnap-qts"
     case unknown
 
     public var id: String { rawValue }
@@ -101,6 +102,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .redfish: return "Redfish"
         case .synologyDSM: return "Synology"
         case .truenas: return "TrueNAS"
+        case .qnap: return "QNAP"
         case .unknown: return t("Unknown")
         }
     }
@@ -121,6 +123,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .redfish: return "BMC"
         case .synologyDSM: return "DSM"
         case .truenas: return "TrueNAS"
+        case .qnap: return "QTS"
         case .unknown: return "—"
         }
     }
@@ -137,7 +140,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
     }
 
     /// Reached over an HTTPS API and shown as an information screen (health, storage, sensors).
-    public var isAppliance: Bool { self == .dellIDRAC || self == .redfish || self == .synologyDSM || self == .truenas }
+    public var isAppliance: Bool { [.dellIDRAC, .redfish, .synologyDSM, .truenas, .qnap].contains(self) }
 
     /// The vendor names the maker. Not for a generic Redfish BMC, whose model string carries the
     /// manufacturer ("HPE ProLiant DL360 Gen10"), nor for an unknown device.
@@ -161,6 +164,7 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .redfish: return "iLO, Supermicro, Lenovo"
         case .synologyDSM: return "DSM"
         case .truenas: return "TrueNAS"
+        case .qnap: return "QTS, QuTS hero"
         case .unknown: return t("Basic info only")
         }
     }
@@ -205,14 +209,14 @@ public enum Platform: String, Codable, Sendable, CaseIterable, Identifiable {
         case .fortinetFortiOS: return [.firewall]
         case .pfsense, .opnsense: return [.firewall, .router]
         case .dellIDRAC, .redfish: return [.server]
-        case .synologyDSM, .truenas: return [.storage]
+        case .synologyDSM, .truenas, .qnap: return [.storage]
         case .unknown: return DeviceKind.allCases
         }
     }
 
     public var connections: [ConnectionType] {
         switch self {
-        case .dellIDRAC, .redfish: return [.api]
+        case .dellIDRAC, .redfish, .qnap: return [.api]
         case .synologyDSM, .truenas: return [.ssh, .api]
         default: return [.serial, .ssh]
         }
@@ -294,10 +298,10 @@ public struct Detection: Codable, Sendable, Equatable, Hashable {
         return parts.joined(separator: " · ")
     }
 
-    /// "Junos 21.2R3.8"; API drivers already put the product name in the version ("iDRAC 7.00").
+    /// "Junos 21.2R3.8"; API drivers already put the product name in the version ("iDRAC 7.00", "QuTS hero h5.2.0.2860").
     public var osLine: String? {
         guard let osVersion else { return nil }
-        return osVersion.hasPrefix(platform.osName) || platform == .unknown || platform == .redfish ? osVersion : "\(platform.osName) \(osVersion)"
+        return osVersion.hasPrefix(platform.osName) || platform == .unknown || platform.isAppliance ? osVersion : "\(platform.osName) \(osVersion)"
     }
 }
 

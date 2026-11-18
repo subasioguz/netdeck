@@ -655,7 +655,7 @@
 "Powered on" = "Menyala";
 "Read over the device's API · %@" = "Dibaca lewat API perangkat · %@";
 "Reading…" = "Membaca…";
-"Redfish or REST · iDRAC, Synology, TrueNAS" = "Redfish atau REST · iDRAC, Synology, TrueNAS";
+"Redfish or REST · iDRAC, Synology, QNAP, TrueNAS" = "Redfish atau REST · iDRAC, Synology, QNAP, TrueNAS";
 "Routed port" = "Port routing";
 "RouterOS commands" = "Perintah RouterOS";
 "Run separately, not covered by the safety timer:" = "Dijalankan terpisah, tidak tercakup timer keamanan:";

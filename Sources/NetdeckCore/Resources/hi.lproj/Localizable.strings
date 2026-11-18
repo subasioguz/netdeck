@@ -655,7 +655,7 @@
 "Powered on" = "चालू है";
 "Read over the device's API · %@" = "डिवाइस के API से पढ़ा गया · %@";
 "Reading…" = "पढ़ा जा रहा है…";
-"Redfish or REST · iDRAC, Synology, TrueNAS" = "Redfish या REST · iDRAC, Synology, TrueNAS";
+"Redfish or REST · iDRAC, Synology, QNAP, TrueNAS" = "Redfish या REST · iDRAC, Synology, QNAP, TrueNAS";
 "Routed port" = "रूटेड पोर्ट";
 "RouterOS commands" = "RouterOS कमांड";
 "Run separately, not covered by the safety timer:" = "अलग से चलती हैं, सुरक्षा टाइमर के दायरे में नहीं:";

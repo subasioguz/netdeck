@@ -655,7 +655,7 @@
 "Powered on" = "Đã bật nguồn";
 "Read over the device's API · %@" = "Đọc qua API của thiết bị · %@";
 "Reading…" = "Đang đọc…";
-"Redfish or REST · iDRAC, Synology, TrueNAS" = "Redfish hoặc REST · iDRAC, Synology, TrueNAS";
+"Redfish or REST · iDRAC, Synology, QNAP, TrueNAS" = "Redfish hoặc REST · iDRAC, Synology, QNAP, TrueNAS";
 "Routed port" = "Cổng định tuyến";
 "RouterOS commands" = "Lệnh RouterOS";
 "Run separately, not covered by the safety timer:" = "Chạy riêng, không nằm trong phạm vi bộ hẹn giờ an toàn:";

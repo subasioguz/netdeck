@@ -655,7 +655,7 @@
 "Powered on" = "Bekapcsolva";
 "Read over the device's API · %@" = "Az eszköz API-ján keresztül beolvasva · %@";
 "Reading…" = "Beolvasás…";
-"Redfish or REST · iDRAC, Synology, TrueNAS" = "Redfish vagy REST · iDRAC, Synology, TrueNAS";
+"Redfish or REST · iDRAC, Synology, QNAP, TrueNAS" = "Redfish vagy REST · iDRAC, Synology, QNAP, TrueNAS";
 "Routed port" = "Routolt port";
 "RouterOS commands" = "RouterOS-parancsok";
 "Run separately, not covered by the safety timer:" = "Külön fut, a biztonsági időzítő nem fedi:";

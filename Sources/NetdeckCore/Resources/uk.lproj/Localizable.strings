@@ -655,7 +655,7 @@
 "Powered on" = "Увімкнено";
 "Read over the device's API · %@" = "Прочитано через API пристрою · %@";
 "Reading…" = "Читання…";
-"Redfish or REST · iDRAC, Synology, TrueNAS" = "Redfish або REST · iDRAC, Synology, TrueNAS";
+"Redfish or REST · iDRAC, Synology, QNAP, TrueNAS" = "Redfish або REST · iDRAC, Synology, QNAP, TrueNAS";
 "Routed port" = "Маршрутизований порт";
 "RouterOS commands" = "Команди RouterOS";
 "Run separately, not covered by the safety timer:" = "Виконується окремо, не охоплюється таймером безпеки:";
